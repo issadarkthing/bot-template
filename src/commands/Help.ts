@@ -1,6 +1,6 @@
 import { Command } from "@jiman24/commandment";
 import { Message, MessageEmbed } from "discord.js";
-import { commandManager } from "../index";
+import { client } from "../index";
 
 export default class Help extends Command {
   name = "help";
@@ -8,7 +8,7 @@ export default class Help extends Command {
   description = "show all commands and it's description";
 
   async exec(msg: Message) {
-    const commands = commandManager.commands.values();
+    const commands = client.commandManager.commands.values();
 
     let helpText = "";
     const done = new Set<string>();
