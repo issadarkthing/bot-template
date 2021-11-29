@@ -1,6 +1,6 @@
 
 import { Fighter, Player } from "discordjs-rpg";
-import { random } from "../utils";
+import { code, random } from "../utils";
 
 export class Monster extends Fighter {
   readonly DIFF = 2;
@@ -14,6 +14,15 @@ export class Monster extends Fighter {
     this.armor = player.armor + (random().integer(-1, 4) / 100);
     this.critChance = player.critChance + (random().integer(-2, 5) / 100);
     this.critDamage = player.critDamage + random().integer(0.1, 0.5);
+  }
+
+  show() {
+    const profile = super.show();
+
+    profile.addField("Armoran Shard Drop", code(this.drop), true);
+    profile.addField("xp Drop", code(this.xpDrop), true);
+
+    return profile;
   }
 }
 
