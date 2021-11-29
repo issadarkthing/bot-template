@@ -5,15 +5,14 @@ import { code } from "../utils";
 
 export class Player extends PlayerRPG {
   name: string;
-  avatarUrl: string;
   shards = 0;
   level = 1;
   xp = 0;
 
-  constructor(user: User, avatarUrl: string) {
+  constructor(user: User, imageUrl: string) {
     super(user);
     this.name = user.username;
-    this.avatarUrl = avatarUrl;
+    this.imageUrl = imageUrl;
   }
 
   static fromUser(user: User) {
@@ -24,7 +23,7 @@ export class Player extends PlayerRPG {
       throw new PlayerNotFoundErr("character has not been created");
     }
 
-    const player = new Player(user, data.avatarUrl);
+    const player = new Player(user, data.imageUrl);
     Object.assign(player, data);
 
     return player;
@@ -66,7 +65,6 @@ export class Player extends PlayerRPG {
 
     profile.addField("Armor", armor);
 
-    profile.setThumbnail(this.avatarUrl);
     return profile;
   }
 
