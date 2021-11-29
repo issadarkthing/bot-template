@@ -4,6 +4,7 @@ import { Player } from "../structure/Player";
 
 export default class extends Command {
   name = "profile";
+  description = "show Bounty Hunter profile";
   aliases = ["p"];
 
   async exec(msg: Message) {
