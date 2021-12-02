@@ -41,12 +41,6 @@ export default class extends Command {
 
     await search.search(async monster => {
 
-      const info = monster.show().setTitle("Your opponent");
-
-      const loading = await msg.channel.send({ embeds: [info] });
-      await sleep(6);
-      await loading.delete();
-
       const battle = new Battle(msg, [player, monster]);
       const winner = await battle.run();
 
