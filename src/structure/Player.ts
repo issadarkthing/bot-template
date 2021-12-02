@@ -8,6 +8,8 @@ export class Player extends PlayerRPG {
   shards = 0;
   level = 1;
   xp = 0;
+  win = 0;
+  hunt = 0;
 
   constructor(user: User, imageUrl: string) {
     super(user);
@@ -54,11 +56,19 @@ export class Player extends PlayerRPG {
 
   show() {
     const profile = super.show();
+
     const armorIndex = 8;
     const armor = profile.fields.at(armorIndex)!.value;
     profile.fields.at(armorIndex)!.name = "Amoran Shards";
     profile.fields.at(armorIndex)!.value = this.shards.toString();
     profile.fields.at(armorIndex)!.inline = true;
+
+    profile.addField("Win", code(this.win), true);
+    profile.addField("Hunt", code(this.hunt), true);
+
+    const winHuntPercent = (this.win / this.hunt) || 0;
+    const winHuntStr = (winHuntPercent * 100).toFixed(2) + "%";
+    profile.addField("Win/Hunt %", code(winHuntStr), true);
 
     profile.addField("Level", code(this.level), true);
     profile.addField("xp", `\`${this.xp}/${this.requiredXP()}\``, true);
