@@ -3,7 +3,6 @@ import { client } from "../index";
 import { Player as PlayerRPG } from "discordjs-rpg";
 import { code } from "../utils";
 import { Item } from "./Item";
-import { Armor } from "./Armor";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -13,7 +12,6 @@ export class Player extends PlayerRPG {
   win = 0;
   hunt = 0;
   inventory: Item[] = [];
-  activeArmors: Armor[] = [];
 
   constructor(user: User, imageUrl: string) {
     super(user);
@@ -31,6 +29,19 @@ export class Player extends PlayerRPG {
 
     const player = new Player(user, data.imageUrl);
     Object.assign(player, data);
+
+    player.inventory = player.inventory
+      .map(inv => Item.all.find(x => x.id === inv.id)!);
+
+    const equippedArmors = player.equippedArmors
+      .map(inv => Item.all.find(x => x.id === inv.id)!);
+
+    player.equippedArmors = [];
+
+    for (const armor of equippedArmors) {
+      player.equipArmor(armor);
+    }
+
 
     return player;
   }

@@ -25,7 +25,7 @@ export abstract class Armor extends BaseArmor {
 
     if (
       player.inventory.some(x => x.id === this.id) ||
-      player.activeArmors.some(x => x.id === this.id)
+      player.equippedArmors.some(x => x.id === this.id)
     ) {
       msg.channel.send("You already own this item");
       return;

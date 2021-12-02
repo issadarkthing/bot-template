@@ -1,4 +1,5 @@
 import { MersenneTwister19937, Random } from "random-js";
+import { isDeepStrictEqual } from "util"
 
 export const BROWN = "#c66a10";
 export const BLUE_BUTTON = "🔵";
@@ -63,4 +64,23 @@ class InvalidIndex extends Error {}
 export function validateIndex<T>(index: number, arr: T[]) {
   if (index < 0 || index > arr.length - 1) 
     throw new InvalidIndex(`cannot find item in index ${index + 1}`);
+}
+
+function remove1<T>(item: T, arr: T[]) {
+  const copy = [...arr];
+  const index = copy.findIndex(x => isDeepStrictEqual(x, item));
+
+  if (index !== undefined) {
+    copy.splice(index, 1);
+  }
+
+  return copy;
+}
+
+export function remove<T>(item: T, arr: T[], count = 1) {
+  for (let i = 0; i < count; i++) {
+    arr = remove1(item, arr);
+  }
+
+  return arr;
 }
