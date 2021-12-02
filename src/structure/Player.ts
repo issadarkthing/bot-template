@@ -2,6 +2,8 @@ import { User } from "discord.js";
 import { client } from "../index";
 import { Player as PlayerRPG } from "discordjs-rpg";
 import { code } from "../utils";
+import { Item } from "./Item";
+import { Armor } from "./Armor";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -10,6 +12,8 @@ export class Player extends PlayerRPG {
   xp = 0;
   win = 0;
   hunt = 0;
+  inventory: Item[] = [];
+  activeArmors: Armor[] = [];
 
   constructor(user: User, imageUrl: string) {
     super(user);
