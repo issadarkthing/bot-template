@@ -8,7 +8,7 @@ export class Monster extends Fighter {
   
   constructor(player: Player) {
     super(random.pick(names));
-    this.attack = player.attack + random.integer(-3, 5);
+    this.attack = player.attack + random.integer(-3, 6);
     this.hp = player.hp + random.integer(-3, 6);
     this.armor = player.armor + (random.integer(-2, 4) / 100);
     this.critChance = player.critChance + (random.integer(-3, 5) / 100);
