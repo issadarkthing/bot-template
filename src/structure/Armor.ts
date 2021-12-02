@@ -5,7 +5,7 @@ import { Player } from "../structure/Player";
 export abstract class Armor extends BaseArmor {
   abstract price: number;
 
-  static get all(): BaseArmor[] {
+  static get all(): Armor[] {
     return [
       new Helmet(),
       new ChestPlate(),
