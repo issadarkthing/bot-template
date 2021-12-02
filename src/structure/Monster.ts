@@ -3,17 +3,16 @@ import { Fighter, Player } from "discordjs-rpg";
 import { code, random } from "../utils";
 
 export class Monster extends Fighter {
-  readonly DIFF = 2;
-  drop = random().integer(150, 500);
-  xpDrop = random().integer(10, 35);
+  drop = random.integer(150, 500);
+  xpDrop = random.integer(10, 35);
   
   constructor(player: Player) {
-    super(random().pick(names));
-    this.attack = player.attack + random().integer(-2, 5);
-    this.hp = player.hp + random().integer(-3, 6);
-    this.armor = player.armor + (random().integer(-1, 4) / 100);
-    this.critChance = player.critChance + (random().integer(-2, 5) / 100);
-    this.critDamage = player.critDamage + random().integer(0.1, 0.5);
+    super(random.pick(names));
+    this.attack = player.attack + random.integer(-3, 5);
+    this.hp = player.hp + random.integer(-3, 6);
+    this.armor = player.armor + (random.integer(-2, 4) / 100);
+    this.critChance = player.critChance + (random.integer(-3, 5) / 100);
+    this.critDamage = player.critDamage + random.integer(0.01, 0.5);
   }
 
   show() {

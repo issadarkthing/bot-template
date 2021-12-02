@@ -29,4 +29,5 @@ export function sleep(time: number) {
   })
 }
 
-export const random = () => new Random(MersenneTwister19937.autoSeed());
+export const random = new Random(MersenneTwister19937.autoSeed());
+
