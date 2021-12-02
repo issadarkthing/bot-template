@@ -3,7 +3,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { Player } from "../structure/Player";
 import { Battle } from "discordjs-rpg";
 import { Monster } from "../structure/Monster";
-import { bold, REPEAT, sleep, CROSSED_SWORD } from "../utils";
+import { bold, REPEAT, CROSSED_SWORD } from "../utils";
 import { ButtonHandler } from "../structure/ButtonHandler";
 
 class SearchMonster extends ButtonHandler {
@@ -42,14 +42,16 @@ export default class extends Command {
     await search.search(async monster => {
 
       const battle = new Battle(msg, [player, monster]);
+      battle.interval = 1000;
       const winner = await battle.run();
+      player.hunt++;
 
       if (winner.id === player.id) {
 
         const currLevel = player.level;
         player.addXP(monster.xpDrop);
         player.shards += monster.drop;
-        player.save();
+        player.win++;
 
         msg.channel.send(`${player.name} has earned ${bold(monster.drop)} coins!`);
         msg.channel.send(`${player.name} has earned ${bold(monster.xpDrop)} xp!`);
@@ -59,6 +61,7 @@ export default class extends Command {
         }
       } 
 
+      player.save();
     })
 
   }
