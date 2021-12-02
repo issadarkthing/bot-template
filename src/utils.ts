@@ -31,7 +31,7 @@ export function sleep(time: number) {
 
 export const random = new Random(MersenneTwister19937.autoSeed());
 
-export const currency = "Armorian Shards";
+export const currency = "Armoran Shards";
 
 
 export function toNList(items: string[], start = 1) {
