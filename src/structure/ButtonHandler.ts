@@ -104,8 +104,8 @@ export class ButtonHandler {
 export class ButtonConfirmation extends ButtonHandler {
   private result = false;
 
-  constructor(msg: Message, embed: string | MessageEmbed) {
-    super(msg, embed);
+  constructor(msg: Message, embed: string | MessageEmbed, userID?: string) {
+    super(msg, embed, userID);
 
     this.addButton(BLUE_BUTTON, "yes", () => this.result = true);
     this.addCloseButton();
