@@ -23,10 +23,7 @@ export abstract class Pet extends BasePet {
       return;
     }
 
-    if (
-      player.inventory.some(x => x.id === this.id) ||
-      player.pets.some(x => x.id === this.id)
-    ) {
+    if (player.inventory.some(x => x.id === this.id)) {
       msg.channel.send("You already own this item");
       return;
     }
