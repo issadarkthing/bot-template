@@ -42,7 +42,7 @@ export default class extends Command {
     await search.search(async monster => {
 
       const battle = new Battle(msg, [player, monster]);
-      battle.interval = 1000;
+      battle.interval = process.env.ENV === "DEV" ? 1000 : 3000;
       const winner = await battle.run();
       player.hunt++;
 
