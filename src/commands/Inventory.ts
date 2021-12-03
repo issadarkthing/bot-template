@@ -40,7 +40,6 @@ export default class extends Command {
             menu.addButton(BLUE_BUTTON, "unequip", () => {
 
               player.equippedArmors = remove(item, player.equippedArmors);
-              player.inventory.push(item);
               player.save();
 
               msg.channel.send(`Successfully unequipped ${item.name}`);
@@ -51,7 +50,6 @@ export default class extends Command {
             menu.addButton(BLUE_BUTTON, "equip", () => {
 
               player.equippedArmors.push(item);
-              player.inventory = remove(item, player.inventory);
               player.save();
 
               msg.channel.send(`Successfully equipped ${item.name}`);
@@ -66,7 +64,6 @@ export default class extends Command {
             menu.addButton(BLUE_BUTTON, "unequip", () => {
 
               player.equippedWeapons = remove(item, player.equippedWeapons);
-              player.inventory.push(item);
               player.save();
 
               msg.channel.send(`Successfully unequipped ${item.name}`);
@@ -77,7 +74,6 @@ export default class extends Command {
             menu.addButton(BLUE_BUTTON, "equip", () => {
 
               player.equippedWeapons.push(item);
-              player.inventory = remove(item, player.inventory);
               player.save();
 
               msg.channel.send(`Successfully equipped ${item.name}`);
