@@ -3,6 +3,8 @@ import { client } from "../index";
 import { Player as PlayerRPG } from "discordjs-rpg";
 import { code } from "../utils";
 import { Item } from "./Item";
+import { Armor } from "./Armor";
+import { Weapon } from "./Weapon";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -30,18 +32,30 @@ export class Player extends PlayerRPG {
     const player = new Player(user, data.imageUrl);
     Object.assign(player, data);
 
+    const offset = player.level - 1;
+    player.hp += offset * 10
+    player.attack += offset * 2
+    player.critDamage += offset * 0.01;
+
     player.inventory = player.inventory
       .map(inv => Item.all.find(x => x.id === inv.id)!);
 
     const equippedArmors = player.equippedArmors
-      .map(inv => Item.all.find(x => x.id === inv.id)!);
+      .map(inv => Armor.all.find(x => x.id === inv.id)!);
+
+    const equippedWeapons = player.equippedWeapons
+      .map(inv => Weapon.all.find(x => x.id === inv.id)!);
 
     player.equippedArmors = [];
+    player.equippedWeapons = [];
 
     for (const armor of equippedArmors) {
       player.equipArmor(armor);
     }
 
+    for (const weapon of equippedWeapons) {
+      player.equipWeapon(weapon);
+    }
 
     return player;
   }
@@ -94,7 +108,15 @@ export class Player extends PlayerRPG {
   }
 
   save() {
-    const { user, ...data } = this;
+    const { 
+      user, 
+      attack,
+      hp,
+      armor,
+      critChance,
+      critDamage,
+      ...data
+    } = this;
     client.players.set(this.id, data);
   }
 }

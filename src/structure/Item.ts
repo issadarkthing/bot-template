@@ -1,5 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
 import { Armor } from "./Armor";
+import { Weapon } from "./Weapon";
 
 export abstract class Item {
   abstract name: string;
@@ -10,6 +11,7 @@ export abstract class Item {
   static get all() {
     return [
       ...Armor.all,
+      ...Weapon.all,
     ];
   }
 }

@@ -1,11 +1,20 @@
 import { Message, MessageEmbed } from "discord.js";
-import { currency, code, toNList, validateIndex, validateNumber, BLUE_BUTTON } from "../utils";
+import { 
+  currency, 
+  code, 
+  toNList, 
+  validateIndex, 
+  validateNumber, 
+  BLUE_BUTTON,
+} from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command } from "@jiman24/commandment";
 import { ButtonHandler } from "../structure/ButtonHandler";
 import { stripIndents } from "common-tags";
+import { Item } from "../structure/Item";
+import { Weapon } from "../structure/Weapon";
 
-interface Item {
+interface ItemLike {
   name: string;
   price: number;
 }
@@ -14,7 +23,7 @@ export default class extends Command {
   name = "shop";
   description = "buy custom role and rpg stuff";
 
-  private toList(items: Item[], start = 1) {
+  private toList(items: ItemLike[], start = 1) {
     const list = toNList(
       items.map(x => `${x.name} ${code(x.price)} ${currency}`),
       start,
@@ -26,9 +35,7 @@ export default class extends Command {
 
   async exec(msg: Message, args: string[]) {
 
-    const items = [
-      ...Armor.all,
-    ];
+    const items = Item.all;
     const [arg1] = args;
 
 
@@ -56,11 +63,15 @@ export default class extends Command {
     }
 
 
-    const [armorList] = this.toList(Armor.all);
+    const [armorList, len1] = this.toList(Armor.all);
+    const [weaponList, len2] = this.toList(Weapon.all, len1 + 1);
 
     const rpgList = stripIndents`
       **Armor**
       ${armorList}
+
+      **Weapon**
+      ${weaponList}
       `;
 
       const shop = new MessageEmbed()
