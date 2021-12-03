@@ -14,6 +14,7 @@ import { stripIndents } from "common-tags";
 import { Item } from "../structure/Item";
 import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
+import { Skill } from "../structure/Skill";
 
 interface ItemLike {
   name: string;
@@ -67,6 +68,7 @@ export default class extends Command {
     const [armorList, len1] = this.toList(Armor.all);
     const [weaponList, len2] = this.toList(Weapon.all, len1 + 1);
     const [petList, len3] = this.toList(Pet.all, len2 + 1);
+    const [skillList] = this.toList(Skill.all, len3 + 1);
 
     const rpgList = stripIndents`
       **Armor**
@@ -77,6 +79,9 @@ export default class extends Command {
 
       **Pets**
       ${petList}
+
+      **Skills**
+      ${skillList}
       `;
 
       const shop = new MessageEmbed()

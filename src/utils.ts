@@ -84,3 +84,8 @@ export function remove<T>(item: T, arr: T[], count = 1) {
 
   return arr;
 }
+
+
+export function formatPercent(num: number) {
+  return `${(num * 100).toFixed(2)}%`
+}
