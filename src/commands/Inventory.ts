@@ -1,6 +1,8 @@
 import { Command } from "@jiman24/commandment";
 import { Message, MessageEmbed } from "discord.js";
 import { Armor } from "../structure/Armor";
+import { Weapon } from "../structure/Weapon";
+import { Pet } from "../structure/Pet";
 import { ButtonHandler } from "../structure/ButtonHandler";
 import { Player } from "../structure/Player";
 import { BLUE_BUTTON, remove, toNList, validateNumber } from "../utils";
@@ -53,6 +55,56 @@ export default class extends Command {
               player.save();
 
               msg.channel.send(`Successfully equipped ${item.name}`);
+
+            })
+          }
+
+        } else if (item instanceof Weapon) {
+
+          if (player.equippedWeapons.some(x => x.id === item.id)) {
+            
+            menu.addButton(BLUE_BUTTON, "unequip", () => {
+
+              player.equippedWeapons = remove(item, player.equippedWeapons);
+              player.inventory.push(item);
+              player.save();
+
+              msg.channel.send(`Successfully unequipped ${item.name}`);
+            })
+
+          } else {
+
+            menu.addButton(BLUE_BUTTON, "equip", () => {
+
+              player.equippedWeapons.push(item);
+              player.inventory = remove(item, player.inventory);
+              player.save();
+
+              msg.channel.send(`Successfully equipped ${item.name}`);
+
+            })
+          }
+
+        } else if (item instanceof Pet) {
+
+          if (player.pet?.id === item.id) {
+
+            menu.addButton(BLUE_BUTTON, "deactivate", () => {
+
+              player.pet = undefined;
+              player.save();
+
+              msg.channel.send(`Successfully deactive ${item.name}`);
+            })
+
+          } else {
+
+            menu.addButton(BLUE_BUTTON, "activate", () => {
+
+              item.setOwner(player);
+              player.save();
+
+              msg.channel.send(`Successfully make ${item.name} as active pet`);
 
             })
           }

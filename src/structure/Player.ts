@@ -5,6 +5,7 @@ import { code } from "../utils";
 import { Item } from "./Item";
 import { Armor } from "./Armor";
 import { Weapon } from "./Weapon";
+import { Pet } from "./Pet";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -39,6 +40,12 @@ export class Player extends PlayerRPG {
 
     player.inventory = player.inventory
       .map(inv => Item.all.find(x => x.id === inv.id)!);
+
+    const pet = player.pet;
+    if (pet) {
+      const validPet = Pet.all.find(x => x.id === pet.id);
+      validPet?.setOwner(player);
+    }
 
     const equippedArmors = player.equippedArmors
       .map(inv => Armor.all.find(x => x.id === inv.id)!);
@@ -117,6 +124,11 @@ export class Player extends PlayerRPG {
       critDamage,
       ...data
     } = this;
+
+    if (data.pet) {
+      data.pet.owner = undefined;
+    }
+
     client.players.set(this.id, data);
   }
 }

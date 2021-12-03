@@ -1,6 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
 import { Armor } from "./Armor";
 import { Weapon } from "./Weapon";
+import { Pet } from "./Pet";
 
 export abstract class Item {
   abstract name: string;
@@ -12,6 +13,7 @@ export abstract class Item {
     return [
       ...Armor.all,
       ...Weapon.all,
+      ...Pet.all,
     ];
   }
 }
