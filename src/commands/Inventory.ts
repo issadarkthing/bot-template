@@ -6,6 +6,7 @@ import { Pet } from "../structure/Pet";
 import { ButtonHandler } from "../structure/ButtonHandler";
 import { Player } from "../structure/Player";
 import { BLUE_BUTTON, remove, toNList, validateNumber } from "../utils";
+import { Skill } from "../structure/Skill";
 
 export default class extends Command {
   name = "inventory";
@@ -101,6 +102,30 @@ export default class extends Command {
               player.save();
 
               msg.channel.send(`Successfully make ${item.name} as active pet`);
+
+            })
+          }
+
+        } else if (item instanceof Skill) {
+
+          if (player.skill?.id === item.id) {
+            
+            menu.addButton(BLUE_BUTTON, "deactivate", () => {
+
+              player.skill = undefined;
+              player.save();
+
+              msg.channel.send(`Successfully deactivated ${item.name}`);
+            })
+
+          } else {
+
+            menu.addButton(BLUE_BUTTON, "activate", () => {
+
+              player.skill = item;
+              player.save();
+
+              msg.channel.send(`Successfully activated ${item.name}`);
 
             })
           }

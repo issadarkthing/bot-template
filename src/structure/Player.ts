@@ -6,6 +6,7 @@ import { Item } from "./Item";
 import { Armor } from "./Armor";
 import { Weapon } from "./Weapon";
 import { Pet } from "./Pet";
+import { Skill } from "./Skill";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -45,6 +46,12 @@ export class Player extends PlayerRPG {
     if (pet) {
       const validPet = Pet.all.find(x => x.id === pet.id);
       validPet?.setOwner(player);
+    }
+
+    const skill = player.skill;
+    if (skill) {
+      const validSkill = Skill.all.find(x => x.id === skill.id);
+      player.skill = validSkill;
     }
 
     const equippedArmors = player.equippedArmors
