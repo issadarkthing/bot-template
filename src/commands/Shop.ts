@@ -23,7 +23,7 @@ interface ItemLike {
 
 export default class extends Command {
   name = "shop";
-  description = "buy custom role and rpg stuff";
+  description = "buy in-game items";
 
   private toList(items: ItemLike[], start = 1) {
     const list = toNList(
