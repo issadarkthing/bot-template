@@ -6,6 +6,7 @@ import { bold, currency } from "../utils";
 export default class extends Command {
   name = "leaderboard";
   aliases = ["l"];
+  description = "show leaderboard of rich players";
 
   exec(msg: Message) {
 

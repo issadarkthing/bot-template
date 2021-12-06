@@ -7,7 +7,7 @@ import { bold } from "../utils";
 
 export default class extends Command {
   name = "createbountyhunter";
-  description = "creates new Bounty Hunter";
+  description = "create new Bounty Hunter";
   aliases = ["create"];
 
   async exec(msg: Message) {
