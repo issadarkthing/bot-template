@@ -15,6 +15,13 @@ export default class extends Command {
   async exec(msg: Message, args: string[]) {
 
     const player = Player.fromUser(msg.author);
+
+    const mentionedUser = msg.mentions.users.first();
+
+    if (!mentionedUser) {
+      throw new Error(`You need to mention a user`);
+    }
+
     const arg1 = args[1];
     const amount = parseInt(arg1);
 
@@ -24,12 +31,6 @@ export default class extends Command {
 
     validateNumber(amount);
     validateAmount(amount, player.shards);
-
-    const mentionedUser = msg.mentions.users.first();
-
-    if (!mentionedUser) {
-      throw new Error(`You need to mention a user`);
-    }
 
     const duelConfirmation = new ButtonConfirmation(
       msg, 
