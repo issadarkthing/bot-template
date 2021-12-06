@@ -17,7 +17,7 @@ export default class extends Command {
       throw new Error("your character has already been created");
     }
 
-    const name = await prompt.ask("What's your character name will be?");
+    const name = await prompt.ask("What's the name of your Bounty Hunter?");
 
     const collected = await prompt
       .collect("Please upload your Bounty Hunter nft", { max: 1 });
