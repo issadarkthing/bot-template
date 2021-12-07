@@ -11,7 +11,6 @@ export abstract class Weapon extends BaseWeapon {
       new Sword(),
       new Dagger(),
       new Mace(),
-      new Blaster(),
     ];
   }
 
