@@ -6,9 +6,8 @@ import { Player } from "../structure/Player";
 import { bold } from "../utils";
 
 export default class extends Command {
-  name = "createbountyhunter";
-  description = "create new Bounty Hunter";
-  aliases = ["create"];
+  name = "create";
+  description = "create new character";
 
   async exec(msg: Message) {
     const prompt = new Prompt(msg);
