@@ -7,6 +7,7 @@ export default class extends Command {
   name = "editbountyhunter";
   aliases = ["edit"];
   description = "edits your character";
+  disable = true;
 
   async exec(msg: Message) {
     const prompt = new Prompt(msg);
