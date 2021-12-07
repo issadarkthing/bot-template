@@ -50,7 +50,7 @@ export default class extends Command {
 
         const currLevel = player.level;
         player.addXP(monster.xpDrop);
-        player.shards += monster.drop;
+        player.coins += monster.drop;
         player.win++;
 
         msg.channel.send(`${player.name} has earned ${bold(monster.drop)} ${currency}!`);

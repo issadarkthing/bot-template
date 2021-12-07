@@ -18,7 +18,7 @@ export abstract class Weapon extends BaseWeapon {
 
     const player = Player.fromUser(msg.author);
 
-    if (player.shards < this.price) {
+    if (player.coins < this.price) {
       msg.channel.send("Insufficient amount");
       return;
     }
@@ -31,7 +31,7 @@ export abstract class Weapon extends BaseWeapon {
       return;
     }
 
-    player.shards -= this.price;
+    player.coins -= this.price;
     player.inventory.push(this);
 
     player.save();

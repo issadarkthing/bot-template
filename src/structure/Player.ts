@@ -21,7 +21,7 @@ export const AVATARS = [
 
 export class Player extends PlayerRPG {
   name: string;
-  shards = 0;
+  coins = 0;
   level = 1;
   xp = 0;
   win = 0;
@@ -114,7 +114,7 @@ export class Player extends PlayerRPG {
     const armorIndex = 8;
     const armor = profile.fields.at(armorIndex)!.value;
     profile.fields.at(armorIndex)!.name = currency;
-    profile.fields.at(armorIndex)!.value = this.shards.toString();
+    profile.fields.at(armorIndex)!.value = this.coins.toString();
     profile.fields.at(armorIndex)!.inline = true;
 
     profile.addField("Win", code(this.win), true);

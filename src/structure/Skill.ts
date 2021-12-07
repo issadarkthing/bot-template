@@ -19,7 +19,7 @@ export abstract class Skill extends BaseSkill {
 
     const player = Player.fromUser(msg.author);
 
-    if (player.shards < this.price) {
+    if (player.coins < this.price) {
       msg.channel.send("Insufficient amount");
       return;
     }
@@ -32,7 +32,7 @@ export abstract class Skill extends BaseSkill {
       return;
     }
 
-    player.shards -= this.price;
+    player.coins -= this.price;
     player.inventory.push(this);
 
     player.save();

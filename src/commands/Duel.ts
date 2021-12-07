@@ -30,7 +30,7 @@ export default class extends Command {
     }
 
     validateNumber(amount);
-    validateAmount(amount, player.shards);
+    validateAmount(amount, player.coins);
 
     const duelConfirmation = new ButtonConfirmation(
       msg, 
@@ -47,18 +47,18 @@ export default class extends Command {
 
     const opponent = Player.fromUser(mentionedUser);
 
-    if (opponent.shards < amount) {
+    if (opponent.coins < amount) {
       throw new Error(`${opponent.name} has insufficient balance`);
     }
 
-    opponent.shards -= amount;
-    player.shards -= amount;
+    opponent.coins -= amount;
+    player.coins -= amount;
 
     const battle = new Battle(msg, [player, opponent]);
     const winner = (await battle.run()) as Player;
     const loser = player.id === winner.id ? opponent : player;
 
-    winner.shards += amount * 2;
+    winner.coins += amount * 2;
 
     winner.save();
     loser.save();
