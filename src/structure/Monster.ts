@@ -1,6 +1,6 @@
 
 import { Fighter } from "discordjs-rpg";
-import { code, random } from "../utils";
+import { code, currency, random } from "../utils";
 import { Player } from "../structure/Player";
 
 export class Monster extends Fighter {
@@ -25,7 +25,7 @@ export class Monster extends Fighter {
   show() {
     const profile = super.show();
 
-    profile.addField("Armoran Shard Drop", code(this.drop), true);
+    profile.addField(`${currency} Drop`, code(this.drop), true);
     profile.addField("xp Drop", code(this.xpDrop), true);
 
     return profile;

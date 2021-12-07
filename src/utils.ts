@@ -32,7 +32,7 @@ export function sleep(time: number) {
 
 export const random = new Random(MersenneTwister19937.autoSeed());
 
-export const currency = "coins";
+export const currency = "Coin";
 
 
 export function toNList(items: string[], start = 1) {
