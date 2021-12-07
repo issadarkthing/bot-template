@@ -1,7 +1,7 @@
 import { User } from "discord.js";
 import { client } from "../index";
 import { Player as PlayerRPG } from "discordjs-rpg";
-import { code } from "../utils";
+import { code, currency } from "../utils";
 import { Item } from "./Item";
 import { Armor } from "./Armor";
 import { Weapon } from "./Weapon";
@@ -102,7 +102,7 @@ export class Player extends PlayerRPG {
 
     const armorIndex = 8;
     const armor = profile.fields.at(armorIndex)!.value;
-    profile.fields.at(armorIndex)!.name = "Amoran Shards";
+    profile.fields.at(armorIndex)!.name = currency;
     profile.fields.at(armorIndex)!.value = this.shards.toString();
     profile.fields.at(armorIndex)!.inline = true;
 
