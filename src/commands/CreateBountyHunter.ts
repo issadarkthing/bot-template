@@ -1,9 +1,10 @@
 import { Command } from "@jiman24/commandment";
-import { Message } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 import { Prompt } from "../structure/Prompt";
 import { client } from "../index";
-import { Player } from "../structure/Player";
+import { Player, AVATARS } from "../structure/Player";
 import { bold } from "../utils";
+import { Pagination } from "../structure/Pagination";
 
 export default class extends Command {
   name = "create";
@@ -16,18 +17,27 @@ export default class extends Command {
       throw new Error("your character has already been created");
     }
 
-    const name = await prompt.ask("What's the name of your Bounty Hunter?");
+    const name = await prompt.ask("What's the name of your character?");
 
-    const collected = await prompt
-      .collect("Please upload your Bounty Hunter nft", { max: 1 });
+    const pages = AVATARS.map(x => 
+      new MessageEmbed()
+        .setColor("RANDOM")
+        .setImage(x)
+        .setTitle("Please select your avatar")
+    );
 
-    const avatar = collected.attachments.first();
+    let avatarUrl: null | string = null;
+    const avatarMenu = new Pagination(msg, pages, msg.author.id);
 
-    if (!avatar) {
-      throw new Error("no image was uploaded");
+    avatarMenu.setOnSelect(index => { avatarUrl = AVATARS[index] });
+
+    await avatarMenu.run();
+
+    if (!avatarUrl) {
+      throw new Error("no avatar was selected");
     }
 
-    const player = new Player(msg.author, avatar.url);
+    const player = new Player(msg.author, avatarUrl);
     player.name = name;
 
     msg.channel.send({ embeds: [player.show()] });
@@ -41,5 +51,8 @@ export default class extends Command {
 
     player.save();
     msg.channel.send(`${bold(player.name)} has been created successfully!`);
+    msg.channel.send(
+      `Use \`${client.commandManager.prefix}profile\` to checkout your profile`
+    )
   }
 }
