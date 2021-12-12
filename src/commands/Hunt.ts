@@ -2,7 +2,7 @@ import { Command } from "@jiman24/commandment";
 import { Message, MessageEmbed } from "discord.js";
 import { Player } from "../structure/Player";
 import { Battle } from "discordjs-rpg";
-import { Alien.ts } from "../structure/Monster";
+import { Alien } from "../structure/Monster";
 import { bold, REPEAT, CROSSED_SWORD, currency } from "../utils";
 import { ButtonHandler } from "../structure/ButtonHandler";
 
@@ -16,9 +16,9 @@ class SearchMonster extends ButtonHandler {
     this.player = player;
   }
 
-  async search(cb: (monster: Alien.ts) => Promise<void>) {
+  async search(cb: (monster: Alien) => Promise<void>) {
 
-    const monster = new Alien.ts(this.player);
+    const monster = new Alien(this.player);
     const button = new ButtonHandler(this._msg, monster.show())
 
     button.addButton(REPEAT, "search again", () => this.search(cb))
