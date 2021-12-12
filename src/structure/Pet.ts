@@ -7,13 +7,10 @@ export abstract class Pet extends BasePet {
 
   static get all(): Pet[] {
     return [
-      new Monkey(),
-      new Penguin(),
-      new BlueBird(),
-      new Pigeon(),
-      new BeardedDragon(),
-      new BabyDragon(),
-      new Dog(),
+      new Blob(),
+      new Slime(),
+      new Phoenix(),
+      new Titanoboa(),
     ];
   }
 
@@ -39,32 +36,32 @@ export abstract class Pet extends BasePet {
   }
 }
 
-export class Monkey extends Pet {
-  name = "Monkey";
-  id = "monkey";
+export class Blob extends Pet {
+  name = "Blob";
+  id = "blob";
   attack = 20;
   price = 13000;
 }
 
-export class Penguin extends Pet {
-  name = "Penguin";
-  id = "penguin";
+export class Slime extends Pet {
+  name = "Slime";
+  id = "slime";
   attack = 15;
   interceptRate = 0.2;
   price = 15000;
 }
 
-export class BlueBird extends Pet {
-  name = "Blue Bird";
-  id = "blue-bird";
+export class Phoenix extends Pet {
+  name = "Phoenix";
+  id = "phoenix";
   attack = 15;
   interceptRate = 0.2;
   price = 15000;
 }
 
-export class Pigeon extends Pet {
-  name = "Pigeon";
-  id = "pigeon";
+export class Titanoboa extends Pet {
+  name = "Titan-o-boa";
+  id = "titan-o-boa";
   attack = 5;
   interceptRate = 0.4;
   price = 30000;
