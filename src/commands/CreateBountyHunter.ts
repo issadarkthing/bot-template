@@ -19,9 +19,14 @@ export default class extends Command {
     const player = new Player(msg.author, avatarUrl);
 
     player.save();
+
+    const { prefix } = client.commandManager;
+
     msg.channel.send(`${bold(player.name)} has been created successfully!`);
     msg.channel.send(
-      `Use \`${client.commandManager.prefix}profile\` to checkout your profile`
+      `Use \`${prefix}profile\` to checkout your profile`
     )
+    msg.channel.send(`Use \`${prefix}hunt\` to start killing aliens!`);
+    msg.channel.send(`Use \`${prefix}help\` to check out other commands!`);
   }
 }
