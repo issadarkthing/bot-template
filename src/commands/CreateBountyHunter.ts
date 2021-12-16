@@ -26,7 +26,7 @@ export default class extends Command {
     msg.channel.send(
       `Use \`${prefix}profile\` to checkout your profile`
     )
-    msg.channel.send(`Use \`${prefix}hunt\` to start killing aliens!`);
+    msg.channel.send(`Use \`${prefix}hunt\` to start hunting humans!`);
     msg.channel.send(`Use \`${prefix}help\` to check out other commands!`);
   }
 }
