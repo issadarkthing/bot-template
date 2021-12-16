@@ -1,6 +1,8 @@
 import { Fighter } from "discordjs-rpg";
 import { code, currency, random } from "../utils";
-import { Player } from "../structure/Player";
+import { Player } from "./Player";
+import { Skill } from "./Skill";
+import { Pet } from "./Pet";
 
 export class Alien extends Fighter {
   drop = random.integer(150, 500);
@@ -15,6 +17,16 @@ export class Alien extends Fighter {
     this.armor = player.armor + (this.randomAttrib() / 100);
     this.critChance = player.critChance + (this.randomAttrib() / 100);
     this.critDamage = player.critDamage + random.integer(0.01, 0.5);
+
+    if (player.skill) {
+      const skill = random.pick(Skill.all);
+      skill.setOwner(this);
+    }
+
+    if (player.pet) {
+      const pet = random.pick(Pet.all);
+      pet.setOwner(this);
+    }
   }
 
   private randomAttrib() {
