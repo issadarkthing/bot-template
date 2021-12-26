@@ -37,51 +37,73 @@ export default class extends Command {
 
   async exec(msg: Message, args: string[]) {
 
-    const items = Item.all;
-    const [arg1] = args;
-
+    const [arg1, arg2] = args;
 
     if (arg1) {
+    
+      let items = [] as Item[] | null;
 
-      const index = parseInt(arg1) - 1;
+      switch (arg1) {
+        case "armor": items = Armor.all; break;
+        case "weapon": items = Weapon.all; break;
+        case "pet": items = Pet.all; break;
+        case "skill": items = Skill.all; break;
+        default: items = null;
+      }
 
-      validateNumber(index);
-      validateIndex(index, items);
+      if (!items) {
+        throw new Error("invalid category");
+      }
 
-      const selected = items[index];
+      if (arg2) {
 
-      const info = selected.show();
-      const menu = new ButtonHandler(msg, info);
+        const index = parseInt(arg2) - 1;
 
-      menu.addButton(BLUE_BUTTON, "buy", () => {
-        return selected.buy(msg);
-      })
+        validateNumber(index);
+        validateIndex(index, items);
 
-      menu.addCloseButton();
+        const selected = items[index];
 
-      await menu.run();
+        const info = selected.show();
+        const menu = new ButtonHandler(msg, info);
 
-      return;
+        menu.addButton(BLUE_BUTTON, "buy", () => {
+          return selected.buy(msg);
+        })
+
+        menu.addCloseButton();
+
+        await menu.run();
+
+        return;
+      } else {
+
+        const [itemList] = this.toList(items);
+        const parentClass = Object.getPrototypeOf(items[0].constructor);
+
+        const embed = new MessageEmbed()
+          .setColor("RANDOM")
+          .setTitle(`${parentClass.name} Shop`)
+          .setDescription(itemList)
+
+        msg.channel.send({ embeds: [embed] });
+
+        return;
+      }
     }
 
 
-    const [armorList, len1] = this.toList(Armor.all);
-    const [weaponList, len2] = this.toList(Weapon.all, len1 + 1);
-    const [petList, len3] = this.toList(Pet.all, len2 + 1);
-    const [skillList] = this.toList(Skill.all, len3 + 1);
+
+    const prefix = this.commandManager.prefix;
 
     const rpgList = stripIndents`
-      **Armor**
-      ${armorList}
-
-      **Weapon**
-      ${weaponList}
-
-      **Pets**
-      ${petList}
-
-      **Skills**
-      ${skillList}
+      **Categories**
+      armor
+      weapon
+      pet
+      skill
+      ------
+      To open armor shop use command \`${prefix}${this.name} armor\`
       `;
 
       const shop = new MessageEmbed()
