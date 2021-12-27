@@ -38,6 +38,7 @@ export default class extends Command {
   async exec(msg: Message, args: string[]) {
 
     const [arg1, arg2] = args;
+    const prefix = this.commandManager.prefix;
 
     if (arg1) {
     
@@ -78,12 +79,15 @@ export default class extends Command {
         return;
       } else {
 
-        const [itemList] = this.toList(items);
-        const parentClass = Object.getPrototypeOf(items[0].constructor);
+        let [itemList] = this.toList(items);
+        const category = Object.getPrototypeOf(items[0].constructor).name;
+
+        itemList += "----\n";
+        itemList += `To select an item on index 1. Use \`${prefix}${this.name} ${category} 1\``;
 
         const embed = new MessageEmbed()
           .setColor("RANDOM")
-          .setTitle(`${parentClass.name} Shop`)
+          .setTitle(`${category} Shop`)
           .setDescription(itemList)
 
         msg.channel.send({ embeds: [embed] });
@@ -91,10 +95,6 @@ export default class extends Command {
         return;
       }
     }
-
-
-
-    const prefix = this.commandManager.prefix;
 
     const rpgList = stripIndents`
       **Categories**
