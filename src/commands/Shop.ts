@@ -80,10 +80,10 @@ export default class extends Command {
       } else {
 
         let [itemList] = this.toList(items);
-        const category = Object.getPrototypeOf(items[0].constructor).name;
+        const category = Object.getPrototypeOf(items[0].constructor).name.toLowerCase();
 
-        itemList += "----\n";
-        itemList += `To select an item on index 1. Use \`${prefix}${this.name} ${category} 1\``;
+        itemList += "\n----\n";
+        itemList += `To select an item on index 1, use \`${prefix}${this.name} ${category} 1\``;
 
         const embed = new MessageEmbed()
           .setColor("RANDOM")
