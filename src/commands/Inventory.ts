@@ -12,6 +12,8 @@ export default class extends Command {
   name = "inventory";
   description = "show player's inventory";
   aliases = ["i", "inv"];
+  maxArmor = 4; // max equipped armor
+  maxWeapon = 2; // max equipped weapon
 
   async exec(msg: Message, args: string[]) {
 
@@ -50,6 +52,10 @@ export default class extends Command {
 
             menu.addButton(BLUE_BUTTON, "equip", () => {
 
+              if (player.equippedArmors.length >= this.maxArmor) {
+                throw new Error(`you cannot equip more than ${this.maxArmor} armor`);
+              }
+
               player.equippedArmors.push(item);
               player.save();
 
@@ -73,6 +79,10 @@ export default class extends Command {
           } else {
 
             menu.addButton(BLUE_BUTTON, "equip", () => {
+
+              if (player.equippedWeapons.length >= this.maxWeapon) {
+                throw new Error(`you cannot equip more than ${this.maxWeapon} weapon`);
+              }
 
               player.equippedWeapons.push(item);
               player.save();
