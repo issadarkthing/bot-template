@@ -5,8 +5,9 @@ import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
 import { ButtonHandler } from "../structure/ButtonHandler";
 import { Player } from "../structure/Player";
-import { BLUE_BUTTON, remove, toNList, validateNumber } from "../utils";
+import { BLUE_BUTTON, DIAMOND, remove, toNList, validateNumber } from "../utils";
 import { Skill } from "../structure/Skill";
+
 
 export default class extends Command {
   name = "inventory";
@@ -148,12 +149,34 @@ export default class extends Command {
         return;
       }
 
-      const inventoryList = toNList(player.inventory.map(x => x.name));
+      const inventoryList = toNList(
+        player.inventory.map(item => {
+          // show equipped item in the list with symbol so it is easier to
+          // overview what item is in equipped
+          const equippedName = `${DIAMOND} ${item.name}`;
+          
+          if (
+            player.equippedWeapons.some(x => x.id === item.id) ||
+            player.equippedArmors.some(x => x.id === item.id) ||
+            player.pet?.id === item.id ||
+            player.skill?.id === item.id
+          ) {
+            return equippedName;
+          }
+
+
+          return item.name;
+        })
+      );
+
+      let footer = "\n---\n";
+
+      footer += `${DIAMOND}: equipped/active`;
 
       const embed = new MessageEmbed()
         .setColor("RANDOM")
         .setTitle("Inventory")
-        .setDescription(inventoryList);
+        .setDescription(inventoryList + footer);
 
       msg.channel.send({ embeds: [embed] });
 

@@ -14,6 +14,7 @@ export const CURRENT_BUTTON = "⏺️";
 export const RIGHT_ARROW_BUTTON = "▶️";
 export const RIGHTMOST_ARROW_BUTTON = "⏭️";
 export const REPEAT = "🔁";
+export const DIAMOND = "🔹";
 export const CROSSED_SWORD = "⚔️";
 
 export function bold(str: string | number) {
