@@ -4,7 +4,7 @@ import { Player } from "./Player";
 import { Skill } from "./Skill";
 import { Pet } from "./Pet";
 
-export class Alien extends Fighter {
+export class Monster extends Fighter {
   drop = random.integer(150, 500);
   xpDrop = random.integer(10, 35);
   difficulty: number;
