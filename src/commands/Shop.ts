@@ -9,7 +9,7 @@ import {
 } from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command } from "@jiman24/commandment";
-import { ButtonHandler } from "../structure/ButtonHandler";
+import { ButtonHandler } from "@jiman24/discord.js-button";
 import { stripIndents } from "common-tags";
 import { Item } from "../structure/Item";
 import { Weapon } from "../structure/Weapon";
@@ -68,7 +68,7 @@ export default class extends Command {
         const info = selected.show();
         const menu = new ButtonHandler(msg, info);
 
-        menu.addButton(BLUE_BUTTON, "buy", () => {
+        menu.addButton("buy", () => {
           return selected.buy(msg);
         })
 

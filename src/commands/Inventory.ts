@@ -3,7 +3,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { Armor } from "../structure/Armor";
 import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
-import { ButtonHandler } from "../structure/ButtonHandler";
+import { ButtonHandler } from "@jiman24/discord.js-button";
 import { Player } from "../structure/Player";
 import { BLUE_BUTTON, DIAMOND, remove, toNList, validateNumber } from "../utils";
 import { Skill } from "../structure/Skill";
@@ -41,7 +41,7 @@ export default class extends Command {
 
           if (player.equippedArmors.some(x => x.id === item.id)) {
             
-            menu.addButton(BLUE_BUTTON, "unequip", () => {
+            menu.addButton("unequip", () => {
 
               player.equippedArmors = remove(item, player.equippedArmors);
               player.save();
@@ -51,7 +51,7 @@ export default class extends Command {
 
           } else {
 
-            menu.addButton(BLUE_BUTTON, "equip", () => {
+            menu.addButton("equip", () => {
 
               if (player.equippedArmors.length >= this.maxArmor) {
                 throw new Error(`you cannot equip more than ${this.maxArmor} armor`);
@@ -69,7 +69,7 @@ export default class extends Command {
 
           if (player.equippedWeapons.some(x => x.id === item.id)) {
             
-            menu.addButton(BLUE_BUTTON, "unequip", () => {
+            menu.addButton("unequip", () => {
 
               player.equippedWeapons = remove(item, player.equippedWeapons);
               player.save();
@@ -79,7 +79,7 @@ export default class extends Command {
 
           } else {
 
-            menu.addButton(BLUE_BUTTON, "equip", () => {
+            menu.addButton("equip", () => {
 
               if (player.equippedWeapons.length >= this.maxWeapon) {
                 throw new Error(`you cannot equip more than ${this.maxWeapon} weapon`);
@@ -97,7 +97,7 @@ export default class extends Command {
 
           if (player.pet?.id === item.id) {
 
-            menu.addButton(BLUE_BUTTON, "deactivate", () => {
+            menu.addButton("deactivate", () => {
 
               player.pet = undefined;
               player.save();
@@ -107,7 +107,7 @@ export default class extends Command {
 
           } else {
 
-            menu.addButton(BLUE_BUTTON, "activate", () => {
+            menu.addButton("activate", () => {
 
               item.setOwner(player);
               player.save();
@@ -121,7 +121,7 @@ export default class extends Command {
 
           if (player.skill?.id === item.id) {
             
-            menu.addButton(BLUE_BUTTON, "deactivate", () => {
+            menu.addButton("deactivate", () => {
 
               player.skill = undefined;
               player.save();
@@ -131,7 +131,7 @@ export default class extends Command {
 
           } else {
 
-            menu.addButton(BLUE_BUTTON, "activate", () => {
+            menu.addButton("activate", () => {
 
               player.skill = item;
               player.save();

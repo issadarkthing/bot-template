@@ -3,8 +3,8 @@ import { Message, MessageEmbed } from "discord.js";
 import { Player } from "../structure/Player";
 import { Battle } from "discordjs-rpg";
 import { Monster } from "../structure/Monster";
-import { bold, REPEAT, CROSSED_SWORD, currency, random } from "../utils";
-import { ButtonHandler } from "../structure/ButtonHandler";
+import { bold, currency, random } from "../utils";
+import { ButtonHandler } from "@jiman24/discord.js-button";
 
 class SearchMonster extends ButtonHandler {
   player: Player;
@@ -21,8 +21,8 @@ class SearchMonster extends ButtonHandler {
     const monster = new Monster(this.player);
     const button = new ButtonHandler(this._msg, monster.show())
 
-    button.addButton(REPEAT, "search again", () => this.search(cb))
-    button.addButton(CROSSED_SWORD, "battle", () => cb(monster))
+    button.addButton("search again", () => this.search(cb))
+    button.addButton("battle", () => cb(monster))
     button.addCloseButton();
 
     await button.run();

@@ -1,7 +1,7 @@
 import { Message, MessageEmbed } from "discord.js";
-import { ButtonHandler } from "./ButtonHandler";
+import { ButtonHandler } from "@jiman24/discord.js-button";
 import { 
-    BLUE_BUTTON,
+  BLUE_BUTTON,
   LEFTMOST_ARROW_BUTTON, 
   LEFT_ARROW_BUTTON, 
   RIGHTMOST_ARROW_BUTTON, 
@@ -52,14 +52,12 @@ export class Pagination {
       if (this.pages.length > 2) {
         menu.addButton(
           LEFTMOST_ARROW_BUTTON,
-          "go to first page",
           pageHandler(0),
         );
       }
 
       menu.addButton(
         LEFT_ARROW_BUTTON,
-        "go to previous page",
         pageHandler(this.index - 1),
       );
     }
@@ -67,21 +65,19 @@ export class Pagination {
     const onSelect = this.onSelect;
     if (onSelect) {
 
-      menu.addButton(BLUE_BUTTON, "select", () => onSelect(this.index));
+      menu.addButton("select", () => onSelect(this.index));
 
     }
 
     if (nextPage) {
       menu.addButton(
         RIGHT_ARROW_BUTTON,
-        "go to next page",
         pageHandler(this.index + 1),
       );
 
       if (this.pages.length > 2) {
         menu.addButton(
           RIGHTMOST_ARROW_BUTTON,
-          "go to last page",
           pageHandler(this.pages.length - 1),
         );
       }

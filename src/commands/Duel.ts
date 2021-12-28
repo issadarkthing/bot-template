@@ -3,7 +3,7 @@ import { Message } from "discord.js";
 import { Player } from "../structure/Player";
 import { bold, currency, validateAmount, validateNumber } from "../utils";
 import { Battle } from "discordjs-rpg";
-import { ButtonConfirmation } from "../structure/ButtonHandler";
+import { ButtonHandler } from "@jiman24/discord.js-button";
 import { oneLine } from "common-tags";
 
 export default class extends Command {
@@ -32,24 +32,27 @@ export default class extends Command {
     validateNumber(amount);
     validateAmount(amount, player.coins);
 
-    const duelConfirmation = new ButtonConfirmation(
+    let duelChallenge = false;
+
+    const duelConfirmation = new ButtonHandler(
       msg, 
       oneLine`${player.name} challenge into a duel for ${amount} ${currency}.
       Do you accept? ${mentionedUser}`,
       mentionedUser.id,
     );
 
-    const accept = await duelConfirmation.confirm();
+    duelConfirmation.addButton("accept", () => { duelChallenge = true });
+    duelConfirmation.addButton("reject", () => { duelChallenge = false });
 
-    if (!accept) {
+    await duelConfirmation.run();
+
+    if (!duelChallenge) {
       throw new Error(`${mentionedUser.username} rejected the duel challenge`);
     }
 
     const opponent = Player.fromUser(mentionedUser);
 
-    if (opponent.coins < amount) {
-      throw new Error(`${opponent.name} has insufficient balance`);
-    }
+    validateAmount(amount, opponent.coins);
 
     opponent.coins -= amount;
     player.coins -= amount;

@@ -11,7 +11,7 @@ import {
   validateIndex, 
   validateNumber,
 } from "../utils";
-import { ButtonHandler } from "../structure/ButtonHandler";
+import { ButtonHandler } from "@jiman24/discord.js-button";
 import { Battle } from "discordjs-rpg";
 
 export default class extends Command {
@@ -35,7 +35,7 @@ export default class extends Command {
       const selectedBoss = boss[index];
       const menu = new ButtonHandler(msg, selectedBoss.show());
 
-      menu.addButton(CROSSED_SWORD, "battle", async () => {
+      menu.addButton("battle", async () => {
 
         const battle = new Battle(msg, random.shuffle([player, selectedBoss]));
 
