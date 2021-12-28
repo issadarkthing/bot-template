@@ -3,7 +3,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { Player } from "../structure/Player";
 import { Battle } from "discordjs-rpg";
 import { Alien } from "../structure/Monster";
-import { bold, REPEAT, CROSSED_SWORD, currency } from "../utils";
+import { bold, REPEAT, CROSSED_SWORD, currency, random } from "../utils";
 import { ButtonHandler } from "../structure/ButtonHandler";
 
 class SearchMonster extends ButtonHandler {
@@ -41,7 +41,7 @@ export default class extends Command {
 
     await search.search(async monster => {
 
-      const battle = new Battle(msg, [player, monster]);
+      const battle = new Battle(msg, random.shuffle([player, monster]));
       battle.interval = process.env.ENV === "DEV" ? 1000 : 3000;
       const winner = await battle.run();
       player.hunt++;
