@@ -40,7 +40,7 @@ export abstract class Skill extends BaseSkill {
   }
 }
 
-class Rage extends Skill {
+export class Rage extends Skill {
   name = "Rage";
   id = "rage";
   description = "Does double damage when activated temporarily";
@@ -69,7 +69,7 @@ class Rage extends Skill {
   }
 }
 
-class Heal extends Skill {
+export class Heal extends Skill {
   name = "Heal";
   id = "heal";
   description = "Heals 20% of hp when activated";
@@ -99,7 +99,7 @@ class Heal extends Skill {
 }
 
 
-class Defense extends Skill {
+export class Defense extends Skill {
   name = "Defense";
   id = "defense";
   description = "Increase armor for 10% when activated";
