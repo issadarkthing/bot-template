@@ -48,7 +48,7 @@ export default class extends Command {
 
     await duelConfirmation.run();
 
-    if (!duelChallenge) {
+    if (!accept) {
       throw new Error(`${mentionedUser.username} rejected the duel challenge`);
     }
 
