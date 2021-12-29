@@ -4,7 +4,6 @@ import { Boss } from "../structure/Boss";
 import { Player } from "../structure/Player";
 import { 
   bold, 
-  CROSSED_SWORD, 
   currency, 
   random, 
   toNList, 

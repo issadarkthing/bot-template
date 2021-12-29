@@ -32,7 +32,7 @@ export default class extends Command {
     validateNumber(amount);
     validateAmount(amount, player.coins);
 
-    let duelChallenge = false;
+    let accept = false;
 
     const duelConfirmation = new ButtonHandler(
       msg, 
@@ -41,8 +41,10 @@ export default class extends Command {
       mentionedUser.id,
     );
 
-    duelConfirmation.addButton("accept", () => { duelChallenge = true });
-    duelConfirmation.addButton("reject", () => { duelChallenge = false });
+    duelConfirmation.addButton("accept", () => { accept = true });
+    duelConfirmation.addButton("reject", () => { accept = false });
+
+    await duelConfirmation.run();
 
     await duelConfirmation.run();
 

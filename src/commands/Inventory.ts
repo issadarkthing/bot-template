@@ -5,7 +5,7 @@ import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
 import { ButtonHandler } from "@jiman24/discord.js-button";
 import { Player } from "../structure/Player";
-import { BLUE_BUTTON, DIAMOND, remove, toNList, validateNumber } from "../utils";
+import { DIAMOND, remove, toNList, validateNumber } from "../utils";
 import { Skill } from "../structure/Skill";
 
 

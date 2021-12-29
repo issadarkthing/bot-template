@@ -5,7 +5,6 @@ import {
   toNList, 
   validateIndex, 
   validateNumber, 
-  BLUE_BUTTON,
 } from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command } from "@jiman24/commandment";
