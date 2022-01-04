@@ -16,7 +16,6 @@ import { Battle } from "discordjs-rpg";
 export default class extends Command {
   name = "boss";
   description = "fight boss";
-  throttle = 1000 * 60 * 60 * 12; // throttle for 12 hours
 
   async exec(msg: Message, args: string[]) {
 
