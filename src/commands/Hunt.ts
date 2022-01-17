@@ -1,10 +1,10 @@
 import { Command } from "@jiman24/commandment";
 import { Message, MessageEmbed } from "discord.js";
 import { Player } from "../structure/Player";
-import { Battle } from "discordjs-rpg";
+import { Battle } from "@jiman24/discordjs-rpg";
 import { Monster } from "../structure/Monster";
 import { bold, currency, random } from "../utils";
-import { ButtonHandler } from "@jiman24/discord.js-button";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 
 class SearchMonster extends ButtonHandler {
   player: Player;

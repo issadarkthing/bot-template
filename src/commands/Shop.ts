@@ -8,7 +8,7 @@ import {
 } from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command } from "@jiman24/commandment";
-import { ButtonHandler } from "@jiman24/discord.js-button";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 import { stripIndents } from "common-tags";
 import { Item } from "../structure/Item";
 import { Weapon } from "../structure/Weapon";

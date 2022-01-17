@@ -1,6 +1,6 @@
 import { User } from "discord.js";
 import { client } from "../index";
-import { Player as PlayerRPG } from "discordjs-rpg";
+import { Player as PlayerRPG } from "@jiman24/discordjs-rpg";
 import { code, currency } from "../utils";
 import { Item } from "./Item";
 import { Armor } from "./Armor";

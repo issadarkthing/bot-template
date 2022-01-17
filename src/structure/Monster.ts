@@ -1,4 +1,4 @@
-import { Fighter } from "discordjs-rpg";
+import { Fighter } from "@jiman24/discordjs-rpg";
 import { code, currency, random } from "../utils";
 import { Player } from "./Player";
 import { Skill } from "./Skill";

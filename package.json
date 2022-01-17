@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@jiman24/commandment": "^0.4.0",
-    "@jiman24/discord.js-button": "^0.0.10",
+    "@jiman24/discordjs-button": "^0.1.0",
+    "@jiman24/discordjs-rpg": "^2.3.6",
     "common-tags": "^1.8.2",
     "discord.js": "^13.3.1",
-    "discordjs-rpg": "^2.3.2",
     "dotenv": "^10.0.0",
     "enmap": "^5.8.7",
     "luxon": "^2.2.0",

@@ -10,8 +10,8 @@ import {
   validateIndex, 
   validateNumber,
 } from "../utils";
-import { ButtonHandler } from "@jiman24/discord.js-button";
-import { Battle } from "discordjs-rpg";
+import { ButtonHandler } from "@jiman24/discordjs-button";
+import { Battle } from "@jiman24/discordjs-rpg";
 
 export default class extends Command {
   name = "boss";

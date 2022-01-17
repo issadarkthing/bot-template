@@ -2,8 +2,8 @@ import { Command } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { Player } from "../structure/Player";
 import { bold, currency, validateAmount, validateNumber } from "../utils";
-import { Battle } from "discordjs-rpg";
-import { ButtonHandler } from "@jiman24/discord.js-button";
+import { Battle } from "@jiman24/discordjs-rpg";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 import { oneLine } from "common-tags";
 
 export default class extends Command {

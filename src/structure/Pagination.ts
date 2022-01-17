@@ -1,7 +1,6 @@
 import { Message, MessageEmbed } from "discord.js";
-import { ButtonHandler } from "@jiman24/discord.js-button";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 import { 
-  BLUE_BUTTON,
   LEFTMOST_ARROW_BUTTON, 
   LEFT_ARROW_BUTTON, 
   RIGHTMOST_ARROW_BUTTON, 

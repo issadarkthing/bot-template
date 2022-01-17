@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Armor as BaseArmor } from "discordjs-rpg";
+import { Armor as BaseArmor } from "@jiman24/discordjs-rpg";
 import { Player } from "../structure/Player";
 
 export abstract class Armor extends BaseArmor {

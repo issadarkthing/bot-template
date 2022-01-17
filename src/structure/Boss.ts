@@ -1,4 +1,4 @@
-import { Fighter } from "discordjs-rpg";
+import { Fighter } from "@jiman24/discordjs-rpg";
 import { currency } from "../utils";
 import { Defense, Heal, Rage } from "../structure/Skill";
 import { Phoenix, Slime, Titanoboa } from "./Pet";

@@ -3,7 +3,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { Armor } from "../structure/Armor";
 import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
-import { ButtonHandler } from "@jiman24/discord.js-button";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { DIAMOND, remove, toNList, validateNumber } from "../utils";
 import { Skill } from "../structure/Skill";

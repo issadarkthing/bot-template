@@ -1,8 +1,8 @@
 import { Command } from "@jiman24/commandment";
 import { Message, MessageEmbed } from "discord.js";
-import { ButtonHandler } from "@jiman24/discord.js-button";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
-import { Battle } from "discordjs-rpg";
+import { Battle } from "@jiman24/discordjs-rpg";
 import { currency, random, validateAmount } from "../utils";
 import { oneLine } from "common-tags";
 

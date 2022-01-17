@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Pet as BasePet } from "discordjs-rpg";
+import { Pet as BasePet } from "@jiman24/discordjs-rpg";
 import { Player } from "./Player";
 
 export abstract class Pet extends BasePet {
