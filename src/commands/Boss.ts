@@ -48,6 +48,8 @@ export default class extends Command {
           player.coins += drop;
           player.win++;
 
+          player.save();
+
           msg.channel.send(`${player.name} has earned ${bold(drop)} ${currency}!`);
           msg.channel.send(`${player.name} has earned ${bold(xpDrop)} xp!`);
 
