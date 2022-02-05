@@ -1,6 +1,7 @@
 import { Command } from "@jiman24/commandment";
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 import { client } from "../index";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class Help extends Command {
   name = "help";
@@ -29,8 +30,7 @@ export default class Help extends Command {
 
     }
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new MessageEmbed(msg.author)
       .setTitle("Help")
       .setDescription(helpText)
 

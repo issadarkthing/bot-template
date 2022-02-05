@@ -1,10 +1,11 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 import { 
   currency, 
   code, 
   toNList, 
   validateIndex, 
-  validateNumber, 
+  validateNumber,
+  cap, 
 } from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command } from "@jiman24/commandment";
@@ -14,6 +15,7 @@ import { Item } from "../structure/Item";
 import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
 import { Skill } from "../structure/Skill";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 interface ItemLike {
   name: string;
@@ -84,9 +86,8 @@ export default class extends Command {
         itemList += "\n----\n";
         itemList += `To select an item on index 1, use \`${prefix}${this.name} ${category} 1\``;
 
-        const embed = new MessageEmbed()
-          .setColor("RANDOM")
-          .setTitle(`${category} Shop`)
+        const embed = new MessageEmbed(msg.author)
+          .setTitle(`${cap(category)} Shop`)
           .setDescription(itemList)
 
         msg.channel.send({ embeds: [embed] });
@@ -105,8 +106,7 @@ export default class extends Command {
       To open armor shop use command \`${prefix}${this.name} armor\`
       `;
 
-      const shop = new MessageEmbed()
-      .setColor("RANDOM")
+      const shop = new MessageEmbed(msg.author)
       .setTitle("Shop")
       .setDescription(rpgList);
 

@@ -1,10 +1,11 @@
 import { Command } from "@jiman24/commandment";
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { Battle } from "@jiman24/discordjs-rpg";
 import { currency, random, validateAmount } from "../utils";
 import { oneLine } from "common-tags";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "battle-royale";
@@ -17,8 +18,7 @@ export default class extends Command {
 
     const players = [] as Player[];
 
-    const embed = new MessageEmbed()
-      .setColor("RANDOM")
+    const embed = new MessageEmbed(msg.author)
       .setTitle("Battle Royale")
       .setDescription(
         oneLine`Battle Royale event has started. Waiting for ${this.maxPlayers}

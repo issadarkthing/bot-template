@@ -1,5 +1,5 @@
 import { Command } from "@jiman24/commandment";
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 import { Boss } from "../structure/Boss";
 import { Player } from "../structure/Player";
 import { 
@@ -12,6 +12,7 @@ import {
 } from "../utils";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Battle } from "@jiman24/discordjs-rpg";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "boss";

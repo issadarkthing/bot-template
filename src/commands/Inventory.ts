@@ -1,5 +1,5 @@
 import { Command } from "@jiman24/commandment";
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 import { Armor } from "../structure/Armor";
 import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
@@ -7,7 +7,7 @@ import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { DIAMOND, remove, toNList, validateNumber } from "../utils";
 import { Skill } from "../structure/Skill";
-
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "inventory";
@@ -173,7 +173,7 @@ export default class extends Command {
 
       footer += `${DIAMOND}: equipped/active`;
 
-      const embed = new MessageEmbed()
+      const embed = new MessageEmbed(msg.author)
         .setColor("RANDOM")
         .setTitle("Inventory")
         .setDescription(inventoryList + footer);
