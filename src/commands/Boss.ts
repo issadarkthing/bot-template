@@ -69,7 +69,7 @@ export default class extends Command {
 
     const bossList = toNList(boss.map(x => x.name));
 
-    const embed = new MessageEmbed()
+    const embed = new MessageEmbed(msg.author)
       .setColor("RED")
       .setTitle("Boss")
       .setDescription(bossList)
