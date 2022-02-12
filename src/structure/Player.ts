@@ -8,17 +8,6 @@ import { Weapon } from "./Weapon";
 import { Pet } from "./Pet";
 import { Skill } from "./Skill";
 
-export const AVATARS = [
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590572422799390/screenshot-07-12-2021093515.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590571831398410/screenshot-07-12-2021093525.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590571466522634/screenshot-07-12-2021093534.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590571097407518/screenshot-07-12-2021093546.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590570686373908/screenshot-07-12-2021093602.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590570426331156/screenshot-07-12-2021093617.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590570082402324/screenshot-07-12-2021093631.png",
-  "https://cdn.discordapp.com/attachments/917581398313947166/917590569595854908/screenshot-07-12-2021093639.png",
-];
-
 export class Player extends PlayerRPG {
   name: string;
   coins = 0;
