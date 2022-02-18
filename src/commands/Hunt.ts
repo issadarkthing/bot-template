@@ -19,7 +19,7 @@ class SearchMonster extends ButtonHandler {
   async search(cb: (monster: Monster) => Promise<void>) {
 
     const monster = random.pick(Monster.all);
-    const button = new ButtonHandler(this._msg, monster.show())
+    const button = new ButtonHandler(this._msg, monster.show(this.player));
 
     button.addButton("search again", () => this.search(cb))
     button.addButton("battle", () => cb(monster))
