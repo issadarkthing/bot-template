@@ -1,40 +1,54 @@
 import { Fighter } from "@jiman24/discordjs-rpg";
-import { code, currency, random } from "../utils";
-import { Player } from "./Player";
+import { code, currency } from "../utils";
 import { Skill } from "./Skill";
 import { Pet } from "./Pet";
+import { MersenneTwister19937, Random } from "random-js";
+import { monsterNames } from "./MonsterData";
+import { Player } from "./Player";
+
 
 export class Monster extends Fighter {
-  drop = random.integer(150, 500);
-  xpDrop = random.integer(10, 35);
+  drop: number;
+  xpDrop: number;
   difficulty: number;
+  private random: Random;
   
-  constructor(player: Player) {
-    super(random.pick(names));
-    this.difficulty = player.level;
-    this.attack = player.attack + this.randomAttrib();
-    this.hp = player.hp + this.randomAttrib();
-    this.armor = player.armor + (this.randomAttrib() / 100);
-    this.critChance = player.critChance + (this.randomAttrib() / 100);
-    this.critDamage = player.critDamage + random.integer(0.01, 0.5);
+  constructor(name: string, index: number) {
+    super(name);
+    const SEED = index;
+    this.random = new Random(MersenneTwister19937.seed(SEED));
+    this.difficulty = index + 1;
 
-    if (player.skill) {
-      const skill = random.pick(Skill.all);
+    this.hp += index * 8 + this.randomAttrib();
+    this.attack += index * 2 + this.randomAttrib();
+    this.critDamage += index * 0.01;
+    this.armor += (this.randomAttrib() / 1000);
+    this.critChance += (this.randomAttrib() / 1000);
+    this.drop = this.random.integer(this.difficulty * 10, this.difficulty * 100);
+    this.xpDrop = this.random.integer(this.difficulty, this.difficulty * 10);
+
+    if (this.difficulty > 50) {
+      const pet = this.random.pick(Pet.all);
+      pet.setOwner(this);
+    }
+
+    if (this.difficulty > 100) {
+      const skill = this.random.pick(Skill.all);
       skill.setOwner(this);
     }
 
-    if (player.pet) {
-      const pet = random.pick(Pet.all);
-      pet.setOwner(this);
-    }
   }
 
   private randomAttrib() {
-    return random.integer(-3, this.difficulty);
+    return this.random.integer(-5, this.difficulty);
   }
 
-  show() {
-    const profile = super.show();
+  static get all() {
+    return monsterNames.map((x, i) => new Monster(x, i));
+  }
+
+  show(player?: Player) {
+    const profile = super.show(player);
 
     profile.addField(`${currency} Drop`, code(this.drop), true);
     profile.addField("xp Drop", code(this.xpDrop), true);
@@ -42,107 +56,3 @@ export class Monster extends Fighter {
     return profile;
   }
 }
-
-
-const names = [
-  "Liam"       ,
-  "Olivia"     ,
-  "Noah"       ,
-  "Emma"       ,
-  "Oliver"     ,
-  "Ava"        ,
-  "Elijah"     ,
-  "Charlotte"  ,
-  "William"    ,
-  "Sophia"     ,
-  "James"      ,
-  "Amelia"     ,
-  "Benjamin"   ,
-  "Isabella"   ,
-  "Lucas"      ,
-  "Mia"        ,
-  "Henry"      ,
-  "Evelyn"     ,
-  "Alexander"  ,
-  "Harper"     ,
-  "Mason"      ,
-  "Camila"     ,
-  "Michael"    ,
-  "Gianna"     ,
-  "Ethan"      ,
-  "Abigail"    ,
-  "Daniel"     ,
-  "Luna"       ,
-  "Jacob"      ,
-  "Ella"       ,
-  "Logan"      ,
-  "Elizabeth"  ,
-  "Jackson"    ,
-  "Sofia"      ,
-  "Levi"       ,
-  "Emily"      ,
-  "Sebastian"  ,
-  "Avery"      ,
-  "Mateo"      ,
-  "Mila"       ,
-  "Jack"       ,
-  "Scarlett"   ,
-  "Owen"       ,
-  "Eleanor"    ,
-  "Theodore"   ,
-  "Madison"    ,
-  "Aiden"      ,
-  "Layla"      ,
-  "Samuel"     ,
-  "Penelope"   ,
-  "Joseph"     ,
-  "Aria"       ,
-  "John"       ,
-  "Chloe"      ,
-  "David"      ,
-  "Grace"      ,
-  "Wyatt"      ,
-  "Ellie"      ,
-  "Matthew"    ,
-  "Nora"       ,
-  "Luke"       ,
-  "Hazel"      ,
-  "Asher"      ,
-  "Zoey"       ,
-  "Carter"     ,
-  "Riley"      ,
-  "Julian"     ,
-  "Victoria"   ,
-  "Grayson"    ,
-  "Lily"       ,
-  "Leo"        ,
-  "Aurora"     ,
-  "Jayden"     ,
-  "Violet"     ,
-  "Gabriel"    ,
-  "Nova"       ,
-  "Isaac"      ,
-  "Hannah"     ,
-  "Lincoln"    ,
-  "Emilia"     ,
-  "Anthony"    ,
-  "Zoe"        ,
-  "Hudson"     ,
-  "Stella"     ,
-  "Dylan"      ,
-  "Everly"     ,
-  "Ezra"       ,
-  "Isla"       ,
-  "Thomas"     ,
-  "Leah"       ,
-  "Charles"    ,
-  "Lillian"    ,
-  "Addison"    ,
-  "Jaxon"      ,
-  "Willow"     ,
-  "Maverick"   ,
-  "Lucy"       ,
-  "Josiah"     ,
-  "Paisley"    ,
-  "Christopher",
-]
