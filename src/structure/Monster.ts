@@ -11,21 +11,26 @@ export class Monster extends Fighter {
   drop: number;
   xpDrop: number;
   difficulty: number;
+  private enableImage = false;
   private random: Random;
   
-  constructor(name: string, index: number) {
+  constructor(name: string, imageUrl: string, index: number) {
     super(name);
     const SEED = index;
     this.random = new Random(MersenneTwister19937.seed(SEED));
     this.difficulty = index + 1;
+
+    if (this.enableImage) {
+      this.imageUrl = imageUrl;
+    }
 
     this.hp += index * 8 + this.randomAttrib();
     this.attack += index * 2 + this.randomAttrib();
     this.critDamage += index * 0.01;
     this.armor += (this.randomAttrib() / 1000);
     this.critChance += (this.randomAttrib() / 1000);
-    this.drop = this.random.integer(this.difficulty * 10, this.difficulty * 100);
-    this.xpDrop = this.random.integer(this.difficulty, this.difficulty * 10);
+    this.drop = (this.difficulty * 10)
+    this.xpDrop = (this.difficulty * 3)
 
     if (this.difficulty > 50) {
       const pet = this.random.pick(Pet.all);
@@ -44,7 +49,7 @@ export class Monster extends Fighter {
   }
 
   static get all() {
-    return monsterNames.map((x, i) => new Monster(x, i));
+    return monsterNames.map((x, i) => new Monster(x.name, x.url, i));
   }
 
   show(player?: Player) {
