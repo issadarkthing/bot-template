@@ -113,7 +113,7 @@ const names = [
   "Dragon Queen",
   "Undead Paladin",
   "Gargoyle Prince",
-  "Evil Slime" ,
+  "Evil Slime",
 ];
 
 export const monsterNames = combinator(levels, names);
