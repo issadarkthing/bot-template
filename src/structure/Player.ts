@@ -15,6 +15,7 @@ export class Player extends PlayerRPG {
   xp = 0;
   win = 0;
   hunt = 0;
+  currentMonster = 0;
   inventory: Item[] = [];
 
   constructor(user: User, imageUrl: string) {
