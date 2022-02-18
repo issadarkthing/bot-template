@@ -1,89 +1,89 @@
-import { Message, MessageEmbed } from "discord.js";
-import { ButtonHandler } from "@jiman24/discordjs-button";
-import { 
-  LEFTMOST_ARROW_BUTTON, 
-  LEFT_ARROW_BUTTON, 
-  RIGHTMOST_ARROW_BUTTON, 
-  RIGHT_ARROW_BUTTON,
-} from "../utils";
+import {
+  MessageActionRow,
+  Message,
+  MessageEmbed,
+  MessageButton,
+  MessageComponentInteraction,
+} from "discord.js";
 
-type OnSelectCallback = (index: number) => Promise<void> | void;
+const buttonList = [
+  new MessageButton().setCustomId("previous").setLabel("Previous").setStyle("PRIMARY"),
+  new MessageButton().setCustomId("select").setLabel("Select").setStyle("PRIMARY"),
+  new MessageButton().setCustomId("next").setLabel("Next").setStyle("PRIMARY"),
+];
 
 export class Pagination {
-  private onSelect?: OnSelectCallback;
+  onSelect?: (index: number) => void;
 
   constructor(
     private msg: Message,
     private pages: MessageEmbed[],
-    private userID: string,
-    private index = 0
-  ) {}
+    private index = 0,
+    private timeout = 120000,
+  ) {
+    if (!pages) throw new Error("Pages are not given.");
+  }
 
-  setOnSelect(cb: OnSelectCallback) {
+  setOnSelect(cb: (index: number) => void) {
     this.onSelect = cb;
   }
 
   async run() {
-    if (this.pages.length <= 0)
-      throw new Error("cannot paginate with zero pages");
 
-    const currentPage = this.pages[this.index];
-    const menu = new ButtonHandler(this.msg, currentPage, this.userID);
+    return new Promise<void>(async (resolve) => {
+      let page = this.index;
+      const row = new MessageActionRow().addComponents(buttonList);
 
-    const prevPage = this.pages[this.index - 1];
-    const nextPage = this.pages[this.index + 1];
+      const curPage = await this.msg.channel.send({
+        embeds: [this.pages[page].setFooter({ 
+          text: `Page ${page + 1} / ${this.pages.length}` 
+        })],
+        components: [row],
+      });
 
-    const pageHandler = (index: number) => {
-      return async () => {
-        const menu = new Pagination(this.msg, this.pages, this.userID, index);
+      const filter = (i: MessageComponentInteraction) =>
+      i.customId === buttonList[0].customId ||
+      i.customId === buttonList[1].customId ||
+      i.customId === buttonList[2].customId;
 
-        if (this.onSelect) {
-          menu.setOnSelect(this.onSelect);
+      const collector = curPage.createMessageComponentCollector({
+        filter,
+        time: this.timeout,
+      });
+
+      collector.on("collect", async (i) => {
+        switch (i.customId) {
+          case buttonList[0].customId:
+            page = page > 0 ? --page : this.pages.length - 1;
+            break;
+          case buttonList[1].customId:
+            this.onSelect && this.onSelect(page);
+            collector.stop();
+            resolve();
+            return;
+          case buttonList[2].customId:
+            page = page + 1 < this.pages.length ? ++page : 0;
+            break;
+          default:
+            break;
         }
 
-        await menu.run();
-      };
-    };
+        await i.deferUpdate();
+        await i.editReply({
+          embeds: [this.pages[page].setFooter({ 
+            text: `Page ${page + 1} / ${this.pages.length}` 
+          })],
+          components: [row],
+        });
+        collector.resetTimer();
+      });
 
+      collector.on("end", (_, reason) => {
+        if (reason !== "messageDelete") {
+          curPage.delete().catch();
+        }
+      });
+    })
 
-    if (prevPage) {
-
-      if (this.pages.length > 2) {
-        menu.addButton(
-          LEFTMOST_ARROW_BUTTON,
-          pageHandler(0),
-        );
-      }
-
-      menu.addButton(
-        LEFT_ARROW_BUTTON,
-        pageHandler(this.index - 1),
-      );
-    }
-
-    const onSelect = this.onSelect;
-    if (onSelect) {
-
-      menu.addButton("select", () => onSelect(this.index));
-
-    }
-
-    if (nextPage) {
-      menu.addButton(
-        RIGHT_ARROW_BUTTON,
-        pageHandler(this.index + 1),
-      );
-
-      if (this.pages.length > 2) {
-        menu.addButton(
-          RIGHTMOST_ARROW_BUTTON,
-          pageHandler(this.pages.length - 1),
-        );
-      }
-    }
-
-
-    menu.addCloseButton();
-    await menu.run();
   }
 }
