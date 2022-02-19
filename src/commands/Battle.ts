@@ -8,6 +8,8 @@ import { bold, currency, random } from "../utils";
 
 export default class extends Command {
   name = "battle";
+  block: boolean = true;
+  description = "battle monsters";
   aliases: string[] = ["b"];
 
   async exec(msg: Message) {
