@@ -9,6 +9,7 @@ import { ButtonHandler } from "@jiman24/discordjs-button";
 class SearchMonster extends ButtonHandler {
   player: Player;
   _msg: Message;
+  readonly range = 10;
 
   constructor(msg: Message, embed: MessageEmbed | string, player: Player) {
     super(msg, embed);
@@ -18,7 +19,19 @@ class SearchMonster extends ButtonHandler {
 
   async search(cb: (monster: Monster) => Promise<void>) {
 
-    const monster = random.pick(Monster.all);
+    let lower = this.player.level - Math.round(this.range / 2);
+    let upper = this.player.level + this.range;
+
+    if (lower < 0) {
+      lower = 0;
+    }
+
+    if (upper > Monster.all.length - 1) {
+      upper = Monster.all.length - 1;
+    }
+
+    const monsters = Monster.all.slice(lower, upper);
+    const monster = random.pick(monsters);
     const button = new ButtonHandler(this._msg, monster.show(this.player));
 
     button.addButton("search again", () => this.search(cb))
