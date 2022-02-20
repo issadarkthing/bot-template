@@ -18,170 +18,166 @@ export default class extends Command {
 
   async exec(msg: Message, args: string[]) {
 
-    try {
 
-      const player = Player.fromUser(msg.author);
-      const [arg1] = args;
+    const player = Player.fromUser(msg.author);
+    const [arg1] = args;
 
-      if (arg1) {
+    if (arg1) {
 
-        const index = parseInt(arg1) - 1;
+      const index = parseInt(arg1) - 1;
 
-        validateNumber(index);
+      validateNumber(index);
 
-        const item = player.inventory[index];
+      const item = player.inventory[index];
 
-        if (!item) {
-          throw new Error("cannot find item");
-        }
-
-        const menu = new ButtonHandler(msg, item.show());
-
-        if (item instanceof Armor) {
-
-          if (player.equippedArmors.some(x => x.id === item.id)) {
-            
-            menu.addButton("unequip", () => {
-
-              player.equippedArmors = remove(item, player.equippedArmors);
-              player.save();
-
-              msg.channel.send(`Successfully unequipped ${item.name}`);
-            })
-
-          } else {
-
-            menu.addButton("equip", () => {
-
-              if (player.equippedArmors.length >= this.maxArmor) {
-                throw new Error(`you cannot equip more than ${this.maxArmor} armor`);
-              }
-
-              player.equippedArmors.push(item);
-              player.save();
-
-              msg.channel.send(`Successfully equipped ${item.name}`);
-
-            })
-          }
-
-        } else if (item instanceof Weapon) {
-
-          if (player.equippedWeapons.some(x => x.id === item.id)) {
-            
-            menu.addButton("unequip", () => {
-
-              player.equippedWeapons = remove(item, player.equippedWeapons);
-              player.save();
-
-              msg.channel.send(`Successfully unequipped ${item.name}`);
-            })
-
-          } else {
-
-            menu.addButton("equip", () => {
-
-              if (player.equippedWeapons.length >= this.maxWeapon) {
-                throw new Error(`you cannot equip more than ${this.maxWeapon} weapon`);
-              }
-
-              player.equippedWeapons.push(item);
-              player.save();
-
-              msg.channel.send(`Successfully equipped ${item.name}`);
-
-            })
-          }
-
-        } else if (item instanceof Pet) {
-
-          if (player.pet?.id === item.id) {
-
-            menu.addButton("deactivate", () => {
-
-              player.pet = undefined;
-              player.save();
-
-              msg.channel.send(`Successfully deactive ${item.name}`);
-            })
-
-          } else {
-
-            menu.addButton("activate", () => {
-
-              item.setOwner(player);
-              player.save();
-
-              msg.channel.send(`Successfully make ${item.name} as active pet`);
-
-            })
-          }
-
-        } else if (item instanceof Skill) {
-
-          if (player.skill?.id === item.id) {
-            
-            menu.addButton("deactivate", () => {
-
-              player.skill = undefined;
-              player.save();
-
-              msg.channel.send(`Successfully deactivated ${item.name}`);
-            })
-
-          } else {
-
-            menu.addButton("activate", () => {
-
-              player.skill = item;
-              player.save();
-
-              msg.channel.send(`Successfully activated ${item.name}`);
-
-            })
-          }
-
-        }
-
-        menu.addCloseButton();
-        await menu.run();
-
-        return;
+      if (!item) {
+        throw new Error("cannot find item");
       }
 
-      const inventoryList = toNList(
-        player.inventory.map(item => {
-          // show equipped item in the list with symbol so it is easier to
-          // overview what item is in equipped
-          const equippedName = `${DIAMOND} ${item.name}`;
-          
-          if (
-            player.equippedWeapons.some(x => x.id === item.id) ||
-            player.equippedArmors.some(x => x.id === item.id) ||
-            player.pet?.id === item.id ||
-            player.skill?.id === item.id
-          ) {
-            return equippedName;
-          }
+      const menu = new ButtonHandler(msg, item.show());
 
+      if (item instanceof Armor) {
 
-          return item.name;
-        })
-      );
+        if (player.equippedArmors.some(x => x.id === item.id)) {
 
-      let footer = "\n---\n";
+          menu.addButton("unequip", () => {
 
-      footer += `${DIAMOND}: equipped/active`;
+            player.equippedArmors = remove(item, player.equippedArmors);
+            player.save();
 
-      const embed = new MessageEmbed(msg.author)
-        .setColor("RANDOM")
-        .setTitle("Inventory")
-        .setDescription(inventoryList + footer);
+            msg.channel.send(`Successfully unequipped ${item.name}`);
+          })
 
-      msg.channel.send({ embeds: [embed] });
+        } else {
 
-    } catch (err) {
-      msg.channel.send((err as Error).message);
+          menu.addButton("equip", () => {
+
+            if (player.equippedArmors.length >= this.maxArmor) {
+              throw new Error(`you cannot equip more than ${this.maxArmor} armor`);
+            }
+
+            player.equippedArmors.push(item);
+            player.save();
+
+            msg.channel.send(`Successfully equipped ${item.name}`);
+
+          })
+        }
+
+      } else if (item instanceof Weapon) {
+
+        if (player.equippedWeapons.some(x => x.id === item.id)) {
+
+          menu.addButton("unequip", () => {
+
+            player.equippedWeapons = remove(item, player.equippedWeapons);
+            player.save();
+
+            msg.channel.send(`Successfully unequipped ${item.name}`);
+          })
+
+        } else {
+
+          menu.addButton("equip", () => {
+
+            if (player.equippedWeapons.length >= this.maxWeapon) {
+              throw new Error(`you cannot equip more than ${this.maxWeapon} weapon`);
+            }
+
+            player.equippedWeapons.push(item);
+            player.save();
+
+            msg.channel.send(`Successfully equipped ${item.name}`);
+
+          })
+        }
+
+      } else if (item instanceof Pet) {
+
+        if (player.pet?.id === item.id) {
+
+          menu.addButton("deactivate", () => {
+
+            player.pet = undefined;
+            player.save();
+
+            msg.channel.send(`Successfully deactive ${item.name}`);
+          })
+
+        } else {
+
+          menu.addButton("activate", () => {
+
+            item.setOwner(player);
+            player.save();
+
+            msg.channel.send(`Successfully make ${item.name} as active pet`);
+
+          })
+        }
+
+      } else if (item instanceof Skill) {
+
+        if (player.skill?.id === item.id) {
+
+          menu.addButton("deactivate", () => {
+
+            player.skill = undefined;
+            player.save();
+
+            msg.channel.send(`Successfully deactivated ${item.name}`);
+          })
+
+        } else {
+
+          menu.addButton("activate", () => {
+
+            player.skill = item;
+            player.save();
+
+            msg.channel.send(`Successfully activated ${item.name}`);
+
+          })
+        }
+
+      }
+
+      menu.addCloseButton();
+      await menu.run();
+
+      return;
     }
+
+    const inventoryList = toNList(
+      player.inventory.map(item => {
+        // show equipped item in the list with symbol so it is easier to
+        // overview what item is in equipped
+        const equippedName = `${DIAMOND} ${item.name}`;
+
+        if (
+          player.equippedWeapons.some(x => x.id === item.id) ||
+          player.equippedArmors.some(x => x.id === item.id) ||
+          player.pet?.id === item.id ||
+          player.skill?.id === item.id
+        ) {
+          return equippedName;
+        }
+
+
+        return item.name;
+      })
+    );
+
+    let footer = "\n---\n";
+
+    footer += `${DIAMOND}: equipped/active`;
+
+    const embed = new MessageEmbed(msg.author)
+      .setColor("RANDOM")
+      .setTitle("Inventory")
+      .setDescription(inventoryList + footer);
+
+    msg.channel.send({ embeds: [embed] });
+
   }
 }
