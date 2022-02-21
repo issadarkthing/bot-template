@@ -1,6 +1,9 @@
-import { Message } from "discord.js";
 import { Weapon as BaseWeapon } from "@jiman24/discordjs-rpg";
 import { Player } from "../structure/Player";
+import { Item } from "./Item";
+import { applyMixins } from "../utils";
+
+export interface Weapon extends Item {};
 
 export abstract class Weapon extends BaseWeapon {
   abstract price: number;
@@ -14,31 +17,12 @@ export abstract class Weapon extends BaseWeapon {
     ];
   }
 
-  async buy(msg: Message) {
-
-    const player = Player.fromUser(msg.author);
-
-    if (player.coins < this.price) {
-      msg.channel.send("Insufficient amount");
-      return;
-    }
-
-    if (
-      player.inventory.some(x => x.id === this.id) ||
-      player.equippedWeapons.some(x => x.id === this.id)
-    ) {
-      msg.channel.send("You already own this item");
-      return;
-    }
-
-    player.coins -= this.price;
-    player.inventory.push(this);
-
-    player.save();
-    msg.channel.send(`Successfully bought **${this.name}**`);
+  apply(player: Player) {
+    player.attack += this.attack;
   }
 }
 
+applyMixins(Weapon, [Item]);
 
 class Axe extends Weapon {
   id = "axe";

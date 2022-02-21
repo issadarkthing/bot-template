@@ -1,8 +1,11 @@
 import { Fighter, Skill as BaseSkill } from "@jiman24/discordjs-rpg";
-import { Message, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { oneLine } from "common-tags";
-import { formatPercent, code } from "../utils";
+import { formatPercent, code, applyMixins } from "../utils";
 import { Player } from "./Player";
+import { Item } from "./Item";
+
+export interface Skill extends Item {};
 
 export abstract class Skill extends BaseSkill {
   abstract price: number;
@@ -15,30 +18,12 @@ export abstract class Skill extends BaseSkill {
     ];
   }
 
-  async buy(msg: Message) {
-
-    const player = Player.fromUser(msg.author);
-
-    if (player.coins < this.price) {
-      msg.channel.send("Insufficient amount");
-      return;
-    }
-
-    if (
-      player.inventory.some(x => x.id === this.id) ||
-      player.skill?.id === this.id
-    ) {
-      msg.channel.send("You already own this skill");
-      return;
-    }
-
-    player.coins -= this.price;
-    player.inventory.push(this);
-
-    player.save();
-    msg.channel.send(`Successfully bought **${this.name}**`);
+  apply(player: Player) {
+    this.setOwner(player);
   }
 }
+
+applyMixins(Skill, [Item]);
 
 export class Rage extends Skill {
   name = "Rage";

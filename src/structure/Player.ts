@@ -3,10 +3,6 @@ import { client } from "../index";
 import { Player as PlayerRPG } from "@jiman24/discordjs-rpg";
 import { code, currency } from "../utils";
 import { Item } from "./Item";
-import { Armor } from "./Armor";
-import { Weapon } from "./Weapon";
-import { Pet } from "./Pet";
-import { Skill } from "./Skill";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -17,6 +13,7 @@ export class Player extends PlayerRPG {
   hunt = 0;
   currentMonster = 0;
   inventory: Item[] = [];
+  equippedItems: Item[] = [];
 
   constructor(user: User, imageUrl: string) {
     super(user);
@@ -40,36 +37,17 @@ export class Player extends PlayerRPG {
     player.attack += offset * 2
     player.critDamage += offset * 0.01;
 
+
     player.inventory = player.inventory
-      .map(inv => Item.all.find(x => x.id === inv.id)!);
+      .filter(x => !!x)
+      .map(inv => Item.get(inv.id)!);
 
-    const pet = player.pet;
-    if (pet) {
-      const validPet = Pet.all.find(x => x.id === pet.id);
-      validPet?.setOwner(player);
-    }
+    player.equippedItems = player.equippedItems
+      .filter(x => !!x)
+      .map(item => Item.get(item.id)!);
 
-    const skill = player.skill;
-    if (skill) {
-      const validSkill = Skill.all.find(x => x.id === skill.id);
-      player.skill = validSkill;
-    }
-
-    const equippedArmors = player.equippedArmors
-      .map(inv => Armor.all.find(x => x.id === inv.id)!);
-
-    const equippedWeapons = player.equippedWeapons
-      .map(inv => Weapon.all.find(x => x.id === inv.id)!);
-
-    player.equippedArmors = [];
-    player.equippedWeapons = [];
-
-    for (const armor of equippedArmors) {
-      player.equipArmor(armor);
-    }
-
-    for (const weapon of equippedWeapons) {
-      player.equipWeapon(weapon);
+    for (const item of player.equippedItems) {
+      item.apply(player);
     }
 
     return player;
@@ -100,13 +78,11 @@ export class Player extends PlayerRPG {
 
   show() {
     const profile = super.show();
-
     const armorIndex = 8;
-    const armor = profile.fields.at(armorIndex)!.value;
-    profile.fields.at(armorIndex)!.name = currency;
-    profile.fields.at(armorIndex)!.value = this.coins.toString();
-    profile.fields.at(armorIndex)!.inline = true;
 
+    profile.spliceFields(armorIndex, 2);
+
+    profile.addField("Coins", code(this.coins), true);
     profile.addField("Win", code(this.win), true);
     profile.addField("Hunt", code(this.hunt), true);
 
@@ -116,8 +92,6 @@ export class Player extends PlayerRPG {
 
     profile.addField("Level", code(this.level), true);
     profile.addField("xp", `\`${this.xp}/${this.requiredXP()}\``, true);
-
-    profile.addField("Armor", armor);
 
     return profile;
   }

@@ -1,7 +1,10 @@
-import { Message } from "discord.js";
 import { Armor as BaseArmor } from "@jiman24/discordjs-rpg";
-import { Player } from "../structure/Player";
 import assert from "assert/strict";
+import { applyMixins } from "../utils";
+import { Item } from "./Item";
+import { Player } from "./Player";
+
+export interface Armor extends Item {}
 
 export abstract class Armor extends BaseArmor {
   abstract price: number;
@@ -17,30 +20,12 @@ export abstract class Armor extends BaseArmor {
     ];
   }
 
-  async buy(msg: Message) {
-
-    const player = Player.fromUser(msg.author);
-
-    if (player.coins < this.price) {
-      msg.channel.send("Insufficient amount");
-      return;
-    }
-
-    if (
-      player.inventory.some(x => x.id === this.id) ||
-      player.equippedArmors.some(x => x.id === this.id)
-    ) {
-      msg.channel.send("You already own this item");
-      return;
-    }
-
-    player.coins -= this.price;
-    player.inventory.push(this);
-
-    player.save();
-    msg.channel.send(`Successfully bought **${this.name}**`);
+  apply(player: Player) {
+    player.armor += this.armor;
   }
 }
+
+applyMixins(Armor, [Item]);
 
 export class Helmet extends Armor {
   id = "helmet";
