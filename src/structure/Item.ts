@@ -70,6 +70,7 @@ export abstract class Item {
 
     player.save();
     msg.channel.send(`Successfully bought **${this.name}**!`);
+    msg.channel.send(`Use command \`!inventory\` to equip item`);
   }
 
   static get(id: string) {
