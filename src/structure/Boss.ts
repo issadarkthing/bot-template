@@ -1,7 +1,7 @@
 import { Fighter } from "@jiman24/discordjs-rpg";
 import { currency } from "../utils";
 import { Defense, Heal, Rage } from "../structure/Skill";
-import { Phoenix, Slime, Titanoboa } from "./Pet";
+import { Pet } from "./Pet";
 
 export abstract class Boss extends Fighter {
   abstract drop: number;
@@ -9,9 +9,9 @@ export abstract class Boss extends Fighter {
 
   static get all(): Boss[] {
     return [
-      new Cavernmonster("Manzana Banana"),
-      new Vortexscreamer("Burro Banana"),
-      new Rottingseeker("Barangan Banana"),
+      new Cavernmonster(),
+      new Vortexscreamer(),
+      new Rottingseeker(),
     ];
   }
 
@@ -35,13 +35,13 @@ export class Cavernmonster extends Boss {
   critDamage = 3;
   imageUrl = "https://www.runehq.com/image/monsterdb/v/vanstromklause.png";
   
-  constructor(name: string) {
-    super(name);
+  constructor() {
+    super("Cavern Monster");
 
     const skill = new Heal(); 
     skill.setOwner(this);
 
-    const pet = new Slime()
+    const pet = Pet.all[0];
     pet.setOwner(this);
   }
 }
@@ -56,13 +56,13 @@ export class Vortexscreamer extends Boss {
   critDamage = 3.4;
   imageUrl = "https://www.runehq.com/image/monsterdb/k/kriltsutsaroth.png"
 
-  constructor(name: string) {
-    super(name);
+  constructor() {
+    super("Vortex Screamer");
 
     const skill = new Rage(); 
     skill.setOwner(this);
 
-    const pet = new Phoenix()
+    const pet = Pet.all[1];
     pet.setOwner(this);
   }
 }
@@ -77,13 +77,13 @@ export class Rottingseeker extends Boss {
   critDamage = 3.8;
   imageUrl = "https://www.runehq.com/image/monsterdb/k/kreearra.png";
 
-  constructor(name: string) {
-    super(name);
+  constructor() {
+    super("Rotting Seeker");
 
     const skill = new Defense(); 
     skill.setOwner(this);
 
-    const pet = new Titanoboa()
+    const pet = Pet.all[3];
     pet.setOwner(this);
   }
 }
