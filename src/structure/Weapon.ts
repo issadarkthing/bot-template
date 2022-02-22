@@ -9,12 +9,7 @@ export abstract class Weapon extends BaseWeapon {
   abstract price: number;
 
   static get all(): Weapon[] {
-    return [
-      new Axe(),
-      new Sword(),
-      new Dagger(),
-      new Mace(),
-    ];
+    return weaponData.map(x => new WeaponItem(x));
   }
 
   apply(player: Player) {
@@ -24,37 +19,53 @@ export abstract class Weapon extends BaseWeapon {
 
 applyMixins(Weapon, [Item]);
 
-class Axe extends Weapon {
-  id = "axe";
-  name = "Axe";
-  attack = 20;
-  price = 1000;
+
+interface WeaponData {
+  readonly id: string;
+  readonly name: string;
+  readonly attack: number;
+  readonly price: number;
 }
 
-class Sword extends Weapon {
-  id = "sword";
-  name = "Sword";
-  attack = 30;
-  price = 2000;
-}
+class WeaponItem extends Weapon {
+  id: string;
+  name: string;
+  price: number;
 
-class Dagger extends Weapon {
-  id = "dagger";
-  name = "Dagger";
-  attack = 40;
-  price = 3000;
-}
+  constructor(data: WeaponData) {
+    super();
 
-class Mace extends Weapon {
-  id = "mace";
-  name = "Mace";
-  attack = 45;
-  price = 3500;
-}
+    this.id = data.id;
+    this.name = data.name;
+    this.attack = data.attack;
+    this.price = data.price;
+  }
+};
 
-class Blaster extends Weapon {
-  id = "blaster";
-  name = "Blaster";
-  attack = 50;
-  price = 4000;
-}
+const weaponData: WeaponData[] = [
+  {
+    id: "axe",
+    name: "Axe",
+    attack: 20,
+    price: 1000,
+  },
+  {
+    id: "sword",
+    name: "Sword",
+    attack: 30,
+    price: 2000,
+  },
+  {
+    id: "dagger",
+    name: "Dagger",
+    attack: 40,
+    price: 3000,
+  },
+  {
+    id: "mace",
+    name: "Mace",
+    attack: 50,
+    price: 4000,
+  },
+];
+

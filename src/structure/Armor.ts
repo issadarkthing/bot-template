@@ -12,12 +12,7 @@ export abstract class Armor extends BaseArmor {
   static maxTotalArmor = 0.6; // max armor percentage
 
   static get all(): Armor[] {
-    return [
-      new Helmet(),
-      new ChestPlate(),
-      new Leggings(),
-      new Boots(),
-    ];
+    return armorData.map(x => new ArmorItem(x));
   }
 
   apply(player: Player) {
@@ -27,33 +22,56 @@ export abstract class Armor extends BaseArmor {
 
 applyMixins(Armor, [Item]);
 
-export class Helmet extends Armor {
-  id = "helmet";
-  name = "Helmet";
-  price = 8500;
-  armor = 0.005;
+
+interface ArmorData {
+  readonly id: string;
+  readonly name: string;
+  readonly armor: number;
+  readonly price: number;
 }
 
-export class ChestPlate extends Armor {
-  id = "chest_plate";
-  name = "Chest Plate";
-  price = 5000;
-  armor = 0.006;
-}
+class ArmorItem extends Armor {
+  id: string;
+  name: string;
+  price: number;
 
-export class Leggings extends Armor {
-  id = "leggings";
-  name = "Leggings";
-  price = 4500;
-  armor = 0.008;
-}
+  constructor(data: ArmorData) {
+    super();
 
-export class Boots extends Armor {
-  id = "boots";
-  name = "Boots";
-  price = 5500;
-  armor = 0.011;
-}
+    this.id = data.id;
+    this.name = data.name;
+    this.armor = data.armor;
+    this.price = data.price;
+  }
+};
+
+const armorData: ArmorData[] = [
+  {
+    id: "helmet",
+    name: "Helmet",
+    price: 4500,
+    armor: 0.005,
+  },
+  {
+    id: "chest_plate",
+    name: "Chest Plate",
+    price: 5500,
+    armor: 0.006,
+  },
+  {
+    id: "leggings",
+    name: "Leggings",
+    price: 6500,
+    armor: 0.007,
+  },
+  {
+    id: "boots",
+    name: "Boots",
+    price: 7500,
+    armor: 0.008,
+  },
+];
+
 
 const totalTopArmor = Armor.all
   .sort((a, b) => b.armor - a.armor)
