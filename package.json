@@ -15,6 +15,7 @@
   "dependencies": {
     "@jiman24/commandment": "^0.4.0",
     "@jiman24/discordjs-button": "^0.1.0",
+    "@jiman24/discordjs-pagination": "^0.0.3",
     "@jiman24/discordjs-rpg": "^2.3.6",
     "common-tags": "^1.8.2",
     "discord.js": "^13.3.1",

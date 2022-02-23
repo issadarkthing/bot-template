@@ -2,7 +2,7 @@ import { Command } from "@jiman24/commandment";
 import { Player } from "../structure/Player";
 import { Message } from "discord.js";
 import { Monster } from "../structure/Monster";
-import { Pagination } from "../structure/Pagination";
+import { Pagination } from "@jiman24/discordjs-pagination";
 import { Battle } from "@jiman24/discordjs-rpg";
 import { bold, currency, random } from "../utils";
 
@@ -19,6 +19,8 @@ export default class extends Command {
     const menu = new Pagination(msg, monsters, player.currentMonster);
     let monster = Monster.all[0];
     let position = 0;
+
+    menu.setSelectText("Battle");
 
     menu.setOnSelect((x) => {
       monster = Monster.all[x];

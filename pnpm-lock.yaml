@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@jiman24/commandment': ^0.4.0
   '@jiman24/discordjs-button': ^0.1.0
+  '@jiman24/discordjs-pagination': ^0.0.3
   '@jiman24/discordjs-rpg': ^2.3.6
   '@types/common-tags': ^1.8.1
   '@types/luxon': ^2.0.8
@@ -17,6 +18,7 @@ specifiers:
 dependencies:
   '@jiman24/commandment': 0.4.0
   '@jiman24/discordjs-button': 0.1.0
+  '@jiman24/discordjs-pagination': 0.0.3
   '@jiman24/discordjs-rpg': 2.3.6
   common-tags: 1.8.2
   discord.js: 13.6.0
@@ -73,6 +75,17 @@ packages:
     resolution: {integrity: sha512-RDddM2bbCM+ovznofI616f4tdvX6IVZhK/1KmNBt7hTGjKYbOpjabVN3mZXKIQzG3KO91syM2Uqm9SWaWh/yYw==}
     dependencies:
       discord.js: 13.6.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@jiman24/discordjs-pagination/0.0.3:
+    resolution: {integrity: sha512-iDKe7Wx+V0e965yz4ZUUdU7eBDKnZTYx+sSX6wqTYWO6XNXGnGKTnqnwAV7icJ/qi6q2Ly6QeKhC4weRqNA4pg==}
+    dependencies:
+      discord.js: 13.6.0
+      typescript: 4.5.5
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -852,6 +865,12 @@ packages:
 
   /typescript/4.5.4:
     resolution: {integrity: sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
+  /typescript/4.5.5:
+    resolution: {integrity: sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
