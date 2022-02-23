@@ -41,10 +41,11 @@ export class Pagination {
         components: [row],
       });
 
-      const filter = (i: MessageComponentInteraction) =>
-      i.customId === buttonList[0].customId ||
-      i.customId === buttonList[1].customId ||
-      i.customId === buttonList[2].customId;
+      const filter = (i: MessageComponentInteraction) => {
+        const validButton = buttonList.some(x => x.customId === i.customId);
+        const isAuthor = i.user.id === this.msg.id;
+        return validButton && isAuthor;
+      }
 
       const collector = curPage.createMessageComponentCollector({
         filter,
