@@ -13,6 +13,7 @@ specifiers:
   enmap: ^5.8.7
   luxon: ^2.2.0
   random-js: ^2.1.0
+  source-map-support: ^0.5.21
   typescript: ^4.5.2
 
 dependencies:
@@ -26,6 +27,7 @@ dependencies:
   enmap: 5.8.7
   luxon: 2.3.0
   random-js: 2.1.0
+  source-map-support: 0.5.21
   typescript: 4.5.4
 
 devDependencies:
@@ -215,6 +217,10 @@ packages:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.0
+    dev: false
+
+  /buffer-from/1.1.2:
+    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
     dev: false
 
   /buffer/5.7.1:
@@ -735,6 +741,18 @@ packages:
       decompress-response: 6.0.0
       once: 1.4.0
       simple-concat: 1.0.1
+    dev: false
+
+  /source-map-support/0.5.21:
+    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
+    dependencies:
+      buffer-from: 1.1.2
+      source-map: 0.6.1
+    dev: false
+
+  /source-map/0.6.1:
+    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /stream-read-all/3.0.1:
