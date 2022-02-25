@@ -97,7 +97,7 @@ export class Player extends PlayerRPG {
   }
 
   save() {
-    const { 
+    let { 
       user, 
       attack,
       hp,
@@ -107,8 +107,10 @@ export class Player extends PlayerRPG {
       ...data
     } = this;
 
+    // remove cyclic reference
     if (data.pet) {
-      data.pet.owner = undefined;
+      data.pet = { ...data.pet }
+      delete data.pet?.owner;
     }
 
     client.players.set(this.id, data);
