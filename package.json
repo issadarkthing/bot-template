@@ -1,7 +1,7 @@
 {
   "name": "RPG-bot",
-  "version": "0.0.1",
-  "description": "sci-fi based rpg bot",
+  "version": "1.0.0",
+  "description": "rpg bot template",
   "main": "dist/index.js",
   "author": "issadarkthing",
   "license": "MIT",
