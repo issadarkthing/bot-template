@@ -52,8 +52,8 @@ export abstract class Item {
     }
   }
 
-  buy(msg: Message) {
-    const player = Player.fromUser(msg.author);
+  async buy(msg: Message) {
+    const player = await Player.fromUser(msg.author);
 
     if (player.coins < this.price) {
       msg.channel.send("Insufficient amount");

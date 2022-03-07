@@ -28,7 +28,7 @@ export default class extends Command {
 
     const arg1 = args[0];
     const amount = parseInt(arg1);
-    const player = Player.fromUser(msg.author);
+    const player = await Player.fromUser(msg.author);
 
     if (!arg1) {
       throw new Error("please specify bet amount");

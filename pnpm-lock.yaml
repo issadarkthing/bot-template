@@ -5,12 +5,14 @@ specifiers:
   '@jiman24/discordjs-button': ^0.1.0
   '@jiman24/discordjs-pagination': ^0.0.3
   '@jiman24/discordjs-rpg': ^2.3.6
+  '@joshdb-sqlite': link:@types/@joshdb-sqlite
+  '@joshdb/core': ^1.2.7
+  '@joshdb/sqlite': ^1.1.9
   '@types/common-tags': ^1.8.1
   '@types/luxon': ^2.0.8
   common-tags: ^1.8.2
   discord.js: ^13.3.1
   dotenv: ^10.0.0
-  enmap: ^5.8.7
   luxon: ^2.2.0
   random-js: ^2.1.0
   source-map-support: ^0.5.21
@@ -21,16 +23,18 @@ dependencies:
   '@jiman24/discordjs-button': 0.1.0
   '@jiman24/discordjs-pagination': 0.0.3
   '@jiman24/discordjs-rpg': 2.3.6
+  '@joshdb/core': 1.2.7
+  '@joshdb/sqlite': 1.1.9
   common-tags: 1.8.2
   discord.js: 13.6.0
   dotenv: 10.0.0
-  enmap: 5.8.7
   luxon: 2.3.0
   random-js: 2.1.0
   source-map-support: 0.5.21
   typescript: 4.5.4
 
 devDependencies:
+  '@joshdb-sqlite': link:@types/@joshdb-sqlite
   '@types/common-tags': 1.8.1
   '@types/luxon': 2.0.9
 
@@ -106,6 +110,22 @@ packages:
       - bufferutil
       - encoding
       - utf-8-validate
+    dev: false
+
+  /@joshdb/core/1.2.7:
+    resolution: {integrity: sha512-3Ut46qxKAicbdJILnlfptMZ4NAQ+S3xFx5cycMWpp4YccseTbe6ZLu6fSVMjYiORCUr/jd/wjMeCkG5uEJvzLA==}
+    dependencies:
+      lodash: 4.17.21
+      serialize-javascript: 6.0.0
+    dev: false
+
+  /@joshdb/sqlite/1.1.9:
+    resolution: {integrity: sha512-0RA9MajDsqQGx6EDhBe8bwjc3iecedUAC+oPQtp3sCrMqe0Eed3Yptv80S3NmldT3vVgb+r3FO4V/vtSkjzCyQ==}
+    dependencies:
+      better-sqlite3: 7.4.6
+      lodash: 4.17.21
+      on-change: 2.2.3
+      serialize-javascript: 5.0.1
     dev: false
 
   /@sapphire/async-queue/1.1.9:
@@ -382,15 +402,6 @@ packages:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
     dependencies:
       once: 1.4.0
-    dev: false
-
-  /enmap/5.8.7:
-    resolution: {integrity: sha512-JmTRK0hFjatxz6tWN+E4IzuMz5rxKjQvweRXzlmhrgAa66b96DAySW3YRb5p0drpJ7ZLt1WX+PWIpnHDH134jQ==}
-    dependencies:
-      better-sqlite3: 7.4.6
-      lodash: 4.17.21
-      on-change: 2.2.3
-      serialize-javascript: 5.0.1
     dev: false
 
   /escape-string-regexp/1.0.5:
@@ -719,6 +730,12 @@ packages:
 
   /serialize-javascript/5.0.1:
     resolution: {integrity: sha512-SaaNal9imEO737H2c05Og0/8LUXG7EnsZyMa8MzkmuHoELfT6txuj0cMqRj6zfPKnmQ1yasR4PCJc8x+M4JSPA==}
+    dependencies:
+      randombytes: 2.1.0
+    dev: false
+
+  /serialize-javascript/6.0.0:
+    resolution: {integrity: sha512-Qr3TosvguFt8ePWqsvRfrKyQXIiW+nGbYpy8XK24NQHE83caxWt+mIymTT19DGFbNWNLfEwsrkSmN64lVWB9ag==}
     dependencies:
       randombytes: 2.1.0
     dev: false

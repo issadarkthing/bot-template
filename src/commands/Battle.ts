@@ -14,7 +14,7 @@ export default class extends Command {
 
   async exec(msg: Message) {
 
-    const player = Player.fromUser(msg.author)
+    const player = await Player.fromUser(msg.author)
     const monsters = Monster.all.map(x => x.show(player));
     const menu = new Pagination(msg, monsters, player.currentMonster);
     let monster = Monster.all[0];

@@ -28,11 +28,11 @@ export default class extends Command {
     const menu = new ButtonHandler(msg, embed)
       .setMultiUser(this.maxPlayers);
 
-    menu.addButton("join", user => {
+    menu.addButton("join", async user => {
 
       try {
 
-        const player = Player.fromUser(user);
+        const player = await Player.fromUser(user);
 
         validateAmount(this.fee, player.coins);
 

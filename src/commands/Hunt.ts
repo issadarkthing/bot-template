@@ -49,7 +49,7 @@ export default class extends Command {
 
   async exec(msg: Message) {
 
-    const player = Player.fromUser(msg.author);
+    const player = await Player.fromUser(msg.author);
     const search = new SearchMonster(msg, "", player);
 
     await search.search(async monster => {

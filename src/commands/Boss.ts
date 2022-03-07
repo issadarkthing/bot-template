@@ -20,7 +20,7 @@ export default class extends Command {
 
   async exec(msg: Message, args: string[]) {
 
-    const player = Player.fromUser(msg.author);
+    const player = await Player.fromUser(msg.author);
     const boss = Boss.all;
     
     const [arg1] = args;

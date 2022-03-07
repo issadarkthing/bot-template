@@ -9,9 +9,10 @@ export default class extends Command {
   aliases = ["l"];
   description = "show leaderboard of rich players";
 
-  exec(msg: Message) {
+  async exec(msg: Message) {
 
-    const player = client.players.array()
+    //@ts-ignore
+    const player = (await client.players.getMany(client.players.all))
       .sort((a, b) => b.coins - a.coins)
       .map((x, i) => `${i + 1}. ${x.name} \`${x.coins}\``)
       .slice(0, 10)

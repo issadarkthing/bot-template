@@ -1,8 +1,11 @@
 import { CommandManager } from "@jiman24/commandment";
 import { Client as DiscordClient } from "discord.js";
-import Enmap from "enmap";
+import Josh from "@joshdb/core";
+//@ts-ignore
+import provider from "@joshdb/sqlite";
+import { Player } from "./Player";
 
 export class Client extends DiscordClient {
-  players = new Enmap("Player");
+  players = new Josh<Player>({ name: "Player", provider });
   commandManager = new CommandManager(process.env.PREFIX || "!");
 }

@@ -21,15 +21,15 @@ export class Player extends PlayerRPG {
     this.imageUrl = imageUrl;
   }
 
-  static fromUser(user: User) {
+  static async fromUser(user: User) {
 
-    const data = client.players.get(user.id);
+    const data = await client.players.get(user.id);
 
     if (!data) {
       throw new PlayerNotFoundErr("character has not been created");
     }
 
-    const player = new Player(user, data.imageUrl);
+    const player = new Player(user, "");
     Object.assign(player, data);
 
     const offset = player.level - 1;
@@ -106,12 +106,6 @@ export class Player extends PlayerRPG {
       critDamage,
       ...data
     } = this;
-
-    // remove cyclic reference
-    if (data.pet) {
-      data.pet = { ...data.pet }
-      delete data.pet?.owner;
-    }
 
     client.players.set(this.id, data);
   }
