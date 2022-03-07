@@ -75,7 +75,6 @@ export default class extends Command {
       } 
 
       player.save();
-      this.release(player.id);
 
     })
 

@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@jiman24/commandment': ^0.4.0
+  '@jiman24/commandment': ^0.4.3
   '@jiman24/discordjs-button': ^0.1.0
   '@jiman24/discordjs-pagination': ^0.0.3
   '@jiman24/discordjs-rpg': ^2.3.6
@@ -19,7 +19,7 @@ specifiers:
   typescript: ^4.5.2
 
 dependencies:
-  '@jiman24/commandment': 0.4.0
+  '@jiman24/commandment': 0.4.3
   '@jiman24/discordjs-button': 0.1.0
   '@jiman24/discordjs-pagination': 0.0.3
   '@jiman24/discordjs-rpg': 2.3.6
@@ -64,9 +64,10 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dev: false
 
-  /@jiman24/commandment/0.4.0:
-    resolution: {integrity: sha512-wTf07zMGulcYfn+dB6y6Dy8CUWyNQwLZ9LAwuy41D+ChgWQzrrH6vlYUpBflPb9heZmjuxspQzaJl6McjJ0RXA==}
+  /@jiman24/commandment/0.4.3:
+    resolution: {integrity: sha512-YczLQX6HSZ/UPGs1+K6DKNnn6MEC5vmgkSJjM2C4k4xvAZxdtxXhDmOxL2+k9j44+IwbExknSjj0/15fcbLHhw==}
     dependencies:
+      async-mutex: 0.3.2
       chalk: 4.1.2
       common-tags: 1.8.2
       discord.js: 13.6.0
@@ -208,6 +209,12 @@ packages:
     engines: {node: '>=12.17'}
     dev: false
 
+  /async-mutex/0.3.2:
+    resolution: {integrity: sha512-HuTK7E7MT7jZEh1P9GtRW9+aTWiDWWi9InbZ5hjxrnRa39KS4BW04+xLBhYNS2aXhHUIKZSw3gj4Pn1pj+qGAA==}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
   /asynckit/0.4.0:
     resolution: {integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=}
     dev: false
@@ -309,8 +316,8 @@ packages:
       delayed-stream: 1.0.0
     dev: false
 
-  /command-line-args/5.2.0:
-    resolution: {integrity: sha512-4zqtU1hYsSJzcJBOcNZIbW5Fbk9BkjCp1pZVhQKoRaWL5J7N4XphDLwo8aWwdQpTugxwu+jf9u2ZhkXiqp5Z6A==}
+  /command-line-args/5.2.1:
+    resolution: {integrity: sha512-H4UfQhZyakIjC74I9d34fGYDwk3XpSr17QhEd0Q3I9Xq1CETHo4Hcuo87WyWHpAF1aSLjLRf5lD9ZGX2qStUvg==}
     engines: {node: '>=4.0.0'}
     dependencies:
       array-back: 3.1.0
@@ -841,7 +848,7 @@ packages:
     dependencies:
       '@75lb/deep-merge': 1.1.1
       array-back: 6.2.2
-      command-line-args: 5.2.0
+      command-line-args: 5.2.1
       command-line-usage: 6.1.1
       stream-read-all: 3.0.1
       typical: 7.1.1
