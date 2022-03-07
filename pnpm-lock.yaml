@@ -4,8 +4,7 @@ specifiers:
   '@jiman24/commandment': ^0.4.3
   '@jiman24/discordjs-button': ^0.1.0
   '@jiman24/discordjs-pagination': ^0.0.3
-  '@jiman24/discordjs-rpg': ^2.3.6
-  '@joshdb-sqlite': link:@types/@joshdb-sqlite
+  '@jiman24/discordjs-rpg': ^3.1.2
   '@joshdb/core': ^1.2.7
   '@joshdb/sqlite': ^1.1.9
   '@types/common-tags': ^1.8.1
@@ -22,7 +21,7 @@ dependencies:
   '@jiman24/commandment': 0.4.3
   '@jiman24/discordjs-button': 0.1.0
   '@jiman24/discordjs-pagination': 0.0.3
-  '@jiman24/discordjs-rpg': 2.3.6
+  '@jiman24/discordjs-rpg': 3.1.2
   '@joshdb/core': 1.2.7
   '@joshdb/sqlite': 1.1.9
   common-tags: 1.8.2
@@ -34,7 +33,6 @@ dependencies:
   typescript: 4.5.4
 
 devDependencies:
-  '@joshdb-sqlite': link:@types/@joshdb-sqlite
   '@types/common-tags': 1.8.1
   '@types/luxon': 2.0.9
 
@@ -99,8 +97,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@jiman24/discordjs-rpg/2.3.6:
-    resolution: {integrity: sha512-3xeVMhSpkRkkVB2QN6jvOOc+uAFSvlRPAD+asjQK7KLnTKiMlhFDfobhIZ7KIs6u0q2ufw/cxynqJVADXKVMhw==}
+  /@jiman24/discordjs-rpg/3.1.2:
+    resolution: {integrity: sha512-lOeOXvvYFYR9MqZkON3PN8f+4UJUaQhccc/Bpini4zznJlJcDsz6FGbInTBIlUmYtaaNVaYBQ91uGVb3tutvpw==}
     dependencies:
       common-tags: 1.8.2
       discord.js: 13.6.0
