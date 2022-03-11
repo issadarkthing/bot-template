@@ -1,12 +1,11 @@
 import express, { NextFunction, Request, Response } from "express";
 import { players } from "../server";
 
-type Obj = Record<string, any>;
+export type Obj = Record<string, any>;
 
 export const router = express.Router();
 
-router.use("/:id", async (req, res, next) => {
-
+export async function playerMiddleware(req: Request, res: Response, next: NextFunction) {
   const player = await players.get(req.params.id);
 
   if (!player) {
@@ -17,7 +16,9 @@ router.use("/:id", async (req, res, next) => {
   res.locals.player = player;
 
   next();
-});
+}
+
+router.use("/:id", playerMiddleware);
 
 router.get("/", async (req, res) => {
 
