@@ -77,7 +77,7 @@ export abstract class Item {
     return Item.all.find(x => x.id === id);
   }
 
-  static get all() {
+  static get all(): Item[] {
     const { Armor } = require("./Armor");
     const { Weapon } = require("./Weapon");
     const { Pet } = require("./Pet");
