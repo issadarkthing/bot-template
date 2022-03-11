@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { router as playerRouter } from "./routes/player";
+import { router as inventoryRouter } from "./routes/inventory";
 import cors from "cors";
 import Josh from "@joshdb/core";
 //@ts-ignore
@@ -18,5 +19,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/player", playerRouter);
+app.use("/inventory", inventoryRouter);
 
 app.listen(PORT, () => console.log(`listening to port ${PORT}`));
