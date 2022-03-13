@@ -41,7 +41,13 @@ router.get("/", async (req, res) => {
 
   const allPlayers = await players.values as IPlayer[];
   const inventories = allPlayers.map(player => {
-    return player.inventory.map(x => ({ id: x.id, name: x.name, ownerID: player.id }));
+    return player.inventory.map(x => 
+      ({ 
+        id: `${x.id}_${player.id}`, 
+        name: x.name, 
+        ownerID: player.id,
+        itemID: x.id,
+      }));
   }).flat() as InventoryEntry[];
 
   res.json(inventories);
@@ -52,9 +58,16 @@ router.use("/:id", playerMiddleware);
 
 router.get("/:id", (req, res) => {
 
+  const ownerID = res.locals.player.id;
   const inventories = res.locals.player
     .inventory
-    .map((x: IPlayer) => ({ id: x.id, name: x.name }));
+    .map((x: IItem) => 
+      ({ 
+        id: `${x.id}_${ownerID}`, 
+        name: x.name,
+        ownerID: ownerID,
+        itemID: x.id,
+      }));
 
   res.json(inventories);
 });
