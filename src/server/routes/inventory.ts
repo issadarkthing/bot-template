@@ -1,6 +1,5 @@
 import express, { NextFunction, Response } from "express";
 import { players } from "../server";
-import { Player } from "../../structure/Player";
 import { playerMiddleware } from "./player";
 import { Item } from "../../structure/Item";
 import { remove } from "../../utils";
@@ -13,6 +12,23 @@ interface InventoryEntry {
   ownerID: string;
 }
 
+interface IItem {
+  id: string;
+  name: string;
+}
+
+interface IPlayer {
+  id: string;
+  name: string;
+  coin: number;
+  level: number;
+  xp: number;
+  win: number;
+  hunt: number;
+  currentMonster: number;
+  inventory: IItem[];
+}
+
 export function bodyMiddleware(req: Request, res: Response, next: NextFunction) {
   if (!req.body) {
     res.status(400).send("no body given");
@@ -23,7 +39,7 @@ export function bodyMiddleware(req: Request, res: Response, next: NextFunction) 
 
 router.get("/", async (req, res) => {
 
-  const allPlayers = await players.values as Player[];
+  const allPlayers = await players.values as IPlayer[];
   const inventories = allPlayers.map(player => {
     return player.inventory.map(x => ({ id: x.id, name: x.name, ownerID: player.id }));
   }).flat() as InventoryEntry[];
@@ -38,7 +54,7 @@ router.get("/:id", (req, res) => {
 
   const inventories = res.locals.player
     .inventory
-    .map((x: Player) => ({ id: x.id, name: x.name }));
+    .map((x: IPlayer) => ({ id: x.id, name: x.name }));
 
   res.json(inventories);
 });
@@ -48,7 +64,7 @@ router.post("/:id", bodyMiddleware);
 
 router.post("/:id", async (req, res) => {
 
-  const player = res.locals.player as Player;
+  const player = res.locals.player as IPlayer;
   const { id } = req.body;
   const item = Item.get(id);
 
@@ -66,7 +82,7 @@ router.post("/:id", async (req, res) => {
 
 router.delete("/:id/:itemID", async (req, res) => {
 
-  const player = res.locals.player as Player;
+  const player = res.locals.player as IPlayer;
   const { itemID } = req.params;
   const item = Item.get(itemID);
 
