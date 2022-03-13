@@ -18,6 +18,32 @@ export async function playerMiddleware(req: Request, res: Response, next: NextFu
   next();
 }
 
+
+router.delete("/", async (req, res) => {
+
+  if (!req.query.ids) {
+    res.status(401).send("no ids provided");
+    return;
+  }
+
+  const ids = (req.query.ids as string).split(",");
+
+  for (const id of ids) {
+
+    const exists = await players.has(id);
+
+    if (!exists) {
+      res.status(404).send(`cannot find player ${id}`);
+      return;
+    }
+
+    await players.delete(id);
+  }
+
+  res.status(200).send(`deleted ${ids.length} players`);
+  
+})
+
 router.use("/:id", playerMiddleware);
 
 router.get("/", async (req, res) => {
@@ -78,7 +104,7 @@ function FreezeFields(fields: string[]) {
 
 const freezeFields = FreezeFields(["id", "imageUrl"]);
 
-router.patch("/:id/", fieldCheck, freezeFields, async (req, res) => {
+router.patch("/:id/", fieldCheck, freezeFields, (req, res) => {
 
   const merged = { ...res.locals.player, ...req.body };
 
@@ -87,3 +113,4 @@ router.patch("/:id/", fieldCheck, freezeFields, async (req, res) => {
   res.json(merged);
 
 });
+
