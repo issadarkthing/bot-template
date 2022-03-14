@@ -67,9 +67,9 @@ export function validateIndex<T>(index: number, arr: T[]) {
     throw new InvalidIndex(`cannot find item in index ${index + 1}`);
 }
 
-function remove1<T>(item: T, arr: T[]) {
+function remove1<T extends { id: string }>(item: T, arr: T[]) {
   const copy = [...arr];
-  const index = copy.findIndex(x => isDeepStrictEqual(x, item));
+  const index = copy.findIndex(x => item.id === x.id);
 
   if (index !== undefined) {
     copy.splice(index, 1);
@@ -78,7 +78,7 @@ function remove1<T>(item: T, arr: T[]) {
   return copy;
 }
 
-export function remove<T>(item: T, arr: T[], count = 1) {
+export function remove<T extends { id: string }>(item: T, arr: T[], count = 1) {
   for (let i = 0; i < count; i++) {
     arr = remove1(item, arr);
   }
