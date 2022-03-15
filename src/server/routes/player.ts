@@ -68,7 +68,7 @@ function removeObjectAndArrayFields(obj: Obj) {
 function areFieldsExists(target: Obj, ref: Obj) {
 
   for (const key of Object.keys(target)) {
-    if (!ref[key]) {
+    if (ref[key] == null) {
       return false;
     }
   }
