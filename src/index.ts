@@ -1,28 +1,7 @@
-require("source-map-support").install();
-
-import { Client } from "./structure/Client";
+import { client } from "./bot";
 import path from "path";
-import { config } from "dotenv";
 import { DateTime } from "luxon";
 
-config();
-
-export const client = new Client({ 
-  intents: [
-    "GUILDS", 
-    "GUILD_MESSAGES",
-    "DIRECT_MESSAGES",
-    "GUILD_MESSAGE_REACTIONS",
-    "GUILD_MEMBERS",
-  ],
-  partials: [
-    "CHANNEL",
-    "GUILD_MEMBER",
-    "REACTION",
-  ]
-});
-
-client.commandManager.verbose = true;
 client.commandManager.registerCommands(path.resolve(__dirname, "./commands"));
 
 client.commandManager.registerCommandNotFoundHandler((msg, cmdName) => {
@@ -46,5 +25,6 @@ client.commandManager.registerCommandErrorHandler((err, msg) => {
 
 client.on("ready", () => console.log(client.user?.username, "is ready!"))
 client.on("messageCreate", msg => client.commandManager.handleMessage(msg));
+
 
 client.login(process.env.BOT_TOKEN);

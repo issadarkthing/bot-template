@@ -1,6 +1,6 @@
 import { Command } from "@jiman24/commandment";
 import { Message } from "discord.js";
-import { client } from "../index";
+import { client } from "../bot";
 import { MessageEmbed } from "../structure/MessageEmbed";
 import { bold, currency } from "../utils";
 
