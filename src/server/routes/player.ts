@@ -79,7 +79,8 @@ function areFieldsExists(target: Obj, ref: Obj) {
 
 function fieldCheck(req: Request, res: Response, next: NextFunction) {
   const body = removeObjectAndArrayFields(req.body);
-  const isValidBody = areFieldsExists(body, { ...res.locals.player });
+  const player = removeObjectAndArrayFields(res.locals.player);
+  const isValidBody = areFieldsExists(body, player);
 
   if (!isValidBody) {
     res.status(422).send("invalid body");
