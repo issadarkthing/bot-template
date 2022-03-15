@@ -9,7 +9,7 @@ export const router = express.Router();
 interface InventoryEntry {
   id: string;
   name: string;
-  ownerID: string;
+  owner: IPlayer;
 }
 
 interface IItem {
@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
       ({ 
         id: `${x.id}_${player.id}`, 
         name: x.name, 
-        ownerID: player.id,
+        owner: player,
         itemID: x.id,
       }));
   }).flat() as InventoryEntry[];
