@@ -55,6 +55,15 @@ router.get("/", async (req, res) => {
 
 });
 
+// returns all items name and id
+router.get("/items", (req, res) => {
+
+  const items = Item.all.map(x => ({ name: x.name, id: x.id }));
+
+  res.json(items);
+
+})
+
 router.use("/:id", playerMiddleware);
 
 router.get("/:id", (req, res) => {
@@ -84,6 +93,9 @@ router.post("/:id", async (req, res) => {
 
   if (!item) {
     res.status(404).send("item not found");
+    return;
+  } else if (player.inventory.some(x => x.id === item.id)) {
+    res.status(400).send("player already owned the item");
     return;
   }
 
