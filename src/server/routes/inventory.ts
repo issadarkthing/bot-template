@@ -27,6 +27,7 @@ interface IPlayer {
   hunt: number;
   currentMonster: number;
   inventory: IItem[];
+  equippedItems: IItem[];
 }
 
 export function bodyMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -108,6 +109,7 @@ router.delete("/:id/:itemID", async (req, res) => {
   }
 
   player.inventory = remove(item, player.inventory);
+  player.equippedItems = remove(item, player.equippedItems);
 
   await players.set(player.id, player);
 
