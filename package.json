@@ -9,6 +9,8 @@
     "build": "tsc",
     "dev": "nodemon dist/index.js",
     "dev-api": "nodemon dist/server/server.js",
+    "test": "NODE_ENV=test mocha --require ts-node/register 'src/server/tests/**/*.ts' --exit",
+    "test:watch": "NODE_ENV=test mocha --require ts-node/register -w 'src/server/tests/**/*.ts'",
     "watch": "tsc -w",
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
@@ -21,20 +23,31 @@
     "@joshdb/core": "^1.2.7",
     "@joshdb/sqlite": "^1.1.9",
     "body-parser": "^1.19.2",
+    "chai": "^4.3.6",
     "common-tags": "^1.8.2",
     "cors": "^2.8.5",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.3",
+    "jest": "^27.5.1",
     "luxon": "^2.2.0",
     "random-js": "^2.1.0",
     "source-map-support": "^0.5.21",
+    "supertest": "^6.2.2",
     "typescript": "^4.5.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/chai": "^4.3.0",
     "@types/common-tags": "^1.8.1",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
-    "@types/luxon": "^2.0.8"
+    "@types/jest": "^27.4.1",
+    "@types/luxon": "^2.0.8",
+    "@types/supertest": "^2.0.12",
+    "mocha": "^9.2.2",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0"
   }
 }
