@@ -1,6 +1,5 @@
 import { client } from "./bot";
 import path from "path";
-import { DateTime } from "luxon";
 
 client.commandManager.registerCommands(path.resolve(__dirname, "./commands"));
 
@@ -8,10 +7,8 @@ client.commandManager.registerCommandNotFoundHandler((msg, cmdName) => {
   msg.channel.send(`Cannot find command "${cmdName}"`);
 })
 
-client.commandManager.registerCommandOnThrottleHandler((msg, cmd, timeLeft) => {
-  const { hours, minutes, seconds } = DateTime.now()
-    .plus({ milliseconds: timeLeft })
-    .diffNow(["hours", "minutes", "seconds"]);
+client.commandManager.registerCommandOnCooldownHandler((msg, cmd, timeLeft) => {
+  const { hours, minutes, seconds } = timeLeft;
 
   msg.channel.send(
     `You cannot run ${cmd.name} command after **${hours}h ${minutes}m ${seconds}s**`

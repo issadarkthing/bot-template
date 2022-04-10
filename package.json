@@ -16,7 +16,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@jiman24/commandment": "^0.4.3",
+    "@jiman24/commandment": "^1.2.0",
     "@jiman24/discordjs-button": "^0.1.0",
     "@jiman24/discordjs-pagination": "^0.0.3",
     "@jiman24/discordjs-rpg": "^3.1.2",
