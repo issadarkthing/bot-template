@@ -1,4 +1,4 @@
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { Player } from "../structure/Player";
 import { random, validateAmount, validateNumber } from "../utils";
@@ -31,7 +31,7 @@ export default class extends Command {
     const player = await Player.fromUser(msg.author);
 
     if (!arg1) {
-      throw new Error("please specify bet amount");
+      throw new CommandError("please specify bet amount");
     } 
 
     validateNumber(amount);

@@ -1,3 +1,4 @@
+import { CommandError } from "@jiman24/commandment";
 import { MersenneTwister19937, Random } from "random-js";
 import { isDeepStrictEqual } from "util"
 
@@ -41,7 +42,7 @@ export function toNList(items: string[], start = 1) {
   return items.map((x, i) => `${i + start}. ${x}`).join("\n");
 }
 
-class InvalidNumber extends Error {}
+class InvalidNumber extends CommandError {}
 
 export function validateNumber(amount: number) {
   if (Number.isNaN(amount)) {
@@ -49,8 +50,8 @@ export function validateNumber(amount: number) {
   }
 }
 
-class InsufficientBalance extends Error {}
-class ZeroAmount extends Error {}
+class InsufficientBalance extends CommandError {}
+class ZeroAmount extends CommandError {}
 
 export function validateAmount(amount: number, balance: number) {
   if (amount > balance) {
@@ -60,7 +61,7 @@ export function validateAmount(amount: number, balance: number) {
   }
 }
 
-class InvalidIndex extends Error {}
+class InvalidIndex extends CommandError {}
 
 export function validateIndex<T>(index: number, arr: T[]) {
   if (index < 0 || index > arr.length - 1) 

@@ -8,7 +8,7 @@ import {
   cap, 
 } from "../utils";
 import { Armor } from "../structure/Armor";
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { stripIndents } from "common-tags";
 import { Item } from "../structure/Item";
@@ -54,7 +54,7 @@ export default class extends Command {
       }
 
       if (!items) {
-        throw new Error("invalid category");
+        throw new CommandError("invalid category");
       }
 
       if (arg2) {

@@ -3,6 +3,7 @@ import { client } from "../bot";
 import { Player as PlayerRPG } from "@jiman24/discordjs-rpg";
 import { code, currency } from "../utils";
 import { Item } from "./Item";
+import { CommandError } from "@jiman24/commandment";
 
 export class Player extends PlayerRPG {
   name: string;
@@ -111,4 +112,4 @@ export class Player extends PlayerRPG {
   }
 }
 
-export class PlayerNotFoundErr extends Error {}
+export class PlayerNotFoundErr extends CommandError {}

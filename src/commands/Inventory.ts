@@ -1,4 +1,4 @@
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
@@ -26,7 +26,7 @@ export default class extends Command {
       const item = player.inventory[index];
 
       if (!item) {
-        throw new Error("cannot find item");
+        throw new CommandError("cannot find item");
       }
 
       const menu = new ButtonHandler(msg, item.show());

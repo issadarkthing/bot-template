@@ -1,4 +1,4 @@
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
@@ -56,7 +56,7 @@ export default class extends Command {
     await menu.run();
 
     if (players.length <= 1) {
-      throw new Error("cannot start Battle Royale with 1 person or less");
+      throw new CommandError("cannot start Battle Royale with 1 person or less");
     }
     
     const battle = new Battle(msg, random.shuffle(players));

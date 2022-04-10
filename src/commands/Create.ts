@@ -1,4 +1,4 @@
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { client } from "../bot";
 import { bold } from "../utils";
@@ -11,7 +11,7 @@ export default class extends Command {
   async exec(msg: Message) {
 
     if (await client.players.has(msg.author.id)) {
-      throw new Error("your character has already been created");
+      throw new CommandError("your character has already been created");
     }
 
 

@@ -1,4 +1,4 @@
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { Player } from "../structure/Player";
 import { bold, currency, validateAmount, validateNumber } from "../utils";
@@ -19,14 +19,14 @@ export default class extends Command {
     const mentionedUser = msg.mentions.users.first();
 
     if (!mentionedUser) {
-      throw new Error(`You need to mention a user`);
+      throw new CommandError(`You need to mention a user`);
     }
 
     const arg1 = args[1];
     const amount = parseInt(arg1);
 
     if (!arg1) {
-      throw new Error("please specify an amount to bet");
+      throw new CommandError("please specify an amount to bet");
     }
 
     validateNumber(amount);
@@ -47,7 +47,7 @@ export default class extends Command {
     await duelConfirmation.run();
 
     if (!accept) {
-      throw new Error(`${mentionedUser.username} rejected the duel challenge`);
+      throw new CommandError(`${mentionedUser.username} rejected the duel challenge`);
     }
 
     const opponent = await Player.fromUser(mentionedUser);

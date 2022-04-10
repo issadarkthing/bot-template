@@ -1,5 +1,6 @@
 import { client } from "./bot";
 import path from "path";
+import { CommandError } from "@jiman24/commandment";
 
 client.commandManager.registerCommands(path.resolve(__dirname, "./commands"));
 
@@ -16,8 +17,12 @@ client.commandManager.registerCommandOnCooldownHandler((msg, cmd, timeLeft) => {
 })
 
 client.commandManager.registerCommandErrorHandler((err, msg) => {
-  msg.channel.send((err as Error).message);
-  console.log(err);
+
+  if (err instanceof CommandError) {
+    msg.channel.send(err.message);
+  } else {
+    console.log(err);
+  }
 })
 
 client.on("ready", () => console.log(client.user?.username, "is ready!"))
