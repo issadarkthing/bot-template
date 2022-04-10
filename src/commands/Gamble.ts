@@ -1,4 +1,4 @@
-import { Command, CommandError } from "@jiman24/commandment";
+import { Command, CommandError, Duration } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { Player } from "../structure/Player";
 import { random, validateAmount, validateNumber } from "../utils";
@@ -6,9 +6,10 @@ import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "gamble";
+  aliases = ["g"];
   description = "slot machine game";
   symbols = ["🔵", "🔴", "⚪"];
-  throttle = 60 * 1000;
+  cooldown?: Duration | undefined = { minute: 1 };
 
   private allEqual(arr: string[]) {
     return arr.every(x => x === arr[0]);
