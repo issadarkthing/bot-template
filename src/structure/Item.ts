@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from "discord.js";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { remove } from "../utils";
+import { MessageEmbed as Embed } from "./MessageEmbed";
 
 export abstract class Item {
   abstract name: string;
@@ -12,6 +13,8 @@ export abstract class Item {
 
   // add buttons to the menu button with their respective actions
   actions(msg: Message, menu: ButtonHandler, player: Player) {
+
+    const embed = new Embed(msg.author);
 
     if (player.equippedItems.some(x => x.id === this.id)) {
 
@@ -28,7 +31,8 @@ export abstract class Item {
         player.equippedItems = remove(this, player.equippedItems);
         player.save();
 
-        msg.channel.send(`Successfully unequipped **${this.name}**`);
+        embed.setDescription(`Successfully unequipped **${this.name}**`);
+
       })
 
     } else {
@@ -46,22 +50,27 @@ export abstract class Item {
         player.equippedItems.push(this);
         player.save();
 
-        msg.channel.send(`Successfully equipped **${this.name}**`);
+        embed.setDescription(`Successfully equipped **${this.name}**`);
 
       })
     }
+
+    msg.channel.send({ embeds: [embed] });
   }
 
   async buy(msg: Message) {
     const player = await Player.fromUser(msg.author);
+    const embed = new Embed(msg.author);
 
     if (player.coins < this.price) {
-      msg.channel.send("Insufficient amount");
+      embed.setDescription("Insufficient amount");
+      msg.channel.send({ embeds: [embed] });
       return;
     }
 
     if (player.inventory.some(x => x.id === this.id)) {
-      msg.channel.send("You already own this item");
+      embed.setDescription("You already own this item");
+      msg.channel.send({ embeds: [embed] });
       return;
     }
 
@@ -69,8 +78,9 @@ export abstract class Item {
     player.inventory.push(this);
 
     player.save();
-    msg.channel.send(`Successfully bought **${this.name}**!`);
-    msg.channel.send(`Use command \`!inventory\` to equip item`);
+    embed.appendDescription(`Successfully bought **${this.name}**!`);
+    embed.appendDescription(`Use command \`!inventory\` to equip item`);
+    msg.channel.send({ embeds: [embed] });
   }
 
   static get(id: string) {

@@ -5,6 +5,7 @@ import { Battle } from "@jiman24/discordjs-rpg";
 import { Monster } from "../structure/Monster";
 import { bold, currency, random } from "../utils";
 import { ButtonHandler } from "@jiman24/discordjs-button";
+import { MessageEmbed as Embed } from "../structure/MessageEmbed";
 
 class SearchMonster extends ButtonHandler {
   player: Player;
@@ -66,11 +67,15 @@ export default class extends Command {
         player.coins += monster.drop;
         player.win++;
 
-        msg.channel.send(`${player.name} has earned ${bold(monster.drop)} ${currency}!`);
-        msg.channel.send(`${player.name} has earned ${bold(monster.xpDrop)} xp!`);
+        const embed = new Embed(msg.author)
+          .appendDescription(`${player.name} has earned ${bold(monster.drop)} ${currency}!`)
+          .appendDescription(`${player.name} has earned ${bold(monster.xpDrop)} xp!`);
+
+        this.sendEmbed(msg, embed);
 
         if (currLevel !== player.level) {
-          msg.channel.send(`${player.name} is now on level ${bold(player.level)}!`);
+          embed.setDescription(`${player.name} is now on level ${bold(player.level)}!`);
+          this.sendEmbed(msg, embed);
         }
       } 
 

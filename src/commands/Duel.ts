@@ -5,6 +5,7 @@ import { bold, currency, validateAmount, validateNumber } from "../utils";
 import { Battle } from "@jiman24/discordjs-rpg";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { oneLine } from "common-tags";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "duel";
@@ -66,9 +67,11 @@ export default class extends Command {
     winner.save();
     loser.save();
 
-    msg.channel.send(`${winner.name} wins over ${opponent.name}!`);
-    msg.channel.send(`${winner.name} earns ${bold(amount * 2)} ${currency}`);
-    msg.channel.send(`${loser.name} loses ${bold(amount)} ${currency}`);
+    const embed = new MessageEmbed(msg.author)
+      .appendDescription(`${winner.name} wins over ${opponent.name}!`)
+      .appendDescription(`${winner.name} earns ${bold(amount * 2)} ${currency}`)
+      .appendDescription(`${loser.name} loses ${bold(amount)} ${currency}`);
 
+    this.sendEmbed(msg, embed);
   }
 }

@@ -47,7 +47,7 @@ export default class extends Command {
 
       } catch (err) {
         const errMsg = (err as Error).message;
-        msg.channel.send(`${user} ${errMsg}`);
+        this.send(msg, `${user} ${errMsg}`);
       }
 
 
@@ -67,7 +67,8 @@ export default class extends Command {
     winner.coins += reward;
     winner.save();
 
-    msg.channel.send(
+    this.send(
+      msg,
       `${winner.name} has won the Battle Royale and wins ${reward} ${currency}!`
     );
 

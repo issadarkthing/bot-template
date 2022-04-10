@@ -33,6 +33,6 @@ export default class Help extends Command {
       .setTitle("Help")
       .setDescription(helpText)
 
-    msg.channel.send({ embeds: [embed] });
+    this.sendEmbed(msg, embed);
   }
 }

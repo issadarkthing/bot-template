@@ -2,6 +2,7 @@ import { Command, CommandError } from "@jiman24/commandment";
 import { Message } from "discord.js";
 import { Player } from "../structure/Player";
 import { random, validateAmount, validateNumber } from "../utils";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "gamble";
@@ -70,19 +71,22 @@ export default class extends Command {
       .map(x => "**|** " + x.join("") + " **|**")
       .join("\n");
 
-    msg.channel.send(result);
+    const embed = new MessageEmbed(msg.author)
+      .appendDescription(result);
 
     player.coins -= amount;
 
     if (multiplier === 1) {
-      msg.channel.send(`You lost **${amount}** coins!`);
+
+      embed.appendDescription(`You lost **${amount}** coins!`);
 
     } else {
       const winAmount = multiplier * amount;
       player.coins += winAmount;
-      msg.channel.send(`You won **(x${multiplier}) ${winAmount}** coins!`);
-
+      embed.appendDescription(`You won **(x${multiplier}) ${winAmount}** coins!`);
     }
+
+    this.sendEmbed(msg, embed);
 
     player.save();
   }

@@ -51,11 +51,15 @@ export default class extends Command {
 
           player.save();
 
-          msg.channel.send(`${player.name} has earned ${bold(drop)} ${currency}!`);
-          msg.channel.send(`${player.name} has earned ${bold(xpDrop)} xp!`);
+          const embed = new MessageEmbed(msg.author)
+            .appendDescription(`${player.name} has earned ${bold(drop)} ${currency}!`)
+            .appendDescription(`${player.name} has earned ${bold(xpDrop)} xp!`);
+
+          this.sendEmbed(msg, embed);
 
           if (currLevel !== player.level) {
-            msg.channel.send(`${player.name} is now on level ${bold(player.level)}!`);
+            embed.setDescription(`${player.name} is now on level ${bold(player.level)}!`);
+            this.sendEmbed(msg, embed);
           }
         }
       })
@@ -74,6 +78,6 @@ export default class extends Command {
       .setTitle("Boss")
       .setDescription(bossList)
 
-    msg.channel.send({ embeds: [embed] });
+    this.sendEmbed(msg, embed);
   }
 }

@@ -23,7 +23,7 @@ export default class extends Command {
       .setTitle("Leaderboard")
       .setDescription(bold(`Name | ${currency}\n`) + player);
 
-    msg.channel.send({ embeds: [embed] });
+    this.sendEmbed(msg, embed);
   }
 }
 

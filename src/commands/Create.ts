@@ -3,6 +3,7 @@ import { Message } from "discord.js";
 import { client } from "../bot";
 import { bold } from "../utils";
 import { Player } from "../structure/Player";
+import { MessageEmbed } from "../structure/MessageEmbed";
 
 export default class extends Command {
   name = "create";
@@ -22,11 +23,12 @@ export default class extends Command {
 
     const { prefix } = client.commandManager;
 
-    msg.channel.send(`${bold(player.name)} has been created successfully!`);
-    msg.channel.send(
-      `Use \`${prefix}profile\` to checkout your profile`
-    )
-    msg.channel.send(`Use \`${prefix}battle\` to start battle monsters!`);
-    msg.channel.send(`Use \`${prefix}help\` to check out other commands!`);
+    const embed = new MessageEmbed(msg.author)
+      .appendDescription(`${bold(player.name)} has been created successfully!`)
+      .appendDescription(`Use \`${prefix}profile\` to checkout your profile`)
+      .appendDescription(`Use \`${prefix}battle\` to start battle monsters!`)
+      .appendDescription(`Use \`${prefix}help\` to check out other commands!`);
+
+    this.sendEmbed(msg, embed);
   }
 }

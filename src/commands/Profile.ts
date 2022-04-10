@@ -10,7 +10,6 @@ export default class extends Command {
   async exec(msg: Message) {
 
     const player = await Player.fromUser(msg.author);
-
-    msg.channel.send({ embeds: [player.show()] });
+    this.sendEmbed(msg, player.show());
   }
 }

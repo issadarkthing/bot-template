@@ -62,7 +62,6 @@ export default class extends Command {
       .setTitle("Inventory")
       .setDescription(inventoryList + footer);
 
-    msg.channel.send({ embeds: [embed] });
-
+    this.sendEmbed(msg, embed);
   }
 }

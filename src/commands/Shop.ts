@@ -90,7 +90,7 @@ export default class extends Command {
           .setTitle(`${cap(category)} Shop`)
           .setDescription(itemList)
 
-        msg.channel.send({ embeds: [embed] });
+        this.sendEmbed(msg, embed);
 
         return;
       }
@@ -110,7 +110,7 @@ export default class extends Command {
       .setTitle("Shop")
       .setDescription(rpgList);
 
-    msg.channel.send({ embeds: [shop] });
+    this.sendEmbed(msg, shop);
 
   }
 }
