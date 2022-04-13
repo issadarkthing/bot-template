@@ -1,7 +1,6 @@
 require("source-map-support").install();
 
 import { Client } from "./structure/Client";
-import path from "path";
 import { config } from "dotenv";
 
 config();
