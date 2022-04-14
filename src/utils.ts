@@ -1,6 +1,5 @@
 import { CommandError } from "@jiman24/commandment";
 import { MersenneTwister19937, Random } from "random-js";
-import { isDeepStrictEqual } from "util"
 
 export const BROWN = "#c66a10";
 export const BLUE_BUTTON = "🔵";
@@ -100,6 +99,16 @@ export function cap(str: string) {
   return str[0].toUpperCase() + str.slice(1);
 }
 
+export function chunk<T>(arr: T[], chunkSize: number) {
+  if (chunkSize <= 0) throw "Invalid chunk size";
+
+  const result = [];
+  for (let i = 0, len = arr.length; i < len; i += chunkSize) {
+    result.push(arr.slice(i, i + chunkSize));
+  }
+
+  return result;
+}
 
 export function applyMixins(derivedCtor: any, constructors: any[]) {
   constructors.forEach((baseCtor) => {

@@ -3,10 +3,10 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/preset-env': ^7.16.11
   '@babel/preset-typescript': ^7.16.7
-  '@jiman24/commandment': ^1.2.0
+  '@jiman24/commandment': ^1.3.2
   '@jiman24/discordjs-button': ^0.1.0
   '@jiman24/discordjs-pagination': ^0.0.3
-  '@jiman24/discordjs-rpg': ^3.1.2
+  '@jiman24/discordjs-rpg': ^3.3.0
   '@joshdb/core': ^1.2.7
   '@joshdb/sqlite': ^1.1.9
   '@types/chai': ^4.3.0
@@ -34,10 +34,10 @@ specifiers:
   typescript: ^4.5.2
 
 dependencies:
-  '@jiman24/commandment': 1.2.0
+  '@jiman24/commandment': 1.3.2
   '@jiman24/discordjs-button': 0.1.0
   '@jiman24/discordjs-pagination': 0.0.3
-  '@jiman24/discordjs-rpg': 3.1.2
+  '@jiman24/discordjs-rpg': 3.3.0
   '@joshdb/core': 1.2.7
   '@joshdb/sqlite': 1.1.9
   body-parser: 1.19.2
@@ -1527,8 +1527,8 @@ packages:
       '@types/yargs': 16.0.4
       chalk: 4.1.2
 
-  /@jiman24/commandment/1.2.0:
-    resolution: {integrity: sha512-OEplEbZcUA7x6mPx2w7OplHIdhVxh82PSApULJiqLYdrcY1RlErI/LzFpmQctqXEx7lxrgpfgdslSs1VdU46wA==}
+  /@jiman24/commandment/1.3.2:
+    resolution: {integrity: sha512-kLLJT8hhdndt1nQnsjtqZDKmE519jweKm7ZQKOYNoTVoGYCTvXsVmwb0Gkam8Q5xuRxn+OCoz4E8ZI5kIuA6+Q==}
     hasBin: true
     dependencies:
       '@joshdb/core': 1.2.7
@@ -1567,8 +1567,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@jiman24/discordjs-rpg/3.1.2:
-    resolution: {integrity: sha512-lOeOXvvYFYR9MqZkON3PN8f+4UJUaQhccc/Bpini4zznJlJcDsz6FGbInTBIlUmYtaaNVaYBQ91uGVb3tutvpw==}
+  /@jiman24/discordjs-rpg/3.3.0:
+    resolution: {integrity: sha512-R9Jsq37B14rGqWMU2EhkyimJOPKJB6dkvBtXfdeGeJ+CQaruygjdh34C9XzENCTEaVPVMTCTi5s/L2OMHIrGfA==}
     dependencies:
       common-tags: 1.8.2
       discord.js: 13.6.0
@@ -2357,8 +2357,8 @@ packages:
       typical: 4.0.0
     dev: false
 
-  /command-line-usage/6.1.2:
-    resolution: {integrity: sha512-I+0XN613reAhpBQ6icsPOTwu9cvhc9NtLtUcY2fGYuwm9JZiWBzFDA8w0PHqQjru7Xth7fM/y9TJ13+VKdjh7Q==}
+  /command-line-usage/6.1.3:
+    resolution: {integrity: sha512-sH5ZSPr+7UStsloltmDh7Ce5fb8XPlHyoPzTpyyMuYCtervL65+ubVZ6Q61cFtFl62UyJlc8/JwERRbAFPUqgw==}
     engines: {node: '>=8.0.0'}
     dependencies:
       array-back: 4.0.2
@@ -4819,7 +4819,7 @@ packages:
       '@75lb/deep-merge': 1.1.1
       array-back: 6.2.2
       command-line-args: 5.2.1
-      command-line-usage: 6.1.2
+      command-line-usage: 6.1.3
       stream-read-all: 3.0.1
       typical: 7.1.1
       wordwrapjs: 5.1.0
