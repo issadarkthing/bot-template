@@ -40,7 +40,7 @@ export default class extends Command {
 
     if (winner.id === player.id) {
 
-      const dropItem = random.bool();
+      const dropItem = random.bool(0.2);
 
       if (dropItem) {
 
