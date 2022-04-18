@@ -1,9 +1,9 @@
-import { Command } from "@jiman24/commandment";
+import { Command, CommandError } from "@jiman24/commandment";
 import { Prompt } from "@jiman24/discordjs-prompt";
 import { Message } from "discord.js";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
-import { aggregate, chunk, DIAMOND, toNList, validateIndex, validateNumber } from "../utils";
+import { aggregate, bold, chunk, currency, DIAMOND, remove, toNList, validateIndex, validateNumber } from "../utils";
 import { MessageEmbed } from "../structure/MessageEmbed";
 import { Pagination } from "@jiman24/discordjs-pagination";
 
@@ -13,6 +13,10 @@ export default class extends Command {
   aliases = ["i", "inv"];
   maxWeapon = 2; // max equipped weapon
   chunk = 10;
+
+  private getSellingPrice(price: number) {
+    return Math.ceil(price / 5);
+  }
 
   async exec(msg: Message) {
 
@@ -72,16 +76,44 @@ export default class extends Command {
 
     const { value: item, count } = chunkedInventory[pageIndex][index];
     const itemMenu = item.show();
+    const sellingPrice = this.getSellingPrice(item.price);
 
     itemMenu.addField("Count", `x${count}`, true);
+    itemMenu.addField("Selling Price", sellingPrice.toString(), true)
 
     const itemButton = new ButtonHandler(msg, itemMenu);
 
     item.actions(msg, itemButton, player);
 
+    let sell = false;
+
+    itemButton.addButton("sell", () => { sell = true });
+
     itemButton.addCloseButton();
 
     await itemButton.run();
+
+
+    if (sell) {
+
+      const answer = await prompt.ask("How many units you want to sell: ");
+      const unit = parseInt(answer);
+
+      validateNumber(unit);
+      if (unit <= 0) {
+        throw new CommandError("You can only sell 1 unit or more");
+      } else if (unit > count) {
+        throw new CommandError("Insufficient unit");
+      }
+
+      const totalPrice = unit * sellingPrice;
+
+      player.inventory = remove(item, player.inventory, unit);
+      player.coins += totalPrice;
+      player.save();
+
+      this.send(msg, `Successfully sold **x${unit} ${item.name}** for ${bold(totalPrice)} ${currency}!`);
+    }
 
   }
 }
