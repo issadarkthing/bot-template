@@ -48,7 +48,7 @@ class WeaponItem extends Weapon {
     const attackRanges = getRange(10, 80, this.quality);
 
     this.attack = random.integer(...attackRanges);
-    this.price = (this.attack * 12) + random.integer(1, 100);
+    this.price = (this.attack ** 2) + random.integer(1, 100);
   }
 
   show() {
