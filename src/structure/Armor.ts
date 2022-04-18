@@ -76,6 +76,7 @@ class ArmorItem extends Armor {
 
   show() {
     const embed = super.show();
+    embed.addField("Category", this.category, true);
     embed.addField("Quality", this.quality, true);
 
     return embed;
