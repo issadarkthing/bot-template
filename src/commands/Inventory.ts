@@ -1,67 +1,87 @@
-import { Command, CommandError } from "@jiman24/commandment";
+import { Command } from "@jiman24/commandment";
+import { Prompt } from "@jiman24/discordjs-prompt";
 import { Message } from "discord.js";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
-import { DIAMOND, toNList, validateNumber } from "../utils";
+import { aggregate, chunk, DIAMOND, toNList, validateIndex, validateNumber } from "../utils";
 import { MessageEmbed } from "../structure/MessageEmbed";
+import { Pagination } from "@jiman24/discordjs-pagination";
 
 export default class extends Command {
   name = "inventory";
   description = "show player's inventory";
   aliases = ["i", "inv"];
   maxWeapon = 2; // max equipped weapon
+  chunk = 10;
 
-  async exec(msg: Message, args: string[]) {
-
+  async exec(msg: Message) {
 
     const player = await Player.fromUser(msg.author);
-    const [arg1] = args;
+    const inventory = aggregate(player.inventory);
+    const chunkedInventory = chunk(inventory, this.chunk);
 
-    if (arg1) {
+    const embeds: MessageEmbed[] = [];
 
-      const index = parseInt(arg1) - 1;
+    for (const inventory of chunkedInventory) {
 
-      validateNumber(index);
+      const inventoryList = toNList(
+        inventory.map(({ value: item, count }) => {
+          // show equipped item in the list with symbol so it is easier to
+          // overview what item is in equipped
+          const equippedName = `${DIAMOND} ${item.name} x${count}`;
 
-      const item = player.inventory[index];
+          if (player.equippedItems.some(x => x.id === item.id)) {
+            return equippedName;
+          }
 
-      if (!item) {
-        throw new CommandError("cannot find item");
-      }
+          return `${item.name} x${count}`;
+        }),
+      );
 
-      const menu = new ButtonHandler(msg, item.show());
+      let footer = "\n---\n";
 
-      item.actions(msg, menu, player);
-      menu.addCloseButton();
+      footer += `${DIAMOND}: equipped/active`;
 
-      await menu.run();
+      const embed = new MessageEmbed(msg.author)
+        .setColor("RANDOM")
+        .setTitle("Inventory")
+        .setDescription(inventoryList + footer);
 
-      return;
+      embeds.push(embed);
+
     }
 
-    const inventoryList = toNList(
-      player.inventory.map(item => {
-        // show equipped item in the list with symbol so it is easier to
-        // overview what item is in equipped
-        const equippedName = `${DIAMOND} ${item.name}`;
+    let pageIndex = 0;
 
-        if (player.equippedItems.some(x => x.id === item.id)) {
-          return equippedName;
-        }
+    const menu = new Pagination(msg, embeds);
 
-        return item.name;
-      })
-    );
+    menu.setOnSelect(index => pageIndex = index);
 
-    let footer = "\n---\n";
+    await menu.run();
 
-    footer += `${DIAMOND}: equipped/active`;
+    const page = embeds[pageIndex];
 
-    const embed = new MessageEmbed(msg.author)
-      .setColor("RANDOM")
-      .setTitle("Inventory")
-      .setDescription(inventoryList + footer);
+    this.sendEmbed(msg, page);
 
-    this.sendEmbed(msg, embed);
+    const prompt = new Prompt(msg);
+    const answer = await prompt.ask("Please reply the index of the item you want to select: ");
+    const index = parseInt(answer) - 1;
+
+    validateNumber(index);
+    validateIndex(index, chunkedInventory[pageIndex]);
+
+    const { value: item, count } = chunkedInventory[pageIndex][index];
+    const itemMenu = item.show();
+
+    itemMenu.addField("Count", `x${count}`, true);
+
+    const itemButton = new ButtonHandler(msg, itemMenu);
+
+    item.actions(msg, itemButton, player);
+
+    itemButton.addCloseButton();
+
+    await itemButton.run();
+
   }
 }

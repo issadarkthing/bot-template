@@ -148,6 +148,21 @@ export function combinator(a: string[], b: string[]) {
   return result;
 }
 
+export function aggregate<T extends { id: string }>(items: T[]) {
+  const result = new Map<string, { value: T, count: number }>();
+
+  for (const item of items) {
+    const stored = result.get(item.id);
+
+    if (stored) {
+      stored.count++;
+    } else {
+      result.set(item.id, { value: item, count: 1 });
+    }
+  }
+
+  return [...result.values()];
+}
 
 export function applyMixins(derivedCtor: any, constructors: any[]) {
   constructors.forEach((baseCtor) => {

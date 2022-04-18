@@ -6,6 +6,7 @@ specifiers:
   '@jiman24/commandment': ^1.3.2
   '@jiman24/discordjs-button': ^0.1.0
   '@jiman24/discordjs-pagination': ^0.0.3
+  '@jiman24/discordjs-prompt': ^0.0.1
   '@jiman24/discordjs-rpg': ^3.3.0
   '@joshdb/core': ^1.2.7
   '@joshdb/sqlite': ^1.1.9
@@ -37,6 +38,7 @@ dependencies:
   '@jiman24/commandment': 1.3.2
   '@jiman24/discordjs-button': 0.1.0
   '@jiman24/discordjs-pagination': 0.0.3
+  '@jiman24/discordjs-prompt': 0.0.1
   '@jiman24/discordjs-rpg': 3.3.0
   '@joshdb/core': 1.2.7
   '@joshdb/sqlite': 1.1.9
@@ -1561,6 +1563,16 @@ packages:
     dependencies:
       discord.js: 13.6.0
       typescript: 4.5.5
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@jiman24/discordjs-prompt/0.0.1:
+    resolution: {integrity: sha512-tNidOjU7T50HjUduxpTNFkP3NfPRutra7u6yamNG8aR63hutoykqDkacp8vl9vYczUwS++m1mOPC91WIbfRIkg==}
+    dependencies:
+      discord.js: 13.6.0
     transitivePeerDependencies:
       - bufferutil
       - encoding

@@ -32,6 +32,7 @@ export abstract class Item {
         player.save();
 
         embed.setDescription(`Successfully unequipped **${this.name}**`);
+        msg.channel.send({ embeds: [embed] });
 
       })
 
@@ -51,11 +52,11 @@ export abstract class Item {
         player.save();
 
         embed.setDescription(`Successfully equipped **${this.name}**`);
+        msg.channel.send({ embeds: [embed] });
 
       })
     }
 
-    msg.channel.send({ embeds: [embed] });
   }
 
   async buy(msg: Message) {
