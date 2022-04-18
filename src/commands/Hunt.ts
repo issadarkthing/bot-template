@@ -6,6 +6,7 @@ import { Monster } from "../structure/Monster";
 import { bold, currency, random } from "../utils";
 import { ButtonHandler } from "@jiman24/discordjs-button";
 import { MessageEmbed as Embed } from "../structure/MessageEmbed";
+import { Item } from "../structure/Item";
 
 class SearchMonster extends ButtonHandler {
   player: Player;
@@ -61,6 +62,20 @@ export default class extends Command {
       player.hunt++;
 
       if (winner.id === player.id) {
+
+        const dropItem = random.bool(0.2);
+
+        if (dropItem) {
+          const item = random.pick(Item.all);
+
+          player.inventory.push(item);
+          player.save();
+
+          const itemEmbed = item.show();
+          itemEmbed.setDescription(`${monster.name} dropped ${bold(item.name)}!`);
+
+          this.sendEmbed(msg, itemEmbed);
+        }
 
         const currLevel = player.level;
         player.addXP(monster.xpDrop);
