@@ -17,11 +17,11 @@ export enum QualityEnum {
 
 export function getRarity(quality: Quality) {
   switch (quality) {
-    case "Normal": return 0.5;
-    case "Good": return 0.3;
+    case "Normal": return 0.7;
+    case "Good": return 0.2;
     case "Outstanding": return 0.05;
-    case "Excellent": return 0.025;
-    case "Masterpiece": return 0.001;
+    case "Excellent": return 0.001;
+    case "Masterpiece": return 0.0005;
   }
 }
 
