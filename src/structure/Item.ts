@@ -4,6 +4,8 @@ import { Player } from "../structure/Player";
 import { remove } from "../utils";
 import { MessageEmbed as Embed } from "./MessageEmbed";
 
+let items: Item[] = [];
+
 export abstract class Item {
   abstract name: string;
   abstract id: string;
@@ -83,16 +85,20 @@ export abstract class Item {
   }
 
   static get all(): Item[] {
-    const { Armor } = require("./Armor");
-    const { Weapon } = require("./Weapon");
-    const { Pet } = require("./Pet");
-    const { Skill } = require("./Skill");
+    if (items.length === 0) {
+      const { Armor } = require("./Armor");
+      const { Weapon } = require("./Weapon");
+      const { Pet } = require("./Pet");
+      const { Skill } = require("./Skill");
 
-    return [
-      ...Armor.all,
-      ...Weapon.all,
-      ...Pet.all,
-      ...Skill.all,
-    ];
+      items = [
+        ...Armor.all,
+        ...Weapon.all,
+        ...Pet.all,
+        ...Skill.all,
+      ];
+    }
+
+    return items;
   }
 }

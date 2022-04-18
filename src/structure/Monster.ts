@@ -6,6 +6,7 @@ import { MersenneTwister19937, Random } from "random-js";
 import { monsterNames } from "./MonsterData";
 import { Player } from "./Player";
 
+let monsters: Monster[] = [];
 
 export class Monster extends Fighter {
   drop: number;
@@ -49,7 +50,11 @@ export class Monster extends Fighter {
   }
 
   static get all() {
-    return monsterNames.map((x, i) => new Monster(x.name, x.url, i));
+    if (monsters.length === 0) {
+      monsters = monsterNames.map((x, i) => new Monster(x.name, x.url, i));
+    }
+
+    return monsters;
   }
 
   show(player?: Player) {
