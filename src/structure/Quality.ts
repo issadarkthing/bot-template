@@ -35,8 +35,8 @@ export function getMultiplier(quality: Quality) {
   }
 }
 
-export function getRange(min: number, max: number, quality: Quality) {
-  return rangeChunk(min, max, qualityNames.length)[QualityEnum[quality]];
+export function getRange(min: number, max: number, quality: Quality, step = 1) {
+  return rangeChunk(min, max, qualityNames.length, step)[QualityEnum[quality]];
 }
 
 export function getQuality(quality: Quality, arr: QualityItem[]) {
