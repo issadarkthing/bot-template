@@ -1,71 +1,61 @@
 import { Weapon as BaseWeapon } from "@jiman24/discordjs-rpg";
 import { Player } from "../structure/Player";
+import { applyMixins, createSeed } from "../utils";
+import { MersenneTwister19937, Random } from "random-js";
+import { names } from "./WeaponData";
+import { getRange, Quality, qualityNames, randomItem } from "./Quality";
 import { Item } from "./Item";
-import { applyMixins } from "../utils";
 
 export interface Weapon extends Item {};
 
 export abstract class Weapon extends BaseWeapon {
   abstract price: number;
+  abstract quality: Quality;
 
   static get all(): Weapon[] {
-    return weaponData.map(x => new WeaponItem(x));
+    return names.map(x => new WeaponItem(x));
   }
 
   apply(player: Player) {
     player.attack += this.attack;
+  }
+
+  static random() {
+    const item = randomItem(this.all) as WeaponItem;
+    return item;
   }
 }
 
 applyMixins(Weapon, [Item]);
 
 
-interface WeaponData {
-  readonly id: string;
-  readonly name: string;
-  readonly attack: number;
-  readonly price: number;
-}
-
 class WeaponItem extends Weapon {
   id: string;
   name: string;
   price: number;
+  quality: Quality;
 
-  constructor(data: WeaponData) {
+  constructor(name: string) {
     super();
 
-    this.id = data.id;
-    this.name = data.name;
-    this.attack = data.attack;
-    this.price = data.price;
+    this.id = name;
+    this.name = name;
+
+    const random = new Random(MersenneTwister19937.seedWithArray(createSeed(name)));
+    
+    this.quality = random.pick(qualityNames);
+
+    const attackRanges = getRange(10, 80, this.quality);
+
+    this.attack = random.integer(...attackRanges);
+    this.price = (this.attack * 12) + random.integer(1, 100);
+  }
+
+  show() {
+    const embed = super.show();
+    embed.addField("Quality", this.quality, true);
+
+    return embed;
   }
 };
-
-const weaponData: WeaponData[] = [
-  {
-    id: "axe",
-    name: "Axe",
-    attack: 20,
-    price: 1000,
-  },
-  {
-    id: "sword",
-    name: "Sword",
-    attack: 30,
-    price: 2000,
-  },
-  {
-    id: "dagger",
-    name: "Dagger",
-    attack: 40,
-    price: 3000,
-  },
-  {
-    id: "mace",
-    name: "Mace",
-    attack: 50,
-    price: 4000,
-  },
-];
 

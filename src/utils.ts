@@ -110,6 +110,45 @@ export function chunk<T>(arr: T[], chunkSize: number) {
   return result;
 }
 
+/** 
+ * Creates N ranges starting from [min, max]
+ * @example
+ *
+ * rangeChunk(1, 10, 3); -> [[1, 10], [11, 20], [21, 30]] * */
+export function rangeChunk(min: number, max: number, count: number, step = 1) {
+
+  if (max <= min) {
+    throw new Error("max cannot be less or equal to min");
+  } else if (!Number.isInteger(count)) {
+    throw new Error("count must be an integer");
+  }
+  
+  const length = max - min;
+  const ranges: [number, number][] = [];
+
+  for (let i = 0, j = 0; i < count; i++, j += step) {
+    const len = length * i;
+    const newMin = min + len + j;
+    const newMax = max + len + j;
+    ranges.push([newMin, newMax]);
+  }
+
+  return ranges;
+}
+
+export function combinator(a: string[], b: string[]) {
+  const result: string[] = [];
+
+  for (const j of b) {
+    for (const i of a) {
+      result.push(`${i} ${j}`);
+    }
+  }
+
+  return result;
+}
+
+
 export function applyMixins(derivedCtor: any, constructors: any[]) {
   constructors.forEach((baseCtor) => {
     Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
