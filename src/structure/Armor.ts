@@ -1,18 +1,29 @@
 import { Armor as BaseArmor } from "@jiman24/discordjs-rpg";
-import assert from "assert/strict";
-import { applyMixins } from "../utils";
+import { MersenneTwister19937, Random } from "random-js";
+import { applyMixins, createSeed } from "../utils";
+import { bootsNames, chestNames, helmetNames, leggingsNames } from "./ArmorData";
 import { Item } from "./Item";
 import { Player } from "./Player";
+import { getRange, Quality, qualityNames } from "./Quality";
+
+type ArmorCategory = "Helmet" | "Chest" | "Leggings" | "Boots";
 
 export interface Armor extends Item {}
 
 export abstract class Armor extends BaseArmor {
   abstract price: number;
+  abstract quality: Quality;
+  abstract category: ArmorCategory;
   static maxArmor = 4; // max armor can be equipped
   static maxTotalArmor = 0.6; // max armor percentage
 
   static get all(): Armor[] {
-    return armorData.map(x => new ArmorItem(x));
+    return [
+      ...helmetNames,
+      ...chestNames,
+      ...leggingsNames,
+      ...bootsNames,
+    ].map(x => new ArmorItem(x));
   }
 
   apply(player: Player) {
@@ -22,64 +33,51 @@ export abstract class Armor extends BaseArmor {
 
 applyMixins(Armor, [Item]);
 
+function categorize(name: string): ArmorCategory {
+  
+  const isIncluded = (items: string[]) => 
+    items.some(x => x === name);
 
-interface ArmorData {
-  readonly id: string;
-  readonly name: string;
-  readonly armor: number;
-  readonly price: number;
+  switch (true) {
+    case isIncluded(helmetNames): return "Helmet";
+    case isIncluded(chestNames): return "Chest";
+    case isIncluded(leggingsNames): return "Leggings";
+    case isIncluded(bootsNames): return "Boots";
+  }
+
+  throw new Error("cannot be categorized")
 }
+
 
 class ArmorItem extends Armor {
   id: string;
   name: string;
   price: number;
+  quality: Quality;
+  category: ArmorCategory;
 
-  constructor(data: ArmorData) {
+  constructor(name: string) {
     super();
 
-    this.id = data.id;
-    this.name = data.name;
-    this.armor = data.armor;
-    this.price = data.price;
+    this.id = name;
+    this.name = name;
+
+    const random = new Random(MersenneTwister19937.seedWithArray(createSeed(name)));
+    
+    this.category = categorize(name);
+    this.quality = random.pick(qualityNames);
+
+    const armorRanges = getRange(0.001, 0.01, this.quality, 0.001);
+
+    this.armor = random.real(...armorRanges, true);
+    this.price = Math.round(this.armor * 1204220) + random.integer(1, 100);
+  }
+
+
+  show() {
+    const embed = super.show();
+    embed.addField("Quality", this.quality, true);
+
+    return embed;
   }
 };
-
-const armorData: ArmorData[] = [
-  {
-    id: "helmet",
-    name: "Helmet",
-    price: 4500,
-    armor: 0.005,
-  },
-  {
-    id: "chest_plate",
-    name: "Chest Plate",
-    price: 5500,
-    armor: 0.006,
-  },
-  {
-    id: "leggings",
-    name: "Leggings",
-    price: 6500,
-    armor: 0.007,
-  },
-  {
-    id: "boots",
-    name: "Boots",
-    price: 7500,
-    armor: 0.008,
-  },
-];
-
-
-const totalTopArmor = Armor.all
-  .sort((a, b) => b.armor - a.armor)
-  .slice(0, Armor.maxArmor)
-  .reduce((acc, armor) => acc + armor.armor, 0);
-
-assert(
-  totalTopArmor <= Armor.maxTotalArmor, 
-  `Top ${Armor.maxArmor} armor item exceeds ${Armor.maxTotalArmor} armor attribute`
-);
-
