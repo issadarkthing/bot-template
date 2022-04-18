@@ -1,5 +1,7 @@
 import { combinator } from "../utils";
 
+// 8968 armors
+
 const prefix = [
   'Ancestors',
   'Bloodlust',
