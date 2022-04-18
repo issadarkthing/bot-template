@@ -59,6 +59,7 @@ export default class extends Command {
 
     const menu = new Pagination(msg, embeds);
 
+    menu.setSelectText("Select");
     menu.setOnSelect(index => pageIndex = index);
 
     await menu.run();
@@ -107,6 +108,13 @@ export default class extends Command {
       }
 
       const totalPrice = unit * sellingPrice;
+      const countInInventory = player.inventory.filter(x => x.id === item.id).length;
+      const isEquipped = player.equippedItems.some(x => x.id === item.id);
+
+      if (countInInventory === unit && isEquipped) {
+        player.equippedItems = remove(item, player.equippedItems);
+        this.send(msg, `Successfully unequipped ${bold(item.name)}`);
+      }
 
       player.inventory = remove(item, player.inventory, unit);
       player.coins += totalPrice;
