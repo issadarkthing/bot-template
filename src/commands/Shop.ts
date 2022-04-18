@@ -16,6 +16,7 @@ import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
 import { Skill } from "../structure/Skill";
 import { MessageEmbed } from "../structure/MessageEmbed";
+import { Pagination } from "@jiman24/discordjs-pagination";
 
 interface ItemLike {
   name: string;
@@ -57,43 +58,24 @@ export default class extends Command {
         throw new CommandError("invalid category");
       }
 
-      if (arg2) {
+      items.sort((a, b) => a.price - b.price);
+      const embed = items
+        .map(x => x.show().addField("Price", x.price.toString(), true));
 
-        const index = parseInt(arg2) - 1;
+      const menu = new Pagination(msg, embed);
 
-        validateNumber(index);
-        validateIndex(index, items);
+      let index = 0;
 
-        const selected = items[index];
+      menu.setSelectText("Buy");
+      menu.setOnSelect((x) => { index = x });
 
-        const info = selected.show();
-        const menu = new ButtonHandler(msg, info);
+      await menu.run();
 
-        menu.addButton("buy", () => {
-          return selected.buy(msg);
-        })
+      const item = items[index];
 
-        menu.addCloseButton();
+      await item.buy(msg);
 
-        await menu.run();
-
-        return;
-      } else {
-
-        let [itemList] = this.toList(items);
-        const category = Object.getPrototypeOf(items[0].constructor).name.toLowerCase();
-
-        itemList += "\n----\n";
-        itemList += `To select an item on index 1, use \`${prefix}${this.name} ${category} 1\``;
-
-        const embed = new MessageEmbed(msg.author)
-          .setTitle(`${cap(category)} Shop`)
-          .setDescription(itemList)
-
-        this.sendEmbed(msg, embed);
-
-        return;
-      }
+      return;
     }
 
     const rpgList = stripIndents`

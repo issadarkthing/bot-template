@@ -68,12 +68,6 @@ export abstract class Item {
       return;
     }
 
-    if (player.inventory.some(x => x.id === this.id)) {
-      embed.setDescription("You already own this item");
-      msg.channel.send({ embeds: [embed] });
-      return;
-    }
-
     player.coins -= this.price;
     player.inventory.push(this);
 
