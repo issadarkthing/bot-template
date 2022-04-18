@@ -6,6 +6,7 @@ import { Pagination } from "@jiman24/discordjs-pagination";
 import { Battle } from "@jiman24/discordjs-rpg";
 import { bold, currency, random } from "../utils";
 import { MessageEmbed } from "../structure/MessageEmbed";
+import { Item } from "../structure/Item";
 
 export default class extends Command {
   name = "battle";
@@ -38,6 +39,21 @@ export default class extends Command {
     const winner = await battle.run();
 
     if (winner.id === player.id) {
+
+      const dropItem = random.bool();
+
+      if (dropItem) {
+
+        const item = random.pick(Item.all);
+
+        player.inventory.push(item);
+        player.save();
+
+        const itemEmbed = item.show();
+        itemEmbed.setDescription(`${monster.name} dropped ${bold(item.name)}!`);
+
+        this.sendEmbed(msg, itemEmbed);
+      }
 
       const currLevel = player.level;
       player.addXP(monster.xpDrop);
