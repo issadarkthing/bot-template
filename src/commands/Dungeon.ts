@@ -8,6 +8,7 @@ import { MessageEmbed } from "../structure/MessageEmbed";
 import { oneLine, stripIndents } from "common-tags";
 import { Player } from "../structure/Player";
 import { bold, currency, random } from "../utils";
+import { Item } from "../structure/Item";
 
 export default class extends Command {
   name = "dungeon";
@@ -159,6 +160,22 @@ export default class extends Command {
 
     const playerResult = getResult(initialPlayers);
     const monsterResult = getResult(monsters);
+    const isItemDrop = random.bool(0.8);
+
+    if (isItemDrop) {
+
+      const item = random.pick(Item.all);
+
+      for (const player of initialPlayers) {
+        player.inventory.push(item);
+        player.save();
+      }
+
+      const itemEmbed = item.show();
+      itemEmbed.setDescription(`Dungeon ${dungeon.level} dropped ${bold(item.name)}!`);
+
+      this.sendEmbed(msg, itemEmbed);
+    }
 
     const winEmbed = new Embed()
       .setTitle(`Dungeon ${dungeon.level}`)
