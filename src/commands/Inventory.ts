@@ -55,14 +55,17 @@ export default class extends Command {
 
     }
 
-    let pageIndex = 0;
+    let pageIndex: null | number = null;
 
     const menu = new Pagination(msg, embeds);
 
+    menu.addCancelButton();
     menu.setSelectText("Select");
     menu.setOnSelect(index => pageIndex = index);
 
     await menu.run();
+
+    if (!pageIndex) return;
 
     const page = embeds[pageIndex];
 
