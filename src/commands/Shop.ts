@@ -72,7 +72,7 @@ export default class extends Command {
 
       await menu.run();
 
-      if (!index) return;
+      if (index === null) return;
 
       const item = items[index];
 

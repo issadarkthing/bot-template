@@ -65,7 +65,7 @@ export default class extends Command {
 
     await menu.run();
 
-    if (!pageIndex) return;
+    if (pageIndex === null) return;
 
     const page = embeds[pageIndex];
 
