@@ -5,7 +5,7 @@ specifiers:
   '@babel/preset-typescript': ^7.16.7
   '@jiman24/commandment': ^1.3.2
   '@jiman24/discordjs-button': ^0.1.0
-  '@jiman24/discordjs-pagination': ^0.0.5
+  '@jiman24/discordjs-pagination': ^0.0.8
   '@jiman24/discordjs-prompt': ^0.0.1
   '@jiman24/discordjs-rpg': ^3.3.0
   '@joshdb/core': ^1.2.7
@@ -37,7 +37,7 @@ specifiers:
 dependencies:
   '@jiman24/commandment': 1.3.2
   '@jiman24/discordjs-button': 0.1.0
-  '@jiman24/discordjs-pagination': 0.0.5
+  '@jiman24/discordjs-pagination': 0.0.8
   '@jiman24/discordjs-prompt': 0.0.1
   '@jiman24/discordjs-rpg': 3.3.0
   '@joshdb/core': 1.2.7
@@ -1558,8 +1558,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@jiman24/discordjs-pagination/0.0.5:
-    resolution: {integrity: sha512-ftzZhh88kVfjjbGfjW8bjbr5B3S2lqMTtuGCv1NEKfDu6IeeK5QO3pbf2x1zyX/fdoHc/1TJ+ZsnZqxEmXkRKQ==}
+  /@jiman24/discordjs-pagination/0.0.8:
+    resolution: {integrity: sha512-5tECOjKXMxW+Vo0gCEwaiEWFv3WV/+LUuTmV326F6a55+HlhQZMtOj/0zxSS96FAVBFxM7pVZWJ6VQQfEeUhBA==}
     dependencies:
       discord.js: 13.6.0
       typescript: 4.6.3

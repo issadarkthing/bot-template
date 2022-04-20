@@ -64,12 +64,15 @@ export default class extends Command {
 
       const menu = new Pagination(msg, embed);
 
-      let index = 0;
+      let index: null | number = null;
 
+      menu.addCancelButton();
       menu.setSelectText("Buy");
       menu.setOnSelect((x) => { index = x });
 
       await menu.run();
+
+      if (!index) return;
 
       const item = items[index];
 

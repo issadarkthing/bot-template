@@ -19,7 +19,7 @@
   "dependencies": {
     "@jiman24/commandment": "^1.3.2",
     "@jiman24/discordjs-button": "^0.1.0",
-    "@jiman24/discordjs-pagination": "^0.0.5",
+    "@jiman24/discordjs-pagination": "^0.0.8",
     "@jiman24/discordjs-prompt": "^0.0.1",
     "@jiman24/discordjs-rpg": "^3.3.0",
     "@joshdb/core": "^1.2.7",
