@@ -3,6 +3,7 @@ import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { remove } from "../utils";
 import { MessageEmbed as Embed } from "./MessageEmbed";
+import type { Armor as ArmorType } from "./Armor";
 
 let items: Item[] = [];
 
@@ -17,6 +18,7 @@ export abstract class Item {
   actions(msg: Message, menu: ButtonHandler, player: Player) {
 
     const embed = new Embed(msg.author);
+    const item = this;
 
     if (player.equippedItems.some(x => x.id === this.id)) {
 
@@ -41,13 +43,33 @@ export abstract class Item {
     } else {
 
       menu.addButton("equip", () => {
+        const { Armor } = require("./Armor");
 
-        const equippedKind = player.equippedItems
-          .find(x => x.constructor.name === this.constructor.name);
+        if (item instanceof Armor) {
 
-        if (equippedKind) {
-          player.equippedItems = remove(equippedKind, player.equippedItems);
-          msg.channel.send(`Successfully unequipped **${equippedKind.name}**`);
+          const equippedCategory = player.equippedItems
+            .find(x => {
+              if (x instanceof Armor) {
+                //@ts-ignore
+                return x.category === item.category;
+              }
+
+              return false;
+            });
+
+          if (equippedCategory) {
+            player.equippedItems = remove(equippedCategory, player.equippedItems);
+            msg.channel.send(`Successfully unequipped **${equippedCategory.name}**`);
+          }
+
+        } else {
+          const equippedKind = player.equippedItems
+            .find(x => x.constructor.name === this.constructor.name);
+
+          if (equippedKind) {
+            player.equippedItems = remove(equippedKind, player.equippedItems);
+            msg.channel.send(`Successfully unequipped **${equippedKind.name}**`);
+          }
         }
 
         player.equippedItems.push(this);
