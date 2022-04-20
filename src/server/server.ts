@@ -4,7 +4,7 @@ import token from "./middleware/token";
 import { router as playerRouter } from "./routes/player";
 import { router as inventoryRouter } from "./routes/inventory";
 import cors from "cors";
-import Josh, { JoshOptions } from "@joshdb/core";
+import Josh from "@joshdb/core";
 //@ts-ignore
 import JoshProvider from "@joshdb/sqlite"
 
