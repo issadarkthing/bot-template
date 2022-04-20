@@ -94,9 +94,6 @@ router.post("/:id", async (req, res) => {
   if (!item) {
     res.status(404).send("item not found");
     return;
-  } else if (player.inventory.some(x => x.id === item.id)) {
-    res.status(400).send("player already owned the item");
-    return;
   }
 
   player.inventory.push(item);
