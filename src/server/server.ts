@@ -30,7 +30,7 @@ export const players = new Josh({
   providerOptions: { dataDir },
 });
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(token);
