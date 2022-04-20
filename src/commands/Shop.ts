@@ -39,7 +39,7 @@ export default class extends Command {
 
   async exec(msg: Message, args: string[]) {
 
-    const [arg1, arg2] = args;
+    const [arg1] = args;
     const prefix = this.commandManager.prefix;
 
     if (arg1) {
