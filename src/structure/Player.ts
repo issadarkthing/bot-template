@@ -13,6 +13,7 @@ export class Player extends PlayerRPG {
   win = 0;
   hunt = 0;
   currentMonster = 0;
+  currentDungeon = 0;
   inventory: Item[] = [];
   equippedItems: Item[] = [];
 
@@ -97,7 +98,7 @@ export class Player extends PlayerRPG {
     return profile;
   }
 
-  save() {
+  async save() {
     let { 
       user, 
       attack,
@@ -108,7 +109,7 @@ export class Player extends PlayerRPG {
       ...data
     } = this;
 
-    client.players.set(this.id, data);
+    await client.players.set(this.id, data);
   }
 }
 

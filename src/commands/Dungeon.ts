@@ -17,8 +17,8 @@ export default class extends Command {
   async exec(msg: Message) {
 
     const dungeons = Dungeon.all.map(x => x.show(msg.author));
-    const menu = new Pagination(msg, dungeons);
     const player = await Player.fromUser(msg.author);
+    const menu = new Pagination(msg, dungeons, player.currentDungeon);
 
     let dungeonIndex: number | null = null;
 
@@ -28,6 +28,9 @@ export default class extends Command {
     await menu.run();
 
     if (dungeonIndex === null) return;
+
+    player.currentDungeon = dungeonIndex;
+    player.save();
 
     const dungeon = Dungeon.all[dungeonIndex];
     const players = [player];
