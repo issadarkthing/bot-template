@@ -18,15 +18,18 @@ export default class extends Command {
 
     const dungeons = Dungeon.all.map(x => x.show(msg.author));
     const menu = new Pagination(msg, dungeons);
+    const player = await Player.fromUser(msg.author);
 
-    let dungeonIndex = 0;
+    let dungeonIndex: number | null = null;
 
     menu.setOnSelect((index) => { dungeonIndex = index });
+    menu.addCancelButton();
 
     await menu.run();
 
+    if (dungeonIndex === null) return;
+
     const dungeon = Dungeon.all[dungeonIndex];
-    const player = await Player.fromUser(msg.author);
     const players = [player];
 
     const embed = new MessageEmbed(msg.author)
