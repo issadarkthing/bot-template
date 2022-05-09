@@ -5,3 +5,7 @@ data/
 
 src/commands/Test.ts
 bot.zip
+armors.json
+pets.json
+skills.json
+weapons.json
