@@ -8,7 +8,7 @@ export default class extends Command {
   name = "gamble";
   aliases = ["g"];
   description = "slot machine game";
-  symbols = ["🔵", "🔴", "⚪"];
+  symbols = ["🔵", "🔴", "⚪", "🟢"];
   cooldown?: Duration | undefined = { minute: 1 };
 
   private allEqual(arr: string[]) {
@@ -21,8 +21,8 @@ export default class extends Command {
 
   private getCrosses(arr: string[][]) {
     return [
-      [arr[0][0], arr[1][1], arr[2][2]],
-      [arr[0][2], arr[1][1], arr[2][0]],
+      [arr[0][0], arr[1][1], arr[2][2], arr[3][3]],
+      [arr[0][3], arr[1][2], arr[2][1], arr[3][0]],
     ];
   }
 
@@ -39,9 +39,11 @@ export default class extends Command {
     validateNumber(amount);
     validateAmount(amount, player.coins);
 
-    const rows = Array(3)
+    const rows = Array(this.symbols.length)
       .fill(null)
-      .map(() => Array(3).fill(null).map(() => random.pick(this.symbols)));
+      .map(() => Array(this.symbols.length)
+        .fill(null)
+        .map(() => random.pick(this.symbols)));
 
     let multiplier = 1;
 
