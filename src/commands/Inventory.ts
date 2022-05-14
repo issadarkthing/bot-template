@@ -21,6 +21,11 @@ export default class extends Command {
   async exec(msg: Message) {
 
     const player = await Player.fromUser(msg.author);
+
+    if (player.inventory.length === 0) {
+      throw new CommandError("You have empty inventory");
+    }
+
     const inventory = aggregate(player.inventory);
     const chunkedInventory = chunk(inventory, this.chunk);
 
