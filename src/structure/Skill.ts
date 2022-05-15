@@ -15,6 +15,8 @@ export abstract class Skill extends BaseSkill {
       new Rage(),
       new Heal(),
       new Defense(),
+      new ChanceTaker(),
+      new LifeSteal(),
     ];
   }
 
@@ -102,6 +104,67 @@ export class Defense extends Skill {
       .setDescription(
         oneLine`${p1.name} uses **${this.name} Skill** and increases
         ${code(formatPercent(armorAmount))}armor !`
+      )
+
+    if (this.imageUrl)
+      embed.setThumbnail(this.imageUrl);
+
+    return embed;
+  }
+
+  close(_p1: Fighter, _p2: Fighter) { }
+}
+
+export class ChanceTaker extends Skill {
+  name = "Chance Taker";
+  id = "chance_taker";
+  price = 550_000;
+  interceptRate = 0.10;
+  critChance = 0.8;
+  description = `Increases your crit chance to ${Math.round(this.critChance * 100)}% when activated (does not stack)`;
+
+  use(p1: Fighter, _p2: Fighter) {
+
+    const armorAmount = p1.armor * 0.1;
+    p1.armor += armorAmount;
+
+    const embed = new MessageEmbed()
+      .setTitle("Skill interception")
+      .setColor("GREEN")
+      .setDescription(
+        oneLine`${p1.name} uses **${this.name} Skill** and sets their 
+        crit chance to \`${this.critChance * 100}%\``
+      )
+
+    if (this.imageUrl)
+      embed.setThumbnail(this.imageUrl);
+
+    return embed;
+  }
+
+  close(_p1: Fighter, _p2: Fighter) { }
+}
+
+export class LifeSteal extends Skill {
+  name = "Life Steal";
+  id = "life_steal";
+  price = 625_000;
+  interceptRate = 0.25;
+  lifeSteal = 0.2;
+  description = `Steals your opponent's hp by ${Math.round(this.lifeSteal * 100)}%`;
+
+
+  use(p1: Fighter, _p2: Fighter) {
+
+    const armorAmount = p1.armor * 0.1;
+    p1.armor += armorAmount;
+
+    const embed = new MessageEmbed()
+      .setTitle("Skill interception")
+      .setColor("GREEN")
+      .setDescription(
+        oneLine`${p1.name} uses **${this.name} Skill** and sets their 
+        crit chance to \`${Math.round(this.lifeSteal * 100)}%\``
       )
 
     if (this.imageUrl)
