@@ -78,7 +78,8 @@ export default class extends Command {
       pet
       skill
       ------
-      To open armor shop use command \`${prefix}${this.name} armor\`
+      To open armor shop: \`${prefix}${this.name} armor\`
+      To open armor shop on page 2: \`${prefix}${this.name} armor 2\`
       `;
 
       const shop = new MessageEmbed(msg.author)
