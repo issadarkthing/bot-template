@@ -51,27 +51,27 @@ const petData: PetData[] = [
     id: "blob",
     name: "Blob",
     attack: 20,
-    price: 13000,
+    price: 130_000,
   },
   {
     id: "slime",
     name: "Slime",
     attack: 15,
-    price: 15000,
+    price: 150_000,
   },
   {
     id: "phoenix",
     name: "Phoenix",
     attack: 15,
     interceptRate: 0.2,
-    price: 15000,
+    price: 150_000,
   },
   {
     id: "titan_o_boa",
     name: "Titan-o-boa",
     attack: 25,
     interceptRate: 0.4,
-    price: 30000,
+    price: 300_000,
   }
 ];
 

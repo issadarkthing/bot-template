@@ -29,7 +29,7 @@ export class Rage extends Skill {
   name = "Rage";
   id = "rage";
   description = "Does double damage when activated temporarily";
-  price = 45_000;
+  price = 450_000;
 
   use(p1: Fighter, _p2: Fighter) {
 
@@ -58,7 +58,7 @@ export class Heal extends Skill {
   name = "Heal";
   id = "heal";
   description = "Heals 20% of hp when activated";
-  price = 55_000;
+  price = 550_000;
   interceptRate = 0.1;
 
   use(p1: Fighter, _p2: Fighter) {
@@ -88,7 +88,7 @@ export class Defense extends Skill {
   name = "Defense";
   id = "defense";
   description = "Increase armor for 10% when activated";
-  price = 50_000;
+  price = 500_000;
   interceptRate = 0.25;
 
   use(p1: Fighter, _p2: Fighter) {
