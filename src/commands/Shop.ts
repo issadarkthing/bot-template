@@ -9,7 +9,6 @@ import {
 } from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command, CommandError } from "@jiman24/commandment";
-import { ButtonHandler } from "@jiman24/discordjs-button";
 import { stripIndents } from "common-tags";
 import { Item } from "../structure/Item";
 import { Weapon } from "../structure/Weapon";
@@ -18,28 +17,13 @@ import { Skill } from "../structure/Skill";
 import { MessageEmbed } from "../structure/MessageEmbed";
 import { Pagination } from "@jiman24/discordjs-pagination";
 
-interface ItemLike {
-  name: string;
-  price: number;
-}
-
 export default class extends Command {
   name = "shop";
   description = "buy in-game items";
 
-  private toList(items: ItemLike[], start = 1) {
-    const list = toNList(
-      items.map(x => `${x.name} ${code(x.price)} ${currency}`),
-      start,
-    );
-
-    const lastIndex = (items.length - 1) + start;
-    return [list, lastIndex] as const;
-  }
-
   async exec(msg: Message, args: string[]) {
 
-    const [arg1] = args;
+    const [arg1, arg2] = args;
     const prefix = this.commandManager.prefix;
 
     if (arg1) {
@@ -59,10 +43,15 @@ export default class extends Command {
       }
 
       items.sort((a, b) => a.price - b.price);
+
       const embed = items
         .map(x => x.show().addField("Price", x.price.toString(), true));
 
-      const menu = new Pagination(msg, embed);
+      const startIndex = parseInt(arg2) - 1 || 0;
+
+      validateIndex(startIndex, items)
+
+      const menu = new Pagination(msg, embed, startIndex);
 
       let index: null | number = null;
 
