@@ -1,11 +1,6 @@
 import { Message } from "discord.js";
 import { 
-  currency, 
-  code, 
-  toNList, 
   validateIndex, 
-  validateNumber,
-  cap, 
 } from "../utils";
 import { Armor } from "../structure/Armor";
 import { Command, CommandError } from "@jiman24/commandment";
@@ -16,6 +11,7 @@ import { Pet } from "../structure/Pet";
 import { Skill } from "../structure/Skill";
 import { MessageEmbed } from "../structure/MessageEmbed";
 import { Pagination } from "@jiman24/discordjs-pagination";
+import { Player } from "../structure/Player";
 
 export default class extends Command {
   name = "shop";
@@ -38,9 +34,14 @@ export default class extends Command {
         default: items = null;
       }
 
-      if (!items) {
+      const player = await Player.fromUser(msg.author);
+
+      if (items) {
+        items = items.slice(0, player.level * 100);
+      } else {
         throw new CommandError("invalid category");
       }
+
 
       items.sort((a, b) => a.price - b.price);
 
