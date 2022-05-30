@@ -15,10 +15,12 @@ interface PaginationOptions<T> {
   timeout?: number;
   chunkSize?: number;
   title?: string;
+  toLabel?: (item: T) => string;
 }
 
 export class Pagination<T extends PaginationItem> {
   onSelect?: (item: T) => void;
+  toLabel: (item: T) => string = (item) => item.name;
 
   private title?: string;
   private msg: Message;
@@ -42,11 +44,15 @@ export class Pagination<T extends PaginationItem> {
     this.chunkSize = options.chunkSize || 10;
     this.title = options.title;
 
+    if (options.toLabel) {
+      this.toLabel = options.toLabel;
+    }
+
     if (this.items.length === 0) throw new Error("Items cannot be empty");
 
     this.chunkedItems = chunk(this.items, this.chunkSize);
     this.pages = this.chunkedItems.map((items, i) => { 
-      const list = toNList(items.map(item => item.name), (i * 10) + 1);
+      const list = toNList(items.map(item => this.toLabel(item)), (i * 10) + 1);
       const embed = new Embed(this.msg.author)
         .setDescription(list);
 
@@ -66,6 +72,10 @@ export class Pagination<T extends PaginationItem> {
 
     return new MessageActionRow()
       .addComponents(selectMenu);
+  }
+
+  setToLabel(cb: (item: PaginationItem) => string) {
+
   }
 
   async run() {

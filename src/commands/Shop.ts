@@ -7,58 +7,16 @@ import { Weapon } from "../structure/Weapon";
 import { Pet } from "../structure/Pet";
 import { Skill } from "../structure/Skill";
 import { MessageEmbed } from "../structure/MessageEmbed";
-import { Pagination } from "@jiman24/discordjs-pagination";
+import { Pagination } from "../structure/Pagination";
 import { Player } from "../structure/Player";
-import { chunk, currency, toNList } from "../utils";
+import { currency } from "../utils";
+import { ButtonHandler } from "@jiman24/discordjs-button";
 
 type ShopCategory = "armor" | "weapon" | "pet" | "skill";
 
 export default class extends Command {
   name = "shop";
   description = "buy in-game items";
-
-  async selectPage(msg: Message, chunkedItems: Item[][]): Promise<Item[] | null> {
-
-    const pages = chunkedItems.map(x => {
-
-      const embed = new MessageEmbed(msg.author)
-        .setDescription(
-          toNList(
-            x.map(
-              item => `${item.name} **${item.price} ${currency}**`)))
-
-      return embed;
-    });
-
-    let index: null | number = null;
-
-    const pagination = new Pagination(msg, pages);
-
-    pagination.addCancelButton();
-    pagination.setOnSelect(i => index = i);
-
-    await pagination.run();
-
-    return index === null ? null : chunkedItems[index];
-  }
-
-  async selectIndex(msg: Message, selectedItems: Item[]): Promise<Item | null> {
-
-    const selectedItemEmbeds = selectedItems
-      .map(x => x.show().addField("Price", x.price.toString(), true));
-
-    let index = null;
-
-    const itemsPagination = new Pagination(msg, selectedItemEmbeds);
-
-    itemsPagination.addCancelButton();
-    itemsPagination.setSelectText("Buy");
-    itemsPagination.setOnSelect(i => index = i);
-
-    await itemsPagination.run();
-
-    return index === null ? null : selectedItems[index];
-  }
 
   async exec(msg: Message) {
 
@@ -117,7 +75,7 @@ export default class extends Command {
       // limit items to player's level
       items = items
         .sort((a, b) => a.price - b.price)
-        .slice(0, player.level * 100);
+        .slice(0, player.level * 20);
     }
 
     respond.reply(`Opening catalogue`);
@@ -126,16 +84,38 @@ export default class extends Command {
 
     if (items.length === 0) return;
 
-    const chunkedItems = chunk(items, 10);
-    const selectedItems = await this.selectPage(msg, chunkedItems);
+    const pagination = new Pagination({ 
+      msg, 
+      items, 
+      toLabel: (x) => `${x.name} **(${x.price} ${currency})**`
+    });
 
-    if (selectedItems === null) return;
+    let selectedItem: null | Item = null;
 
-    const item = await this.selectIndex(msg, selectedItems);
+    pagination.onSelect = (item) => {
+      selectedItem = item;
+    }
 
-    if (item === null) return;
+    await pagination.run();
 
+    if (!selectedItem) return;
 
-    await item.buy(msg);
+    const item = selectedItem as Item;
+    const itemEmbed = item.show();
+
+    itemEmbed.addField("Price", `${item.price.toString()} ${currency}`, true);
+
+    const button = new ButtonHandler(msg, itemEmbed);
+
+    let buy = false;
+
+    button.addButton("buy", () => { buy = true; });
+    button.addCloseButton();
+
+    await button.run();
+
+    if (buy) {
+      await item.buy(msg);
+    }
   }
 }
