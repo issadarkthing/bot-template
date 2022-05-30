@@ -13,6 +13,7 @@ import { Item } from "../structure/Item";
 export default class extends Command {
   name = "dungeon";
   maxPlayers = 3;
+  description = "battle multiple monsters in the dungeon";
 
   async exec(msg: Message) {
 
