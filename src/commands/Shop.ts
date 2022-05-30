@@ -83,7 +83,7 @@ export default class extends Command {
       // limit items to player's level
       items = items
         .sort((a, b) => a.price - b.price)
-        .slice(0, player.level * 20);
+        .slice(0, player.level * 100);
     }
 
     respond.reply(`Opening catalogue`);
