@@ -5,6 +5,7 @@ import { chunk, toNList } from "../utils";
 interface PaginationItem {
   id: string;
   name: string;
+  description?: string;
   show(): MessageEmbed;
 }
 
@@ -63,7 +64,15 @@ export class Pagination<T extends PaginationItem> {
   }
 
   private createSelectMenuRow(items: PaginationItem[]) {
-    const options = items.map(x => ({ label: x.name, value: x.id }));
+    const options = items.map(x => {
+      const option: any = { label: x.name, value: x.id };
+
+      if (x.description) {
+        option["description"] = x.description;
+      }
+
+      return option;
+    });
 
     const selectMenu = new MessageSelectMenu()
       .setCustomId("pagination")
@@ -72,10 +81,6 @@ export class Pagination<T extends PaginationItem> {
 
     return new MessageActionRow()
       .addComponents(selectMenu);
-  }
-
-  setToLabel(cb: (item: PaginationItem) => string) {
-
   }
 
   async run() {
