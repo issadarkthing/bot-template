@@ -3,7 +3,6 @@ import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { remove } from "../utils";
 import { MessageEmbed as Embed } from "./MessageEmbed";
-import type { Armor as ArmorType } from "./Armor";
 
 let items: Item[] = [];
 
