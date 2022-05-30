@@ -21,21 +21,29 @@ export default class extends Command {
   async exec(msg: Message) {
 
     const player = await Player.fromUser(msg.author);
-    const categoryOptions: { label: string, value: ShopCategory }[] = [
+    const categoryOptions: { 
+        label: string, 
+        description: string, 
+        value: ShopCategory,
+    }[] = [
       {
         label: "Armor",
+        description: "Increases your armor",
         value: "armor",
       },
       {
         label: "Weapon",
+        description: "Increases your attack",
         value: "weapon",
       },
       {
         label: "Pet",
+        description: "Attacks your opponent at random times",
         value: "pet",
       },
       {
         label: "Skill",
+        description: "Activates during battle",
         value: "skill",
       }
     ];
