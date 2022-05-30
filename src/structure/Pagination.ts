@@ -12,16 +12,31 @@ interface PaginationItem {
 interface PaginationOptions<T> {
   msg: Message; 
   items: T[];
+  // start index
   index?: number;
+  // interaction timeout
   timeout?: number;
+  // items per page
   chunkSize?: number;
+  // embed's title
   title?: string;
+  // skip multiplier
+  skipCount?: number;
+  // toggle page skipping
+  enableSkip?: boolean;
+  // change item to label to be displayed on embed
   toLabel?: (item: T) => string;
 }
 
 export class Pagination<T extends PaginationItem> {
   onSelect?: (item: T) => void;
   toLabel: (item: T) => string = (item) => item.name;
+  skipBackwardButton: MessageButton;
+  previousButton: MessageButton;
+  nextButton: MessageButton;
+  skipForwardButton: MessageButton;
+  cancelButton: MessageButton;
+
 
   private title?: string;
   private msg: Message;
@@ -31,11 +46,10 @@ export class Pagination<T extends PaginationItem> {
   private timeout?: number;
   private chunkSize?: number;
   private chunkedItems: T[][] = [];
-  private buttonList = [
-    new MessageButton().setCustomId("previous").setLabel("Previous").setStyle("PRIMARY"),
-    new MessageButton().setCustomId("next").setLabel("Next").setStyle("PRIMARY"),
-    new MessageButton().setCustomId("cancel").setLabel("Cancel").setStyle("DANGER"),
-  ];
+  private enableSkip: boolean;
+  private skipCount: number;
+  private buttonList: MessageButton[] = [];
+
 
   constructor(options: PaginationOptions<T>) {
     this.msg = options.msg;
@@ -44,6 +58,8 @@ export class Pagination<T extends PaginationItem> {
     this.timeout = options.timeout || 120000;
     this.chunkSize = options.chunkSize || 10;
     this.title = options.title;
+    this.enableSkip = options.enableSkip || false;
+    this.skipCount = options.skipCount || 10;
 
     if (options.toLabel) {
       this.toLabel = options.toLabel;
@@ -61,6 +77,52 @@ export class Pagination<T extends PaginationItem> {
 
       return embed;
     });
+
+    this.skipBackwardButton = new MessageButton()
+      .setCustomId(`previous x${this.skipCount}`)
+      .setLabel(`Previous (x${this.skipCount})`)
+      .setStyle("PRIMARY");
+
+    this.previousButton = new MessageButton()
+      .setCustomId("previous")
+      .setLabel("Previous")
+      .setStyle("PRIMARY");
+
+    this.nextButton = new MessageButton()
+      .setCustomId("next")
+      .setLabel("Next")
+      .setStyle("PRIMARY");
+
+    this.skipForwardButton = new MessageButton()
+      .setCustomId(`next x${this.skipCount}`)
+      .setLabel(`Next (x${this.skipCount})`)
+      .setStyle("PRIMARY");
+
+    this.cancelButton = new MessageButton()
+      .setCustomId("cancel")
+      .setLabel("Cancel")
+      .setStyle("DANGER");
+
+    if (this.enableSkip) {
+
+      this.buttonList = [
+        this.skipBackwardButton,
+        this.previousButton,
+        this.nextButton,
+        this.skipForwardButton,
+        this.cancelButton,
+      ];
+
+    } else {
+
+      this.buttonList = [
+        this.previousButton,
+        this.nextButton,
+        this.cancelButton,
+      ];
+
+    }
+
   }
 
   private createSelectMenuRow(items: PaginationItem[]) {
@@ -124,13 +186,19 @@ export class Pagination<T extends PaginationItem> {
         }
 
         switch (i.customId) {
-          case this.buttonList[0].customId:
+          case this.skipBackwardButton.customId:
+            page = page >= this.skipCount ? page - this.skipCount : this.pages.length - 1;
+            break;
+          case this.previousButton.customId:
             page = page > 0 ? --page : this.pages.length - 1;
             break;
-          case this.buttonList[1].customId:
+          case this.nextButton.customId:
             page = page + 1 < this.pages.length ? ++page : 0;
             break;
-          case this.buttonList[2].customId:
+          case this.skipForwardButton.customId:
+            page = page + this.skipCount < this.pages.length ? page + this.skipCount : 0;
+            break;
+          case this.cancelButton.customId:
             collector.stop();
             resolve();
             return;

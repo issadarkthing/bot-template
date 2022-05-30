@@ -95,6 +95,8 @@ export default class extends Command {
     const pagination = new Pagination({ 
       msg, 
       items, 
+      enableSkip: true,
+      skipCount: 30,
       toLabel: (x) => `${x.name} **(${x.price} ${currency})**`
     });
 
