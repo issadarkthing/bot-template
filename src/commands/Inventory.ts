@@ -5,7 +5,8 @@ import { ButtonHandler } from "@jiman24/discordjs-button";
 import { Player } from "../structure/Player";
 import { aggregate, bold, chunk, currency, DIAMOND, remove, toNList, validateIndex, validateNumber } from "../utils";
 import { MessageEmbed } from "../structure/MessageEmbed";
-import { Pagination } from "@jiman24/discordjs-pagination";
+import { Pagination } from "../structure/Pagination";
+import { Item } from "../structure/Item";
 
 export default class extends Command {
   name = "inventory";
@@ -26,66 +27,36 @@ export default class extends Command {
       throw new CommandError("You have empty inventory");
     }
 
-    const inventory = aggregate(player.inventory);
-    const chunkedInventory = chunk(inventory, this.chunk);
+    const aggregatedItems = aggregate(player.inventory);
 
-    const embeds: MessageEmbed[] = [];
+    const pagination = new Pagination({
+      msg,
+      items: aggregatedItems.map(x => x.value),
+      toLabel: item => {
+        const count = aggregatedItems.find(x => x.value.id === item.id)!.count;
 
-    for (const inventory of chunkedInventory) {
+        if (player.equippedItems.some(x => x.id === item.id)) {
+          return `${DIAMOND} ${item.name} x${count}`;
+        }
 
-      const inventoryList = toNList(
-        inventory.map(({ value: item, count }) => {
-          // show equipped item in the list with symbol so it is easier to
-          // overview what item is in equipped
-          const equippedName = `${DIAMOND} ${item.name} x${count}`;
+        return `${item.name} x${count}`;
+      }
+    });
 
-          if (player.equippedItems.some(x => x.id === item.id)) {
-            return equippedName;
-          }
+    let selectedItem: null | Item = null;
 
-          return `${item.name} x${count}`;
-        }),
-      );
-
-      let footer = "\n---\n";
-
-      footer += `${DIAMOND}: equipped/active`;
-
-      const embed = new MessageEmbed(msg.author)
-        .setColor("RANDOM")
-        .setTitle("Inventory")
-        .setDescription(inventoryList + footer);
-
-      embeds.push(embed);
-
+    pagination.onSelect = item => {
+      selectedItem = item;
     }
 
-    let pageIndex: null | number = null;
+    await pagination.run();
 
-    const menu = new Pagination(msg, embeds);
+    if (!selectedItem) return;
 
-    menu.addCancelButton();
-    menu.setSelectText("Select");
-    menu.setOnSelect(index => pageIndex = index);
-
-    await menu.run();
-
-    if (pageIndex === null) return;
-
-    const page = embeds[pageIndex];
-
-    this.sendEmbed(msg, page);
-
-    const prompt = new Prompt(msg);
-    const answer = await prompt.ask("Please reply the index of the item you want to select: ");
-    const index = parseInt(answer) - 1;
-
-    validateNumber(index);
-    validateIndex(index, chunkedInventory[pageIndex]);
-
-    const { value: item, count } = chunkedInventory[pageIndex][index];
+    const item = selectedItem as Item;
     const itemMenu = item.show();
     const sellingPrice = this.getSellingPrice(item.price);
+    const count = aggregatedItems.find(x => x.value.id === item.id)!.count;
 
     itemMenu.addField("Count", `x${count}`, true);
     itemMenu.addField("Selling Price", sellingPrice.toString(), true)
@@ -105,6 +76,7 @@ export default class extends Command {
 
     if (sell) {
 
+      const prompt = new Prompt(msg);
       const answer = await prompt.ask("How many units you want to sell: ");
       const unit = parseInt(answer);
 
