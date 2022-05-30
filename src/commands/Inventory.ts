@@ -32,6 +32,7 @@ export default class extends Command {
     const pagination = new Pagination({
       msg,
       items: aggregatedItems.map(x => x.value),
+      chunkSize: 5,
       toLabel: item => {
         const count = aggregatedItems.find(x => x.value.id === item.id)!.count;
 
