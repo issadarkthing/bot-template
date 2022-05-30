@@ -1,9 +1,6 @@
-import { Message } from "discord.js";
-import { 
-  validateIndex, 
-} from "../utils";
+import { Message, MessageActionRow, MessageSelectMenu } from "discord.js";
 import { Armor } from "../structure/Armor";
-import { Command, CommandError } from "@jiman24/commandment";
+import { Command } from "@jiman24/commandment";
 import { stripIndents } from "common-tags";
 import { Item } from "../structure/Item";
 import { Weapon } from "../structure/Weapon";
@@ -12,81 +9,133 @@ import { Skill } from "../structure/Skill";
 import { MessageEmbed } from "../structure/MessageEmbed";
 import { Pagination } from "@jiman24/discordjs-pagination";
 import { Player } from "../structure/Player";
+import { chunk, currency, toNList } from "../utils";
+
+type ShopCategory = "armor" | "weapon" | "pet" | "skill";
 
 export default class extends Command {
   name = "shop";
   description = "buy in-game items";
 
-  async exec(msg: Message, args: string[]) {
+  async selectPage(msg: Message, chunkedItems: Item[][]): Promise<Item[] | null> {
 
-    const [arg1, arg2] = args;
-    const prefix = this.commandManager.prefix;
+    const pages = chunkedItems.map(x => {
 
-    if (arg1) {
-    
-      let items = [] as Item[] | null;
+      const embed = new MessageEmbed(msg.author)
+        .setDescription(
+          toNList(
+            x.map(
+              item => `${item.name} **${item.price} ${currency}**`)))
 
-      switch (arg1) {
+      return embed;
+    });
+
+    let index: null | number = null;
+
+    const pagination = new Pagination(msg, pages);
+
+    pagination.addCancelButton();
+    pagination.setOnSelect(i => index = i);
+
+    await pagination.run();
+
+    return index === null ? null : chunkedItems[index];
+  }
+
+  async selectIndex(msg: Message, selectedItems: Item[]): Promise<Item | null> {
+
+    const selectedItemEmbeds = selectedItems
+      .map(x => x.show().addField("Price", x.price.toString(), true));
+
+    let index = null;
+
+    const itemsPagination = new Pagination(msg, selectedItemEmbeds);
+
+    itemsPagination.addCancelButton();
+    itemsPagination.setSelectText("Buy");
+    itemsPagination.setOnSelect(i => index = i);
+
+    await itemsPagination.run();
+
+    return index === null ? null : selectedItems[index];
+  }
+
+  async exec(msg: Message) {
+
+    const player = await Player.fromUser(msg.author);
+    const categoryOptions: { label: string, value: ShopCategory }[] = [
+      {
+        label: "Armor",
+        value: "armor",
+      },
+      {
+        label: "Weapon",
+        value: "weapon",
+      },
+      {
+        label: "Pet",
+        value: "pet",
+      },
+      {
+        label: "Skill",
+        value: "skill",
+      }
+    ];
+
+    const categorySelectMenu = new MessageSelectMenu()
+      .setCustomId("shop")
+      .setPlaceholder("Nothing selected")
+      .addOptions(categoryOptions);
+
+    const row = new MessageActionRow()
+      .addComponents(categorySelectMenu);
+
+
+    const categoryEmbed = new MessageEmbed(msg.author)
+      .setDescription(
+        stripIndents`Please select a category:
+        Armor
+        Weapon
+        Pet
+        Skill
+        `
+      );
+
+    const message = await msg.channel.send({ embeds: [categoryEmbed], components: [row] });
+    const respond = await message.awaitMessageComponent({ componentType: "SELECT_MENU" });
+    let items = [] as Item[];
+
+    if (respond.isSelectMenu()) {
+
+      switch (respond.values[0]) {
         case "armor": items = Armor.all; break;
         case "weapon": items = Weapon.all; break;
         case "pet": items = Pet.all; break;
         case "skill": items = Skill.all; break;
-        default: items = null;
       }
 
-      const player = await Player.fromUser(msg.author);
-
-      if (items) {
-        items = items.slice(0, player.level * 100);
-      } else {
-        throw new CommandError("invalid category");
-      }
-
-
-      items.sort((a, b) => a.price - b.price);
-
-      const embed = items
-        .map(x => x.show().addField("Price", x.price.toString(), true));
-
-      const startIndex = parseInt(arg2) - 1 || 0;
-
-      validateIndex(startIndex, items)
-
-      const menu = new Pagination(msg, embed, startIndex);
-
-      let index: null | number = null;
-
-      menu.addCancelButton();
-      menu.setSelectText("Buy");
-      menu.setOnSelect((x) => { index = x });
-
-      await menu.run();
-
-      if (index === null) return;
-
-      const item = items[index];
-
-      await item.buy(msg);
-
-      return;
+      // limit items to player's level
+      items = items
+        .sort((a, b) => a.price - b.price)
+        .slice(0, player.level * 100);
     }
 
-    const rpgList = stripIndents`
-      **Categories**
-      armor
-      weapon
-      pet
-      skill
-      ------
-      To open armor shop: \`${prefix}${this.name} armor\`
-      To open armor shop on page 2: \`${prefix}${this.name} armor 2\`
-      `;
+    respond.reply(`Opening catalogue`);
+    respond.deleteReply();
+    message.delete();
 
-      const shop = new MessageEmbed(msg.author)
-      .setTitle("Shop")
-      .setDescription(rpgList);
+    if (items.length === 0) return;
 
-    this.sendEmbed(msg, shop);
+    const chunkedItems = chunk(items, 10);
+    const selectedItems = await this.selectPage(msg, chunkedItems);
 
+    if (selectedItems === null) return;
+
+    const item = await this.selectIndex(msg, selectedItems);
+
+    if (item === null) return;
+
+
+    await item.buy(msg);
   }
 }
