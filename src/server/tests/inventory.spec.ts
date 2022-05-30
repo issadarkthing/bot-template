@@ -1,11 +1,13 @@
 import { app } from "../server";
-import request from "supertest";
+import supertest from "supertest";
 import { expect } from "chai";
 
+const request = supertest as any;
 
 describe("GET /inventory", () => {
 
   it("returns array of items", async () => {
+
     const res = await request(app)
       .get("/inventory")
       .set("Authorization", `Bot ${process.env.API_TOKEN}`)

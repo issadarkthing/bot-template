@@ -1,7 +1,8 @@
 import { app } from "../server";
-import request from "supertest";
+import supertest from "supertest";
 import { expect } from "chai";
 
+const request = supertest as any;
 
 describe("GET /player", () => {
   it("returns array of players", async () => {
