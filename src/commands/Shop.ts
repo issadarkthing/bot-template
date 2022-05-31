@@ -33,7 +33,7 @@ export default class extends Command {
       },
       {
         label: "Weapon",
-        description: "Increases your attack",
+        description: "Increases your attack and crit damage",
         value: "weapon",
       },
       {
