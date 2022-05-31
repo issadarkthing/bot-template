@@ -1,6 +1,6 @@
 import { Armor as BaseArmor } from "@jiman24/discordjs-rpg";
 import { MersenneTwister19937, Random } from "random-js";
-import { applyMixins, createSeed } from "../utils";
+import { applyMixins, code, createSeed } from "../utils";
 import { bootsNames, chestNames, helmetNames, leggingsNames } from "./ArmorData";
 import { Item } from "./Item";
 import { Player } from "./Player";
@@ -12,6 +12,7 @@ export interface Armor extends Item {}
 
 export abstract class Armor extends BaseArmor {
   abstract price: number;
+  abstract hp: number;
   abstract quality: Quality;
   abstract category: ArmorCategory;
   static maxArmor = 4; // max armor can be equipped
@@ -28,6 +29,7 @@ export abstract class Armor extends BaseArmor {
 
   apply(player: Player) {
     player.armor += this.armor;
+    player.hp += this.hp;
   }
 }
 
@@ -52,6 +54,7 @@ function categorize(name: string): ArmorCategory {
 class ArmorItem extends Armor {
   id: string;
   name: string;
+  hp: number;
   price: number;
   quality: Quality;
   category: ArmorCategory;
@@ -68,14 +71,17 @@ class ArmorItem extends Armor {
     this.quality = random.pick(qualityNames);
 
     const armorRanges = getRange(0.001, 0.01, this.quality, 0.001);
+    const hpRanges = getRange(10, 40, this.quality, 20);
 
     this.armor = random.real(...armorRanges, true);
+    this.hp = random.integer(...hpRanges);
     this.price = Math.round(this.armor * 1204220) + random.integer(1, 100);
   }
 
 
   show() {
     const embed = super.show();
+    embed.addField("HP", code(this.hp), true);
     embed.addField("Category", this.category, true);
     embed.addField("Quality", this.quality, true);
 
