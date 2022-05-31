@@ -28,7 +28,7 @@ export default class extends Command {
     }[] = [
       {
         label: "Armor",
-        description: "Increases your armor",
+        description: "Increases your armor and HP",
         value: "armor",
       },
       {
