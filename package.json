@@ -14,7 +14,8 @@
     "watch": "tsc -w",
     "start": "node dist/index.js",
     "command": "commandment -d src/commands",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "import": "node dist/template.js"
   },
   "dependencies": {
     "@jiman24/commandment": "^1.3.2",
