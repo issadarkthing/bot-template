@@ -14,6 +14,12 @@ create(Armor.all, "armors.json");
 create(Weapon.all, "weapons.json");
 create(Skill.all, "skills.json");
 create(Pet.all, "pets.json");
+
+for (const monster of Monster.all) {
+  //@ts-ignore
+  delete monster.random;
+}
+
 create(Monster.all, "monsters.json");
 
 console.log("done importing items data to json file");
